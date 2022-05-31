@@ -1,0 +1,155 @@
+<div id="academy-course" class="page-layout simple">
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
+
+
+
+            <button mat-icon-button class="mr-16" [routerLink]="'/apps/academy/courses'">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <div>
+                <h2></h2>
+            </div>
+
+        </div>
+        <div class="product-card">
+            <div class="badge">{{product.type}}</div>
+            <div class="product-tumb" *ngIf="product.pics != null;else contenu_p_bon">
+                <img src="data:image/jpg;base64,{{product.pics[0].data}}" alt="">
+            </div>
+            <ng-template #contenu_p_bon>
+                <div class="product-tumb">
+                    <img [src]="product.image !== null ? product.image : 'https://www.alexdepannage.com/wp-content/themes/consultix/images/no-image-found-360x250.png'"
+                        alt="event">
+                </div>
+            </ng-template>
+            <div class="product-details">
+                <span class="product-catagory">{{product.title}}</span>
+                <h4><a href="">{{product.title}}</a></h4>
+                <p>{{product.description}}</p>
+                <div class="product-bottom-details">
+                    <div class="product-price">{{product.price}}</div>
+
+                    <div class="product-links">
+                        <a href=""><i class="fa fa-heart"></i></a>
+                        <a href=""><i class="fa fa-shopping-cart"></i></a>
+                    </div>
+                </div>
+            </div>
+            <form (ngSubmit)="onSubmit()">
+
+
+                <ul>
+                    <li *ngFor="let participant of participants">{{ participant.username }}</li>
+                </ul>
+                <button *ngIf="username != product.organizer.username" type="submit"
+                    class="btn btn-success">Reserve</button>
+            </form>
+        </div>
+        <ul class="grid">
+            <div *ngFor="let picture of product.pics">
+
+                <li>
+                    <figure class="grid__figure">
+                        <img src="data:image/jpg;base64,{{picture.data}}" alt="">
+                    </figure>
+                </li>
+            </div>
+
+        </ul>
+
+        <!----
+        <div class="card mt-50 mb-50">
+            <div class="card-title mx-auto"> Reserve Now </div>
+            <div class="nav">
+                <ul class="mx-auto">
+                    <li><a href="#">Account</a></li>
+                    <li class="active"><a href="#">Payment</a></li>
+                </ul>
+            </div>
+            <form> <span id="card-header">Saved cards:</span>
+                <div class="row row-1">
+                    <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png" /></div>
+                    <div class="col-7"> <input type="text" placeholder="**** **** **** 3193"> </div>
+                    <div class="col-3 d-flex justify-content-center"> <a href="#">Remove card</a> </div>
+                </div>
+                <div class="row row-1">
+                    <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png" /></div>
+                    <div class="col-7"> <input type="text" placeholder="**** **** **** 4296"> </div>
+                    <div class="col-3 d-flex justify-content-center"> <a href="#">Remove card</a> </div>
+                </div> <span id="card-header">Add new card:</span>
+                <div class="row-1">
+                    <div class="row row-2"> <span id="card-inner">Card holder name</span> </div>
+                    <div class="row row-2"> <input type="text" placeholder="Bojan Viner"> </div>
+                </div>
+                <div class="row three">
+                    <div class="col-7">
+                        <div class="row-1">
+                            <div class="row row-2"> <span id="card-inner">Card number</span> </div>
+                            <div class="row row-2"> <input type="text" placeholder="5134-5264-4"> </div>
+                        </div>
+                    </div>
+                    <div class="col-2"> <input type="text" placeholder="Exp. date"> </div>
+                    <div class="col-2"> <input type="text" placeholder="CVV"> </div>
+                </div> <button class="btn d-flex mx-auto"><b>Add card</b></button>
+            </form>
+        </div>
+         </div> -->
+
+
+    </div>
+
+<!----
+    # angular
+    <h1>Google Maps With AGM</h1>
+
+    <agm-map
+  [latitude]="latitudedef"
+  [longitude]="longitudedef"
+  [disableDefaultUI]="false"
+>
+  <agm-marker
+    *ngFor="let a of markers; let b = index"
+    [latitude]="latitude"
+    [longitude]="longitude"
+    [label]="a.label"
+  >
+    <agm-info-window>
+      <strong>Info Window! This is a random location</strong>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>
+    <div>
+
+        <mat-google-maps-autocomplete country="tn" (onLocationSelected)="onLocationSelected($event)"
+            addressLabelText="Recherche d'adresse" placeholderText="Adresse" invalidErrorText="Adresse invalide"
+            requiredErrorText="Endereço obrigatório">
+        </mat-google-maps-autocomplete>
+    </div>
+
+-->
+    <agm-map
+    [latitude]="product.place.latitude"
+    [longitude]="product.place.longitude"
+    [disableDefaultUI]="false"
+    [zoom]="13"
+  >
+    <agm-marker
+      *ngFor="let a of markers; let b = index"
+      [latitude]="product.place.latitude"
+      [longitude]="product.place.longitude"
+      [label]="product.title"
+    >
+      <agm-info-window>
+        <strong>Info Window! This is a random location</strong>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+
+
+
+
+</div>

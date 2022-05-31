@@ -1,0 +1,23 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <!-- CONTENT GOES HERE -->
+
+        
+       
+
+    </div>
+    <div>
+
+      <mat-google-maps-autocomplete
+        country="tn"
+        (onLocationSelected)="onLocationSelected($event)"
+        addressLabelText="Recherche d'adresse"
+        placeholderText="Adresse"
+        invalidErrorText="Adresse invalide"
+        requiredErrorText="Endereço obrigatório"
+      >
+      </mat-google-maps-autocomplete>
+</div>
