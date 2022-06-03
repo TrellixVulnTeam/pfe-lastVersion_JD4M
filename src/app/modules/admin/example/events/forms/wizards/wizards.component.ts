@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AngularStripeService } from '@fireflysemantics/angular-stripe-service';
 import { Program } from 'app/models/Program';
 import { Users } from 'app/models/Users';
 import { TokenStorageService } from 'app/__services/ token-storage.service';
@@ -15,13 +16,16 @@ import { Subject } from 'rxjs';
     templateUrl  : './wizards.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class FormsWizardsComponent implements OnInit
+export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
 {
     pageType: string;
     productForm: FormGroup;
     horizontalStepperStep1: FormGroup;
     horizontalStepperStep2: FormGroup;
     isLoggedIn = false;
+    stripe;
+    card: any;
+    @ViewChild('cardInfo', { static: false }) cardInfo: ElementRef;
 
     latitudedef: number = 35.825603;
     latitude: any;
@@ -54,7 +58,14 @@ export class FormsWizardsComponent implements OnInit
   free2: any;
   eventLocation : any;
   eventWithPlace : any;
+  eventWithCard : any;
+
   data : any;
+  error : string;
+  confirmation;
+
+  cardHandler = this.onChange.bind(this);
+
   
     horizontalStepperForm: FormGroup;
     verticalStepperForm: FormGroup;
@@ -77,7 +88,10 @@ export class FormsWizardsComponent implements OnInit
         private tokenStorageService: TokenStorageService,
         private http: HttpClient,
         private userService: UsersService,
-        private productService : ProductsService,)
+        private productService : ProductsService,
+        private cd: ChangeDetectorRef,
+        private stripeService:AngularStripeService
+        )
     {
     }
 
@@ -102,8 +116,10 @@ export class FormsWizardsComponent implements OnInit
             step2: this._formBuilder.group({
               location:['']
             }),
-            
             step3: this._formBuilder.group({
+            }),
+            
+            step4: this._formBuilder.group({
 
                 
             })
@@ -307,7 +323,7 @@ export class FormsWizardsComponent implements OnInit
         window.location.reload();
       }
       onLocationSelected(location: Location) {
-        this.productService.addPlace(this.eventTest.id,location).subscribe(data2 => {
+        this.productService.addPlace(this.eventWithCard.id,location).subscribe(data2 => {
           console.log("data",data2)
           this.eventWithPlace = data2;
           this.latitude = this.eventWithPlace.place.latitude;
@@ -323,7 +339,42 @@ export class FormsWizardsComponent implements OnInit
 
 
       }
-}
+
+      async onSubmit4() {
+        const { token, error } = await this.stripe.createToken(this.card);
+
+        this.submitted = true;
+        this.productService.addICardToEvent(token.card.last4,this.eventTest.id).subscribe(data2 => {
+          console.log("data",data2)
+          this.eventWithCard = data2;
+        },);
+      }
+        onChange({ error }) {
+          if (error) {
+            this.error = error.message;
+          } else {
+            this.error = null;
+          }
+          this.cd.detectChanges();
+        }
+        ngAfterViewInit() {
+          this.stripeService.setPublishableKey('pk_test_2syov9fTMRwOxYG97AAXbOgt008X6NL46o').then(
+            stripe=> {
+              this.stripe = stripe;
+          const elements = stripe.elements();    
+          this.card = elements.create('card');
+          this.card.mount(this.cardInfo.nativeElement);
+          this.card.addEventListener('change', this.cardHandler);
+          });
+        }
+      
+        ngOnDestroy() {
+          this.card.removeEventListener('change', this.cardHandler);
+          this.card.destroy();
+        }
+      
+      }
+
 interface marker {
   latitude: number;
   longitude: number;

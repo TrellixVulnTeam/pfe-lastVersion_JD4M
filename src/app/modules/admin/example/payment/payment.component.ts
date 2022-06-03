@@ -91,9 +91,14 @@ username : string;
         this.productService.DecreaseAmountCard(token.card.last4,Number(this.product.prices)).subscribe((card : Card) => {
           this.cards = card;    
 
-      console.log( "4",   this.cards.amount
-      )}
-      )}}
+      console.log( "ParticipantCard",   this.cards.amount
+      )})
+       this.productService.IncreaseAmountCard(this.product.id,Number(this.product.prices)).subscribe((card:Card) => {
+         this.cards = card;
+         console.log( "OrganizerCard",   this.cards.amount
+
+       )})
+      }}
   )}
   }
 

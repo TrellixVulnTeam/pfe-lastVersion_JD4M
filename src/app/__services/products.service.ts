@@ -159,6 +159,14 @@ export class ProductsService {
         return this.http.post(`http://localhost:8082/api/card/amount/${cardNumber}/${amount}`, cardNumber);
       }
 
+      IncreaseAmountCard(productId : string, amount : number ): Observable<Object> {
+        return this.http.post(`${this.baseUrl}/add/card/amount/${productId}/${amount}`, productId);
+      }
+
+      addICardToEvent(cardNumber : string,productId : string): Observable<Object> {
+        return this.http.post(`${this.baseUrl}/add/${cardNumber}/${productId}`, cardNumber);
+      }
+
 
     }
   
