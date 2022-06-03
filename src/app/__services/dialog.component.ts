@@ -8,9 +8,9 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
     <div mat-dialog-content>
       {{ data.success ? "Payment collected successfully" : data.error }}
     </div>
-    <div mat-dialog-actions>
+    <!--<div mat-dialog-actions>
       <button mat-button mat-dialog-close>Close</button>
-    </div>
+    </div>-->
   `
 })
 export class AppDialogComponent {

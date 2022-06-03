@@ -1,67 +1,167 @@
-<div id="academy-course" class="page-layout simple">
-    <div class="center">
-
-        <!-- HEADER -->
-        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
-
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
 
-            <button mat-icon-button class="mr-16" [routerLink]="'/apps/academy/courses'">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
+<head>
 
-            <div>
-                <h2></h2>
-            </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        </div>
-        <div class="product-card">
-            <div class="badge">{{product.type}}</div>
-            <div class="product-tumb" *ngIf="product.pics != null;else contenu_p_bon">
-                <img src="data:image/jpg;base64,{{product.pics[0].data}}" alt="">
-            </div>
-            <ng-template #contenu_p_bon>
-                <div class="product-tumb">
-                    <img [src]="product.image !== null ? product.image : 'https://www.alexdepannage.com/wp-content/themes/consultix/images/no-image-found-360x250.png'"
-                        alt="event">
+    <title>eCommerce Product Detail</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+</head>
+
+<body>
+    <!---->
+    
+    <div class="container">
+        <div class="card">
+            
+            <div class="container-fliud">
+                
+                <div class="wrapper row">
+                    <button mat-icon-button class="mr-16" [routerLink]="'/events/list'">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    
+                    <div class="preview col-md-6">
+
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-i">
+                                <img src="data:image/jpg;base64,{{product.pics[0].data}}" /></div>
+
+                        </div>
+                        <ul class="preview-thumbnail nav nav-tabs" *ngFor="let picture of product.pics let i = index">
+                            <li class="active"><a data-target="#pic-i" data-toggle="tab"><img
+                                        src="data:image/jpg;base64,{{picture.data}}" /></a></li>
+
+                        </ul>
+
+                    </div>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">{{product.title}}</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <span class="review-no">41 reviews</span>
+                        </div>
+                        <p class="product-description">{{product.description}}.</p>
+                        <h4 class="price" *ngIf="product.price !=null"> price: <span>{{product.price}}</span></h4>
+                        <h4 class="price" *ngIf="product.price ===null"> price: <span>{{product.prices}} TN</span></h4>
+
+                        <p class="vote"><strong>91%</strong> of participants enjoyed this event! <strong>(87
+                                votes)</strong></p>
+                        <h5 class="sizes">type:
+                            <span class="size" data-toggle="tooltip" title="small">{{product.type}}</span>
+                        </h5>
+                        <!----
+						<h5 class="colors">colors:
+							<span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
+							<span class="color green"></span>
+							<span class="color blue"></span>
+						</h5> -->
+                        <div class="action">
+                            <button class="add-to-cart btn btn-default" type="button">pay {{product.prices}} TN
+                            </button>
+                            <button class="like btn btn-default" type="button"><span
+                                    class="fa fa-shopping-cart"></span></button>
+                        </div>
+                    </div>
+                    <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude" [disableDefaultUI]="false"
+                    [zoom]="13">
+                    <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
+                        [longitude]="product.place.longitude" [label]="product.title">
+                        <agm-info-window>
+                            <strong>Info Window! This is a random location</strong>
+                        </agm-info-window>
+                    </agm-marker>
+                </agm-map>
                 </div>
-            </ng-template>
-            <div class="product-details">
-                <span class="product-catagory">{{product.title}}</span>
-                <h4><a href="">{{product.title}}</a></h4>
-                <p>{{product.description}}</p>
-                <div class="product-bottom-details">
-                    <div class="product-price">{{product.price}}</div>
+            </div>
+        </div>
+      
 
-                    <div class="product-links">
-                        <a href=""><i class="fa fa-heart"></i></a>
-                        <a href=""><i class="fa fa-shopping-cart"></i></a>
+    </div>
+
+
+
+
+
+    <div id="academy-course" class="page-layout simple">
+        <div class="center">
+
+            <!-- HEADER -->
+            <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
+
+
+
+              
+
+                <div>
+                    <h2></h2>
+                </div>
+
+            </div>
+            <!----
+            <div class="product-card">
+                <div class="badge">{{product.type}}</div>
+                <div class="product-tumb" *ngIf="product.pics != null;else contenu_p_bon">
+                    <img src="data:image/jpg;base64,{{product.pics[0].data}}" alt="">
+                </div>
+                <ng-template #contenu_p_bon>
+                    <div class="product-tumb">
+                        <img [src]="product.image !== null ? product.image : 'https://www.alexdepannage.com/wp-content/themes/consultix/images/no-image-found-360x250.png'"
+                            alt="event">
+                    </div>
+                </ng-template>
+                <div class="product-details">
+                    <span class="product-catagory">{{product.title}}</span>
+                    <h4><a href="">{{product.title}}</a></h4>
+                    <p>{{product.description}}</p>
+                    <div class="product-bottom-details">
+                        <div class="product-price">{{product.price}}</div>
+
+                        <div class="product-links">
+                            <a href=""><i class="fa fa-heart"></i></a>
+                            <a href=""><i class="fa fa-shopping-cart"></i></a>
+                        </div>
                     </div>
                 </div>
+                <form (ngSubmit)="onSubmit()">
+
+
+                    <ul>
+                        <li *ngFor="let participant of participants">{{ participant.username }}</li>
+                    </ul>
+                    <button *ngIf="username != product.organizer.username" type="submit"
+                        class="btn btn-success">Reserve</button>
+
+                </form>
+                <button mat-raised-button color="primary" [routerLink]="['/events/payment/', product.id]">
+                    Pay {{product.price}}
+                </button>
             </div>
-            <form (ngSubmit)="onSubmit()">
+            <ul class="grid">
+                <div *ngFor="let picture of product.pics">
 
+                    <li>
+                        <figure class="grid__figure">
+                            <img src="data:image/jpg;base64,{{picture.data}}" alt="">
+                        </figure>
+                    </li>
+                </div>
 
-                <ul>
-                    <li *ngFor="let participant of participants">{{ participant.username }}</li>
-                </ul>
-                <button *ngIf="username != product.organizer.username" type="submit"
-                    class="btn btn-success">Reserve</button>
-            </form>
-        </div>
-        <ul class="grid">
-            <div *ngFor="let picture of product.pics">
+            </ul>
 
-                <li>
-                    <figure class="grid__figure">
-                        <img src="data:image/jpg;base64,{{picture.data}}" alt="">
-                    </figure>
-                </li>
-            </div>
-
-        </ul>
-
-        <!----
+            <!----
         <div class="card mt-50 mb-50">
             <div class="card-title mx-auto"> Reserve Now </div>
             <div class="nav">
@@ -99,10 +199,10 @@
         </div>
          </div> -->
 
-
-    </div>
-
-<!----
+        
+        </div>
+    
+        <!----
     # angular
     <h1>Google Maps With AGM</h1>
 
@@ -131,25 +231,8 @@
     </div>
 
 -->
-    <agm-map
-    [latitude]="product.place.latitude"
-    [longitude]="product.place.longitude"
-    [disableDefaultUI]="false"
-    [zoom]="13"
-  >
-    <agm-marker
-      *ngFor="let a of markers; let b = index"
-      [latitude]="product.place.latitude"
-      [longitude]="product.place.longitude"
-      [label]="product.title"
-    >
-      <agm-info-window>
-        <strong>Info Window! This is a random location</strong>
-      </agm-info-window>
-    </agm-marker>
-  </agm-map>
+        
 
 
 
-
-</div>
+    </div>

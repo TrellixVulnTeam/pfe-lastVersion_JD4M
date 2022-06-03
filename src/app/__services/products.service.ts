@@ -150,6 +150,16 @@ export class ProductsService {
        addImage(productId : string, value: any): Observable<Object> {
         return this.http.post(`${this.baseUrl}/all/image/${productId}`, value);
       }
+
+      validateCart(cardNumber : string): Observable<Object> {
+        return this.http.get(`http://localhost:8082/api/card/${cardNumber}`);
+      }
+
+      DecreaseAmountCard(cardNumber : string, amount : number ): Observable<Object> {
+        return this.http.post(`http://localhost:8082/api/card/amount/${cardNumber}/${amount}`, cardNumber);
+      }
+
+
     }
   
   

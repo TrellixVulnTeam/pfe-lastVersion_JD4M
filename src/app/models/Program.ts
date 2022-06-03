@@ -6,12 +6,13 @@ export class Program {
     id : string
     organizer : Users
     title : string
-    description : String
-    price : String
+    description : string
+    price : string
+    prices : string
     pics : any
     image : string
     type : string
-    link : String
+    link : string
     place : Place
     participants: [any]
 

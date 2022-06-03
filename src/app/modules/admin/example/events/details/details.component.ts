@@ -1,9 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, QueryList } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { loadStripe } from '@stripe/stripe-js';
 import { Program } from 'app/models/Program';
 import { TokenStorageService } from 'app/__services/ token-storage.service';
 import { ProductsService } from 'app/__services/products.service';
+import { environment } from 'environments/environment';
+import { PaymentComponent } from '../../payment/payment.component';
 
 @Component({
   selector: 'app-details',
@@ -12,7 +17,8 @@ import { ProductsService } from 'app/__services/products.service';
 })
 export class DetailsComponent implements OnInit {
    
-  
+  stripePromise = loadStripe(environment.stripe);
+
   
     latitudedef: number = 35.825603;
     latitude: any;
@@ -38,11 +44,38 @@ export class DetailsComponent implements OnInit {
         label: 'your place',
       },
     ];
-  
+
+    ////////////////stripe ///////////////////
+
+    async pay(): Promise<void> {
+
    
-    
-    
-    
+    const payment = {
+      name: this.product.title,
+      currency: 'eur',
+      // amount on cents *10 => to be on dollar
+      amount: parseInt(this.product.price)*100,
+      quantity: '1',
+      cancelUrl: 'http://localhost:4200/cancel',
+      successUrl: 'http://localhost:4200/success',
+    };
+  
+  const stripe = await this.stripePromise;
+  this.http
+  .post(` http://localhost:8082/api/payment`, payment)
+  .subscribe((data: any) => {
+    console.log(payment);
+
+
+    // I use stripe to redirect To Checkout page of Stripe platform
+    stripe.redirectToCheckout({
+      sessionId: data.id,
+      
+    });
+    console.log(data)
+
+  });
+}
       
   
       // Private
@@ -58,6 +91,9 @@ export class DetailsComponent implements OnInit {
           private _changeDetectorRef: ChangeDetectorRef,
           private productService : ProductsService,
           private tokenStorageService : TokenStorageService,
+          private http: HttpClient,
+          private _matDialog: MatDialog,
+
   
       )
       {
@@ -141,6 +177,18 @@ export class DetailsComponent implements OnInit {
              
               return location;
             }
+
+            payment(): void
+      {
+          this._matDialog.open(PaymentComponent, {
+              autoFocus: false,
+              height: '300px',
+
+              
+
+              
+          });
+      }
           
 
 

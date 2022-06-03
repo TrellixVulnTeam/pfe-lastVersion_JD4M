@@ -63,7 +63,10 @@
                                         <div class="flex justify-between">
                                             <div class="flex flex-col">
                                                 <div class="text-secondary text-md">{{product.title}}</div>
-                                                <div class="text-2xl font-semibold leading-tight mt-1">{{product.price}}
+                                                <div  *ngIf="product.price!=null"  class="text-2xl font-semibold leading-tight mt-1">{{product.price}}
+                                                </div>
+
+                                                <div  *ngIf="product.price===null"  class="text-2xl font-semibold leading-tight mt-1">{{product.prices}} TN
                                                 </div>
                                                 <div class="text-secondary text-md mt-1">{{product.type}}</div>
                                             </div>

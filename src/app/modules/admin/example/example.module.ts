@@ -26,6 +26,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsWizardsComponent } from './events/forms/wizards/wizards.component';
+import { PaymentComponent } from './payment/payment.component';
+import { CheckoutComponent } from './payment/checkout/checkout.component';
+import { CancelComponent } from './payment/cancel/cancel.component';
+import { SuccessComponent } from './payment/success/success.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from "@angular/material/card";
+
 
 
 const exampleRoutes: Route[] = [
@@ -49,12 +56,27 @@ const exampleRoutes: Route[] = [
         component: FormsWizardsComponent,
        
     },
+    {
+        path: 'checkout',
+        component: CheckoutComponent,
+      },
+
+     
+
+      { path: 'cancel', component: CancelComponent },
+      { path: 'success', component: SuccessComponent },
+
    
     {
         path     : ':id',
         component: DetailsComponent,
        
     },
+
+    {
+        path: 'payment/:id',
+        component: PaymentComponent,
+      },
    
 ];
 
@@ -66,6 +88,7 @@ const exampleRoutes: Route[] = [
         DetailsComponent,
         AddNewEventComponent,
         FormsWizardsComponent,
+        PaymentComponent,
 
     ],
     imports     : [
@@ -74,9 +97,10 @@ const exampleRoutes: Route[] = [
 
         MatGoogleMapsAutocompleteModule,
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyC9i95PZGTZ4fA448DqQO61tQj8iomAc0I', // TODO: Colocar nos env variables
+            apiKey: '', // TODO: Colocar nos env variables
             libraries: ['places']
           }),
+        
           MatButtonModule,
           MatCheckboxModule,
           MatFormFieldModule,
@@ -90,6 +114,8 @@ const exampleRoutes: Route[] = [
           MatProgressSpinnerModule,
           FuseAlertModule,
           FormsModule,
+          MatCardModule,
+
           SharedModule,
 
 
