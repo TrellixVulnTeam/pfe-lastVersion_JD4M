@@ -1,5 +1,8 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Chat } from 'app/layout/common/quick-chat/quick-chat.types';
+import { Subject, takeUntil } from 'rxjs';
+import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 
 @Component({
@@ -7,71 +10,147 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   templateUrl: './add-new-event.component.html',
   styleUrls: ['./add-new-event.component.scss']
 })
-export class AddNewEventComponent implements OnInit {
+export class AddNewEventComponent implements OnInit, OnDestroy
+{
+    @ViewChild('messageInput') messageInput: ElementRef;
+    chat: Chat;
+    drawerMode: 'over' | 'side' = 'side';
+    drawerOpened: boolean = false;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  horizontalStepperForm: FormGroup;
-  verticalStepperForm: FormGroup;
+    /**
+     * Constructor
+     */
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _ngZone: NgZone
+    )
+    {
+    }
 
-  /**
-   * Constructor
-   */
-  constructor(private _formBuilder: FormBuilder)
-  {
-  }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Decorated methods
+    // -----------------------------------------------------------------------------------------------------
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    /**
+     * Resize on 'input' and 'ngModelChange' events
+     *
+     * @private
+     */
+    @HostListener('input')
+    @HostListener('ngModelChange')
+    private _resizeMessageInput(): void
+    {
+        // This doesn't need to trigger Angular's change detection by itself
+        this._ngZone.runOutsideAngular(() => {
 
-  /**
-   * On init
-   */
-  ngOnInit(): void
-  {
-      // Horizontal stepper form
-      this.horizontalStepperForm = this._formBuilder.group({
-          step1: this._formBuilder.group({
-              email   : ['', [Validators.required, Validators.email]],
-              country : ['', Validators.required],
-              language: ['', Validators.required]
-          }),
-          step2: this._formBuilder.group({
-              firstName: ['', Validators.required],
-              lastName : ['', Validators.required],
-              userName : ['', Validators.required],
-              about    : ['']
-          }),
-          step3: this._formBuilder.group({
-              byEmail          : this._formBuilder.group({
-                  companyNews     : [true],
-                  featuredProducts: [false],
-                  messages        : [true]
-              }),
-              pushNotifications: ['everything', Validators.required]
-          })
-      });
+            setTimeout(() => {
 
-      // Vertical stepper form
-      this.verticalStepperForm = this._formBuilder.group({
-          step1: this._formBuilder.group({
-              email   : ['', [Validators.required, Validators.email]],
-              country : ['', Validators.required],
-              language: ['', Validators.required]
-          }),
-          step2: this._formBuilder.group({
-              firstName: ['', Validators.required],
-              lastName : ['', Validators.required],
-              userName : ['', Validators.required],
-              about    : ['']
-          }),
-          step3: this._formBuilder.group({
-              byEmail          : this._formBuilder.group({
-                  companyNews     : [true],
-                  featuredProducts: [false],
-                  messages        : [true]
-              }),
-              pushNotifications: ['everything', Validators.required]
-          })
-      });
-  }
+                // Set the height to 'auto' so we can correctly read the scrollHeight
+                this.messageInput.nativeElement.style.height = 'auto';
+
+                // Detect the changes so the height is applied
+                this._changeDetectorRef.detectChanges();
+
+                // Get the scrollHeight and subtract the vertical padding
+                this.messageInput.nativeElement.style.height = `${this.messageInput.nativeElement.scrollHeight}px`;
+
+                // Detect the changes one more time to apply the final height
+                this._changeDetectorRef.detectChanges();
+            });
+        });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Chat
+       
+        // Subscribe to media changes
+        this._fuseMediaWatcherService.onMediaChange$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({matchingAliases}) => {
+
+                // Set the drawerMode if the given breakpoint is active
+                if ( matchingAliases.includes('lg') )
+                {
+                    this.drawerMode = 'side';
+                }
+                else
+                {
+                    this.drawerMode = 'over';
+                }
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Open the contact info
+     */
+    openContactInfo(): void
+    {
+        // Open the drawer
+        this.drawerOpened = true;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Reset the chat
+     */
+    resetChat(): void
+    {
+
+        // Close the contact info in case it's opened
+        this.drawerOpened = false;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Toggle mute notifications
+     */
+    toggleMuteNotifications(): void
+    {
+        // Toggle the muted
+        this.chat.muted = !this.chat.muted;
+
+        // Update the chat on the server
+    }
+
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
+    }
 }

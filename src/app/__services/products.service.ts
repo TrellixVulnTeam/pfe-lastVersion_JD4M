@@ -167,6 +167,16 @@ export class ProductsService {
         return this.http.post(`${this.baseUrl}/add/${cardNumber}/${productId}`, cardNumber);
       }
 
+      addChatToEvent(productId : string, userId: string, message : string): Observable<Object> {
+        return this.http.post(`${this.baseUrl}/add/chat/${productId}/${userId}`, message);
+      }
+
+      getchatRoomByEvent(productId : string): Observable<Program> {
+        return this.http.get<Program>(`${this.baseUrl}/get/chat/${productId}`);
+    }
+
+
+
 
     }
   

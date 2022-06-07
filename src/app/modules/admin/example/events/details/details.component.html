@@ -88,13 +88,27 @@
                 </div>
             </div>
         </div>
+        <form (ngSubmit)="onSubmit()">
+
+
+            <ul>
+                <li *ngFor="let participant of participants">{{ participant.username }}</li>
+            </ul>
+            <button *ngIf="username != product.organizer.username" type="submit"
+                class="btn btn-success">Reserve</button>
+
+        </form>
       
 
     </div>
 
+<!-- ////////////chat////////////// -->
 
+  <app-chat></app-chat>
 
+</body>
 
+<!--///////////////////////////// !chat///////////// -->
 
     <div id="academy-course" class="page-layout simple">
         <div class="center">

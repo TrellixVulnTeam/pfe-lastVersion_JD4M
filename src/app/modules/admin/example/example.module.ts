@@ -32,6 +32,7 @@ import { CancelComponent } from './payment/cancel/cancel.component';
 import { SuccessComponent } from './payment/success/success.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from "@angular/material/card";
+import { ChatComponent } from './events/chat/chat.component';
 
 
 
@@ -54,6 +55,17 @@ const exampleRoutes: Route[] = [
     {
         path     : 'add',
         component: FormsWizardsComponent,
+       
+    },
+    {
+        path     : 'addNew',
+        component: AddNewEventComponent,
+       
+    },
+
+    {
+        path     : 'chat',
+        component: ChatComponent,
        
     },
     {
@@ -89,6 +101,7 @@ const exampleRoutes: Route[] = [
         AddNewEventComponent,
         FormsWizardsComponent,
         PaymentComponent,
+        ChatComponent,
 
     ],
     imports     : [
@@ -107,6 +120,8 @@ const exampleRoutes: Route[] = [
           MatSnackBarModule,
           MatTooltipModule,
           MatRadioModule,
+
+
 
 
           MatIconModule,
