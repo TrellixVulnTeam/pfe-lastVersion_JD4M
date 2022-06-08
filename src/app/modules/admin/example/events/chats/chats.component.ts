@@ -12,10 +12,11 @@ import { WebSocketService } from 'app/__services/web-socket.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatsComponent implements OnInit, OnDestroy {
 
   isLoggedIn = false;
   username :string;
+isMine : false;
   id: string;
   product: Program;
   participants : any[];
@@ -53,6 +54,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (this.isLoggedIn) {
         const user = this.tokenStorageService.getUser();
         this.username = user.username;
+
         
 
 
@@ -77,9 +79,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.productService.addChatToEvent(this.product.id,this.tokenStorageService.getUser().id,chatMessageDto.message).subscribe(data => {
       console.log("data",data)
 
+
     }, error => console.log(error));
    
-    console.log(chatMessageDto);
+    console.log("h",chatMessageDto);
+
 
   }
 }

@@ -32,7 +32,9 @@ import { CancelComponent } from './payment/cancel/cancel.component';
 import { SuccessComponent } from './payment/success/success.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from "@angular/material/card";
-import { ChatComponent } from './events/chat/chat.component';
+import { ChatsComponent } from './events/chats/chats.component';
+import { ChatComponent } from './chat/chat.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -65,9 +67,12 @@ const exampleRoutes: Route[] = [
 
     {
         path     : 'chat',
-        component: ChatComponent,
+        component: ChatsComponent,
        
     },
+
+    {path: 'chat2', loadChildren: () => import('app/modules/admin/example/chat/chat.module').then(m => m.ChatModule)},
+
     {
         path: 'checkout',
         component: CheckoutComponent,
@@ -101,7 +106,10 @@ const exampleRoutes: Route[] = [
         AddNewEventComponent,
         FormsWizardsComponent,
         PaymentComponent,
+        ChatsComponent,
         ChatComponent,
+        
+    
 
     ],
     imports     : [
@@ -110,7 +118,7 @@ const exampleRoutes: Route[] = [
 
         MatGoogleMapsAutocompleteModule,
         AgmCoreModule.forRoot({
-            apiKey: '', // TODO: Colocar nos env variables
+            apiKey: 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI', // TODO: Colocar nos env variables
             libraries: ['places']
           }),
         
@@ -120,6 +128,7 @@ const exampleRoutes: Route[] = [
           MatSnackBarModule,
           MatTooltipModule,
           MatRadioModule,
+          MatTabsModule,
 
 
 

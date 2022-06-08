@@ -16,116 +16,132 @@
 
 <body>
     <!---->
-    
+
     <div class="container">
-        <div class="card">
-            
-            <div class="container-fliud">
-                
-                <div class="wrapper row">
-                    <button mat-icon-button class="mr-16" [routerLink]="'/events/list'">
-                        <mat-icon>arrow_back</mat-icon>
-                    </button>
-                    
-                    <div class="preview col-md-6">
+        <button mat-icon-button class="mr-16" [routerLink]="'/events/list'">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <mat-tab-group dynamicHeight>
 
-                        <div class="preview-pic tab-content">
-                            <div class="tab-pane active" id="pic-i">
-                                <img src="data:image/jpg;base64,{{product.pics[0].data}}" /></div>
+            <div class="card">
 
-                        </div>
-                        <ul class="preview-thumbnail nav nav-tabs" *ngFor="let picture of product.pics let i = index">
-                            <li class="active"><a data-target="#pic-i" data-toggle="tab"><img
-                                        src="data:image/jpg;base64,{{picture.data}}" /></a></li>
 
-                        </ul>
+                <mat-tab label="Event Details">
 
-                    </div>
-                    <div class="details col-md-6">
-                        <h3 class="product-title">{{product.title}}</h3>
-                        <div class="rating">
-                            <div class="stars">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+
+                    <div class="container-fliud">
+
+                        <div class="wrapper row">
+
+
+                            <div class="preview col-md-6">
+
+                                <div class="preview-pic tab-content">
+                                    <div class="tab-pane active" id="pic-i">
+                                        <img src="data:image/jpg;base64,{{product.pics[0].data}}" /></div>
+
+                                </div>
+                                <ul class="preview-thumbnail nav nav-tabs"
+                                    *ngFor="let picture of product.pics let i = index">
+                                    <li class="active"><a data-target="#pic-i" data-toggle="tab"><img
+                                                src="data:image/jpg;base64,{{picture.data}}" /></a></li>
+
+                                </ul>
+
                             </div>
-                            <span class="review-no">41 reviews</span>
-                        </div>
-                        <p class="product-description">{{product.description}}.</p>
-                        <h4 class="price" *ngIf="product.price !=null"> price: <span>{{product.price}}</span></h4>
-                        <h4 class="price" *ngIf="product.price ===null"> price: <span>{{product.prices}} TN </span></h4>
+                            <div class="details col-md-6">
+                                <h3 class="product-title">{{product.title}}</h3>
+                                <div class="rating">
+                                    <div class="stars">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <span class="review-no">41 reviews</span>
+                                </div>
+                                <p class="product-description">{{product.description}}.</p>
+                                <h4 class="price" *ngIf="product.price !=null"> price: <span>{{product.price}}</span>
+                                </h4>
+                                <h4 class="price" *ngIf="product.price ===null"> price: <span>{{product.prices}} TN
+                                    </span></h4>
 
-                        <p class="vote"><strong>91%</strong> of participants enjoyed this event! <strong>(87
-                                votes)</strong></p>
-                        <h5 class="sizes">type:
-                            <span class="size" data-toggle="tooltip" title="small">{{product.type}}</span>
-                        </h5>
-                        <!----
+                                <p class="vote"><strong>91%</strong> of participants enjoyed this event! <strong>(87
+                                        votes)</strong></p>
+                                <h5 class="sizes">type:
+                                    <span class="size" data-toggle="tooltip" title="small">{{product.type}}</span>
+                                </h5>
+                                <!----
 						<h5 class="colors">colors:
 							<span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
 							<span class="color green"></span>
 							<span class="color blue"></span>
 						</h5> -->
-                        <div class="action">
-                            <button class="add-to-cart btn btn-default" type="button" [routerLink]="['/events/payment/', product.id]">pay {{product.prices}} TN
-                                
-                            </button>
-                            <button class="like btn btn-default" type="button"><span
-                                    class="fa fa-shopping-cart"></span></button>
+                                <div class="action">
+                                    <button class="add-to-cart btn btn-default" type="button"
+                                        [routerLink]="['/events/payment/', product.id]">pay {{product.prices}} TN
+
+                                    </button>
+                                    <button class="like btn btn-default" type="button"><span
+                                            class="fa fa-shopping-cart"></span></button>
+                                </div>
+                            </div>
+                            <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude"
+                                [disableDefaultUI]="false" [zoom]="13">
+                                <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
+                                    [longitude]="product.place.longitude" [label]="product.title">
+                                    <agm-info-window>
+                                        <strong>Info Window! This is a random location</strong>
+                                    </agm-info-window>
+                                </agm-marker>
+                            </agm-map>
                         </div>
                     </div>
-                    <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude" [disableDefaultUI]="false"
-                    [zoom]="13">
-                    <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
-                        [longitude]="product.place.longitude" [label]="product.title">
-                        <agm-info-window>
-                            <strong>Info Window! This is a random location</strong>
-                        </agm-info-window>
-                    </agm-marker>
-                </agm-map>
-                </div>
+
+                    <form (ngSubmit)="onSubmit()">
+
+
+                        <ul>
+                            <li *ngFor="let participant of participants">{{ participant.username }}</li>
+                        </ul>
+                        <button *ngIf="username != product.organizer.username" type="submit"
+                            class="btn btn-success">Reserve</button>
+
+                    </form>
+                </mat-tab>
             </div>
-        </div>
-        <form (ngSubmit)="onSubmit()">
+
+            <mat-tab label="Chat">
 
 
-            <ul>
-                <li *ngFor="let participant of participants">{{ participant.username }}</li>
-            </ul>
-            <button *ngIf="username != product.organizer.username" type="submit"
-                class="btn btn-success">Reserve</button>
+                <!-- ////////////chat////////////// -->
 
-        </form>
-      
+                <app-chat></app-chat>
+            </mat-tab>
+        </mat-tab-group>
 
     </div>
-
-<!-- ////////////chat////////////// -->
-
-  <app-chat></app-chat>
-
 </body>
 
 <!--///////////////////////////// !chat///////////// -->
 
-    <div id="academy-course" class="page-layout simple">
-        <div class="center">
+<div id="academy-course" class="page-layout simple">
+    <div class="center">
 
-            <!-- HEADER -->
-            <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
+        <!-- HEADER -->
+        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
 
 
 
-              
 
-                <div>
-                    <h2></h2>
-                </div>
 
+            <div>
+                <h2></h2>
             </div>
-            <!----
+
+        </div>
+        <!----
             <div class="product-card">
                 <div class="badge">{{product.type}}</div>
                 <div class="product-tumb" *ngIf="product.pics != null;else contenu_p_bon">
@@ -214,10 +230,10 @@
         </div>
          </div> -->
 
-        
-        </div>
-    
-        <!----
+
+    </div>
+
+    <!----
     # angular
     <h1>Google Maps With AGM</h1>
 
@@ -246,8 +262,8 @@
     </div>
 
 -->
-        
 
 
 
-    </div>
+
+</div>
