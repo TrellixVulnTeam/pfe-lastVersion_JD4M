@@ -109,6 +109,15 @@
                             class="btn btn-success">Reserve</button>
 
                     </form>
+
+                    <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+
+
+                       
+                        <button  type="submit"
+                            class="btn btn-success">Send Notif</button>
+
+                    </form>
                 </mat-tab>
             </div>
 

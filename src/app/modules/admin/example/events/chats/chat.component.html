@@ -18,7 +18,7 @@
                         <h6>{{chat.user.username}}:</h6>
                         <p class="text-muted">{{chat.message}}</p>
                     </div>
-                    <span class="time text-muted small">{{chat.localTime}}</span>
+                    <span class="time text-muted small">{{chat.localTime | date:'MMM dd, h:mm a'}}</span>
                 </div>
                 <!----
                                     <div class="friend-drawer friend-drawer--onhover">

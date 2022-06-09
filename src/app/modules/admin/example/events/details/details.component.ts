@@ -35,9 +35,11 @@ import {
 import {
   ProductsService
 } from 'app/__services/products.service';
+import { UsersService } from 'app/__services/users.service';
 import {
   WebSocketService
-} from 'app/__services/web-socket.service';
+} from 'app/__services/web-socket-message.service';
+import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
 import {
   environment
 } from 'environments/environment';
@@ -72,7 +74,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   id: string;
   product: Program;
   participants: any[];
-
+notif : any;
 
   markers: marker[] = [{
     latitude: this.latitudedef,
@@ -130,6 +132,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private _matDialog: MatDialog,
     public webSocketService: WebSocketService,
+  private userService : UsersService,
+  public webSocketNotifService: WebSocketNotifService,
+
+
 
 
 
@@ -151,6 +157,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // Subscribe to courses
+    this.webSocketNotifService.openWebSocket();
 
     this.product = new Program();
 
@@ -226,12 +233,26 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.webSocketService.closeWebSocket();
+    this.webSocketNotifService.closeWebSocket();
+    
   }
 
   sendMessage(sendForm: NgForm) {
-    const chatMessageDto = new ChatMessageDto(sendForm.value.user, sendForm.value.message);
-    this.webSocketService.sendMessage(chatMessageDto);
-    sendForm.controls.message.reset();
+    const chatMessageDto = new ChatMessageDto(this.username, this.username + " " + "has reserved" + " " + this.product.title);
+    this.webSocketNotifService.sendMessage(chatMessageDto);
+
+    this.userService.addNotifToUser(this.product.organizer.id,chatMessageDto.message).subscribe(data => {
+      console.log("data",data)
+      this.notif = data;
+
+
+    }, error => console.log(error));
+   
+    console.log("h",chatMessageDto);
+
+   
+
+    
   }
 
 

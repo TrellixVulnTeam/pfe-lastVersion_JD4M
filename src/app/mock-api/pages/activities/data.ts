@@ -10,7 +10,7 @@ export const activities = [
         extraContent: `<div class="font-bold">Congratulations for your acceptance!</div><br>
                         <div>Hi Brian,<br>Your submission has been accepted and you are ready to move into the next phase. Once you are ready, reach out to me and we will ...</div>`
     },
-    {
+   /* {
         id           : '6e3e97e5-effc-4fb7-b730-52a151f0b641',
         image        : 'assets/images/avatars/male-04.jpg',
         description  : '<strong>Leo Gill</strong> added you to <strong>Top Secret Project</strong> group and assigned you as a <strong>Project Manager</strong>',
@@ -84,5 +84,5 @@ export const activities = [
         icon       : 'heroicons_solid:refresh',
         description: 'Your Vagrant container is ready to download',
         date       : moment().subtract(4, 'day').toISOString() // 4 days ago
-    }
+    } */
 ];

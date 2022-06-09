@@ -9,6 +9,8 @@ import { Notification } from 'app/layout/common/notifications/notifications.type
 export class NotificationsService
 {
     private _notifications: ReplaySubject<Notification[]> = new ReplaySubject<Notification[]>(1);
+    UserNotif : any;
+
 
     /**
      * Constructor

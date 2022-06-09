@@ -5,7 +5,8 @@ import { ChatMessageDto } from 'app/models/chatMessageDto';
 import { Program } from 'app/models/Program';
 import { TokenStorageService } from 'app/__services/ token-storage.service';
 import { ProductsService } from 'app/__services/products.service';
-import { WebSocketService } from 'app/__services/web-socket.service';
+import { WebSocketService } from 'app/__services/web-socket-message.service';
+import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +26,7 @@ isMine : false;
   EventChat : any;
 
   constructor(public webSocketService: WebSocketService,
+    public webSocketNotifService: WebSocketNotifService,
     private productService : ProductsService,
     private tokenStorageService : TokenStorageService,
     private route: ActivatedRoute,private router: Router,) { }
