@@ -48,6 +48,7 @@ import {
     ActivatedRoute,
     Router
 } from '@angular/router';
+import { Users } from 'app/models/Users';
 
 @Component({
     selector: 'notifications',
@@ -68,6 +69,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     product: Program;
     id: string;
     NotifD : any;
+    users : Users;
 
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject < any > = new Subject < any > ();
@@ -97,16 +99,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+
         this.isLoggedIn = !!this.tokenStorageService.getToken();
 
         if (this.isLoggedIn) {
             const user = this.tokenStorageService.getUser();
             this.username = user.username;
+            this._calculateUnreadCount();
+
 
 
             //console.log('org',this.productsService.getOrganizer(this.products))
             console.log('name', this.tokenStorageService.getUser());
         }
+        this.userService.getUser(this.tokenStorageService.getUser().id
+        ).subscribe((users : Users) => {
+            this.users = users;
+            console.log("userNot",this.users)
+             
+        }, (error: ErrorEvent) => {
+        })
         // Subscribe to notification changes
         this._notificationsService.notifications$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -118,7 +131,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 
                 // Calculate the unread count
-                this._calculateUnreadCount();
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -133,16 +145,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
         this.productService.getProduct(this.id)
             .subscribe(data => {
-                console.log(data)
+                console.log("product",data)
                 this.product = data;
             }, error => console.log(error));
 
-        this.userService.getNotifD(this.tokenStorageService.getUser().id)
-            .subscribe(data => {
-                console.log("notifD", data)
 
-                this.NotifD = data;
-            }, error => console.log(error));
+       
 
     }
 
@@ -180,6 +188,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
         // Attach the portal to the overlay
         this._overlayRef.attach(new TemplatePortal(this._notificationsPanel, this._viewContainerRef));
+
     }
 
     /**
@@ -194,8 +203,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
      */
     markAllAsRead(): void {
         // Mark all as read
-        this._notificationsService.markAllAsRead().subscribe();
-    }
+        this.userService.MarkAllAsRead(this.tokenStorageService.getUser().id).subscribe((notif) => {
+     this.unreadCount = notif.notifCount  ;
+     this._changeDetectorRef.markForCheck();
+     console.log("notif", notif) })
+}
 
     /**
      * Toggle read status of the given notification
@@ -205,7 +217,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         notification.read = !notification.read;
 
         // Update the notification
-        this._notificationsService.update(notification.id, notification).subscribe();
+        this._notificationsService.update(notification.id, notification)
     }
 
     /**
@@ -282,12 +294,20 @@ export class NotificationsComponent implements OnInit, OnDestroy {
      * @private
      */
     private _calculateUnreadCount(): void {
-        let count = 0;
 
-        if (this.notifications && this.notifications.length) {
-            count = this.notifications.filter(notification => !notification.read).length;
-        }
+        this.userService.getNotifD(this.tokenStorageService.getUser().id)
+            .subscribe(data => {
 
-        this.unreadCount = count;
+                this.NotifD = data;
+                console.log("notifD", this.NotifD)
+
+                this.unreadCount = this.NotifD.notifCount;
+                console.log("ok", this.unreadCount)
+
+
+
+            }, error => console.log(error));
+
+
     }
 }

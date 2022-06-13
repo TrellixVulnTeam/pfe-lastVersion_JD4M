@@ -1,13 +1,16 @@
 <!-- Notifications toggle -->
-<button mat-icon-button (click)="openPanel()" #notificationsOrigin >
+<button mat-icon-button (click)="openPanel()" #notificationsOrigin>
+
+
     <ng-container *ngIf="unreadCount > 0">
         <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3">
             <span
                 class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium">
-                {{unreadCount}} 
+                {{unreadCount}}
             </span>
         </span>
     </ng-container>
+
     <mat-icon [svgIcon]="'heroicons_outline:bell'"></mat-icon>
 </button>
 
@@ -24,7 +27,8 @@
                     <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:x'"></mat-icon>
                 </button>
             </div>
-            <div class="text-lg font-medium leading-10">Notifications</div>
+            <div class="text-lg font-medium leading-10">Notifications                 {{unreadCount}}
+            </div>
             <div class="ml-auto">
                 <button mat-icon-button [matTooltip]="'Mark all as read'" [disabled]="unreadCount === 0"
                     (click)="markAllAsRead()">
@@ -38,20 +42,32 @@
             <!-- Notifications -->
 
             <!-- Icon -->
-          
-                <li class="list-group-item" *ngFor="let chatMessage of webSocketNotifService.chatMessages">
-                    <!-- <div
+            <li class="list-group-item" *ngFor="let chatMessage of webSocketNotifService.chatMessages">
+                <div *ngIf="chatMessage.user == users.id">
+
+
+                    <!---- <div 
                             class="font-semibold line-clamp-1"
-                            [innerHTML]="chatMessage.user"></div> -->
+                            [innerHTML]="chatMessage.user"></div>  --
                     <div class="line-clamp-2" [innerHTML]="chatMessage.message"></div>
                     <div class="mt-2 text-sm leading-none text-secondary">
                         {{chatMessage.Date | date:'MMM dd, h:mm a'}}
-                    </div>
+                    </div> -->
+                    <hr>
+                    <div class="friend-drawer ">
+    
+                        <!---- <div class="text"[innerHTML]="chat.user.username"></div> -->
+                        <p class="text-muted">{{chatMessage.message}}</p>
+                        <span class="time text-muted small">{{chatMessage.localTime | date:'MMM dd, h:mm a'}}</span>
+                        {{unreadCount}} 
 
-                </li>
+                    </div>
+                </div>
+
+            </li>
 
             <!-- Title, description & time -->
-            <li class="list-group-item" *ngFor="let chat of UserNotif.slice().reverse()">
+            <li class="list-group-item" *ngFor="let chat of UserNotif">
                 <hr>
                 <div class="friend-drawer ">
 
@@ -68,6 +84,16 @@
                                             <span class="time text-muted small">{{chat.localTime}}</span>
                                             </div>
                                         -->
+
+                <!-- Actions -->
+                <!-- Indicator -->
+                <button class="w-6 h-6 min-h-6" mat-icon-button (click)="toggleRead(notification)">
+                </button>
+                <!-- Remove -->
+                <button class="w-6 h-6 min-h-6 sm:opacity-0 sm:group-hover:opacity-100" mat-icon-button
+                    (click)="delete(notification)" [matTooltip]="'Remove'">
+                    <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                </button>
             </li>
 
 
@@ -93,6 +119,16 @@
                     <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">When you have notifications, they will appear here.</div>
                 </div>
             </ng-container> -->
+            <ng-container *ngIf="UserNotif == null">
+                <div class="flex flex-col flex-auto items-center justify-center sm:justify-start py-12 px-8">
+                    <div class="flex flex-0 items-center justify-center w-14 h-14 rounded-full bg-primary-100">
+                        <mat-icon class="text-primary-500-700" [svgIcon]="'heroicons_outline:bell'"></mat-icon>
+                    </div>
+                    <div class="mt-5 text-2xl font-semibold tracking-tight">No notifications</div>
+                    <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">When you have notifications,
+                        they will appear here.</div>
+                </div>
+            </ng-container>
 
         </div>
 

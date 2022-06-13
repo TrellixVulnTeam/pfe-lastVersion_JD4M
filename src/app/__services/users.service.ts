@@ -49,6 +49,7 @@ const AUTH_API = 'http://localhost:8081/';
       return this.http.get<User>(AUTH_API +`api/users/get/notifD/${userId}`);
   }
 
-
-      
+  MarkAllAsRead(userId : string): Observable<any> {
+    return this.http.post(AUTH_API +`api/users/markAllAsRead/notif/${userId}`, userId);
+  }
   }

@@ -26,6 +26,7 @@ import {
 import {
   ChatMessageDto
 } from 'app/models/chatMessageDto';
+import { NotifDto } from 'app/models/NotifDto';
 import {
   Program
 } from 'app/models/Program';
@@ -43,6 +44,7 @@ import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
 import {
   environment
 } from 'environments/environment';
+import { combineLatest } from 'rxjs';
 import {
   PaymentComponent
 } from '../../payment/payment.component';
@@ -75,6 +77,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   product: Program;
   participants: any[];
 notif : any;
+unreadCount: number = 0;
+NotifD : any;
+
+
 
   markers: marker[] = [{
     latitude: this.latitudedef,
@@ -238,7 +244,8 @@ notif : any;
   }
 
   sendMessage(sendForm: NgForm) {
-    const chatMessageDto = new ChatMessageDto(this.username, this.username + " " + "has reserved" + " " + this.product.title);
+
+    const chatMessageDto = new ChatMessageDto(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title);
     this.webSocketNotifService.sendMessage(chatMessageDto);
 
     this.userService.addNotifToUser(this.product.organizer.id,chatMessageDto.message).subscribe(data => {
@@ -250,7 +257,13 @@ notif : any;
    
     console.log("h",chatMessageDto);
 
-   
+
+
+
+    
+
+    
+
 
     
   }

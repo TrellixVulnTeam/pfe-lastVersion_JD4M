@@ -25,6 +25,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     isLoggedIn = false;
     username: string;
     users : Users;
+    email : string;
     /**
      * Constructor
      */
@@ -66,12 +67,22 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         this.isLoggedIn = !!this.tokenStorageService.getToken();
    
         if (this.isLoggedIn) {
-          const user = this.tokenStorageService.getUser();
-          this.username = user.username;
+          const userConnected = this.tokenStorageService.getUser();
+          this.username = userConnected.username;
+          this.email = userConnected.email;
           
 
           //console.log('org',this.productsService.getOrganizer(this.products))
-          console.log('name',this.tokenStorageService.getUser());}
+          console.log('name',this.tokenStorageService.getUser());
+          this.userService.getUser(this.tokenStorageService.getUser().id.toString()).subscribe(data => {
+          
+          
+         
+            this.users = data;
+            console.log("email",this.users.email)
+            
+              })
+        }
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -100,6 +111,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
+            
+
     
 }
 
