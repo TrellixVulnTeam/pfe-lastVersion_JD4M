@@ -3,8 +3,10 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatMessageDto } from 'app/models/chatMessageDto';
 import { Program } from 'app/models/Program';
+import { Users } from 'app/models/Users';
 import { TokenStorageService } from 'app/__services/ token-storage.service';
 import { ProductsService } from 'app/__services/products.service';
+import { UsersService } from 'app/__services/users.service';
 import { WebSocketService } from 'app/__services/web-socket-message.service';
 import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
 
@@ -22,6 +24,9 @@ isMine : false;
   product: Program;
   participants : any[];
   date : Date
+  User : Users;
+  text = "<i class="+"fas fa-user"+"> </i>"
+  myDate = new Date();
 
   EventChat : any;
 
@@ -29,7 +34,10 @@ isMine : false;
     public webSocketNotifService: WebSocketNotifService,
     private productService : ProductsService,
     private tokenStorageService : TokenStorageService,
-    private route: ActivatedRoute,private router: Router,) { }
+    private route: ActivatedRoute,private router: Router,
+    private UserService : UsersService,
+    
+    ) { }
 
   ngOnInit(): void {
     this.webSocketService.openWebSocket();
@@ -75,7 +83,7 @@ isMine : false;
   }
 
   sendMessage(sendForm: NgForm) {
-    const chatMessageDto = new ChatMessageDto(this.username, sendForm.value.message,);
+    const chatMessageDto = new ChatMessageDto(this.tokenStorageService.getUser(), sendForm.value.message,this.myDate);
     this.webSocketService.sendMessage(chatMessageDto);
     sendForm.controls.message.reset();
     this.productService.addChatToEvent(this.product.id,this.tokenStorageService.getUser().id,chatMessageDto.message).subscribe(data => {

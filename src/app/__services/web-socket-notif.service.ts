@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NotifDto } from 'app/models/NotifDto';
 import { ChatMessageDto } from '../models/chatMessageDto';
 
 @Injectable({
@@ -8,6 +9,7 @@ export class WebSocketNotifService {
 
   webSocket: WebSocket;
   chatMessages: ChatMessageDto[] = [];
+  notifMessages: NotifDto[] = [];
 
   constructor() { }
 
@@ -19,8 +21,8 @@ export class WebSocketNotifService {
     };
 
     this.webSocket.onmessage = (event) => {
-      const chatMessageDto = JSON.parse(event.data);
-      this.chatMessages.push(chatMessageDto);
+      const notifDto = JSON.parse(event.data);
+      this.notifMessages.push(notifDto);
     };
 
     this.webSocket.onclose = (event) => {
@@ -28,8 +30,8 @@ export class WebSocketNotifService {
     };
   }
 
-  public sendMessage(chatMessageDto: ChatMessageDto){
-    this.webSocket.send(JSON.stringify(chatMessageDto));
+  public sendMessage(notifDto: NotifDto){
+    this.webSocket.send(JSON.stringify(notifDto));
   }
 
   public closeWebSocket() {

@@ -10,6 +10,7 @@ import { UserService } from 'app/core/user/user.service';
 import { UsersService } from 'app/__services/users.service';
 import { TokenStorageService } from 'app/__services/ token-storage.service';
 import { Users } from 'app/models/Users';
+import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
 
 @Component({
     selector     : 'classy-layout',
@@ -39,6 +40,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private UserService : UsersService,
         private tokenStorageService: TokenStorageService,
         private userService : UsersService,
+        public webSocketNotifService: WebSocketNotifService,
+
     )
     {
     }

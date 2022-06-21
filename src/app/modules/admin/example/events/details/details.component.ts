@@ -79,6 +79,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
 notif : any;
 unreadCount: number = 0;
 NotifD : any;
+UserNotif: any;
+
 
 
 
@@ -187,7 +189,8 @@ NotifD : any;
 
       }, (error: ErrorEvent) => {})
 
-    }
+    };
+    
   }
 
 
@@ -244,18 +247,31 @@ NotifD : any;
   }
 
   sendMessage(sendForm: NgForm) {
+  
 
-    const chatMessageDto = new ChatMessageDto(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title);
-    this.webSocketNotifService.sendMessage(chatMessageDto);
 
-    this.userService.addNotifToUser(this.product.organizer.id,chatMessageDto.message).subscribe(data => {
+    this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
       console.log("data",data)
-      this.notif = data;
+      this.notif = data; 
 
-
-    }, error => console.log(error));
    
-    console.log("h",chatMessageDto);
+    
+
+
+
+      
+
+     
+
+      const notifDtoR = new NotifDto(this.product.organizer.id,this.username + " " + "has reserved" + " " + this.product.title,this.notif.notifCount, this.unreadCount);
+
+    this.webSocketNotifService.sendMessage(notifDtoR);
+    console.log("h",notifDtoR);
+  })
+
+
+    
+
 
 
 

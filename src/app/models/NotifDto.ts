@@ -2,12 +2,14 @@ export class NotifDto {
     user: string;
     message: string;
     date : Date;
-    countNotif : number =0;
+    countNotifR : number =0;
+    countNotifS : number = 0;
 
-    constructor(user: string, message: string, countNotif : number){
+    constructor(user: string, message: string, countNotifR : number, countNotifS : number ){
         this.user = user;
         this.message = message;
-        this.countNotif = countNotif;
+        this.countNotifR = countNotifR;
+        this.countNotifS = countNotifS
     }
 
   

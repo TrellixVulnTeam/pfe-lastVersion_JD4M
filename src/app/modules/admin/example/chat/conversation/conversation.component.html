@@ -7,19 +7,7 @@
             [hasBackdrop]="false">
 
             <!-- Drawer -->
-            <mat-drawer
-                class="w-full sm:w-100 lg:border-l lg:shadow-none dark:bg-gray-900"
-                [autoFocus]="false"
-                [mode]="drawerMode"
-                [position]="'end'"
-                [(opened)]="drawerOpened"
-                #drawer>
-
-                <!-- Contact info -->
-                <chat-contact-info
-                    [drawer]="drawer"
-                    [chat]="chat"></chat-contact-info>
-            </mat-drawer>
+           
 
             <!-- Drawer content -->
             <mat-drawer-content class="flex flex-col overflow-hidden">
@@ -28,20 +16,14 @@
                 <div class="flex flex-0 items-center h-18 px-4 md:px-6 border-b bg-gray-50 dark:bg-transparent">
 
                     <!-- Back button -->
-                    <a
-                        class="lg:hidden md:-ml-2"
-                        mat-icon-button
-                        [routerLink]="['./']"
-                        (click)="resetChat()">
-                        <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
-                    </a>
+                   
 
                     <!-- Contact info -->
                     <div
                         class="flex items-center ml-2 lg:ml-0 mr-2 cursor-pointer"
                         (click)="openContactInfo()">
-                        <div class="relative flex flex-0 items-center justify-center w-10 h-10">
-                            <ng-container *ngIf="chat.contact.avatar">
+                      <!----  <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                         <ng-container *ngIf="chat.contact.avatar">
                                 <img
                                     class="w-full h-full rounded-full object-cover"
                                     [src]="chat.contact.avatar"
@@ -51,9 +33,9 @@
                                 <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
                                     {{chat.contact.name.charAt(0)}}
                                 </div>
-                            </ng-container>
+                            </ng-container> --
                         </div>
-                        <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div>
+                        <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div> -->
                     </div>
 
                     <button
@@ -64,7 +46,7 @@
                         <mat-menu #conversationHeaderMenu>
                             <button
                                 mat-menu-item
-                                (click)="openContactInfo()">
+                                >
                                 <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
                                 Contact info
                             </button>
@@ -74,15 +56,8 @@
                             </button>
                             <button
                                 mat-menu-item
-                                (click)="toggleMuteNotifications()">
-                                <ng-container *ngIf="!chat.muted">
-                                    <mat-icon [svgIcon]="'heroicons_outline:volume-off'"></mat-icon>
-                                    Mute notifications
-                                </ng-container>
-                                <ng-container *ngIf="chat.muted">
-                                    <mat-icon [svgIcon]="'heroicons_outline:volume-up'"></mat-icon>
-                                    Unmute notifications
-                                </ng-container>
+                               >
+     
                             </button>
                             <button mat-menu-item>
                                 <mat-icon [svgIcon]="'heroicons_outline:backspace'"></mat-icon>

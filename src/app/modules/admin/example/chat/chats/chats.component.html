@@ -4,24 +4,7 @@
         class="flex-auto h-full"
         [hasBackdrop]="false">
 
-        <!-- Drawer -->
-        <mat-drawer
-            class="w-full sm:w-100 lg:border-r lg:shadow-none dark:bg-gray-900"
-            [autoFocus]="false"
-            [(opened)]="drawerOpened"
-            #drawer>
-
-            <!-- New chat -->
-            <ng-container *ngIf="drawerComponent === 'new-chat'">
-                <chat-new-chat [drawer]="drawer"></chat-new-chat>
-            </ng-container>
-
-            <!-- Profile -->
-            <ng-container *ngIf="drawerComponent === 'profile'">
-                <chat-profile [drawer]="drawer"></chat-profile>
-            </ng-container>
-
-        </mat-drawer>
+     
 
         <!-- Drawer content -->
         <mat-drawer-content class="flex overflow-hidden">

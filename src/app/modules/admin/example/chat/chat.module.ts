@@ -10,9 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from 'app/shared/shared.module';
 import { ChatComponent } from './chat.component';
 import { ChatsComponent } from './chats/chats.component';
-import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { NewChatComponent } from './new-chat/new-chat.component';
 import { ProfileComponent } from './profile/profile.component';
 import { chatRoutes } from './chat.routing';
 
@@ -21,9 +19,7 @@ import { chatRoutes } from './chat.routing';
     declarations: [
         
         ChatsComponent,
-        ContactInfoComponent,
         ConversationComponent,
-        NewChatComponent,
         ProfileComponent
     ],
     imports     : [

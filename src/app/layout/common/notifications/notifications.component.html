@@ -1,15 +1,48 @@
 <!-- Notifications toggle -->
-<button mat-icon-button (click)="openPanel()" #notificationsOrigin>
+
+<button mat-icon-button (click)="openPanel()" #notificationsOrigin >
 
 
-    <ng-container *ngIf="unreadCount > 0">
-        <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3">
+        <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3" *ngIf="webSocketNotifService.notifMessages.length ==0 ; else vide ">
             <span
-                class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium">
-                {{unreadCount}}
+                class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium"
+                *ngIf="unreadCount  >0 ; else doNothing" >
+
+                {{ unreadCount }}
+
             </span>
+      <ng-template #doNothing>
+            <span
+                class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium"
+                 >
+
+
+            </span>
+      </ng-template>
+            
         </span>
-    </ng-container>
+<ng-template #vide>
+        <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3" *ngFor="let chatMessage of webSocketNotifService.notifMessages">
+            <span
+                class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium"
+                *ngIf="chatMessage.user == users.id ; else user  " >
+
+                {{ chatMessage.countNotifR }}
+
+            </span>
+            <ng-template #user>
+                <span
+                class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium"
+                 >
+
+                {{ NotifD.notifCount }}
+
+            </span>
+
+            </ng-template>
+            
+        </span>
+    </ng-template>
 
     <mat-icon [svgIcon]="'heroicons_outline:bell'"></mat-icon>
 </button>
@@ -27,7 +60,10 @@
                     <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:x'"></mat-icon>
                 </button>
             </div>
-            <div class="text-lg font-medium leading-10">Notifications                 {{unreadCount}}
+            <div class="text-lg font-medium leading-10" >Notifications               
+
+                {{ unreadCount + webSocketNotifService.notifMessages.length}}
+
             </div>
             <div class="ml-auto">
                 <button mat-icon-button [matTooltip]="'Mark all as read'" [disabled]="unreadCount === 0"
@@ -42,8 +78,8 @@
             <!-- Notifications -->
 
             <!-- Icon -->
-            <li class="list-group-item" *ngFor="let chatMessage of webSocketNotifService.chatMessages">
-                <div *ngIf="chatMessage.user == users.id">
+            <li class="list-group-item" *ngFor="let chatMessage of webSocketNotifService.notifMessages">
+                <div *ngIf="chatMessage.user == users.id  ">
 
 
                     <!---- <div 
@@ -55,14 +91,13 @@
                     </div> -->
                     <hr>
                     <div class="friend-drawer ">
-    
                         <!---- <div class="text"[innerHTML]="chat.user.username"></div> -->
                         <p class="text-muted">{{chatMessage.message}}</p>
                         <span class="time text-muted small">{{chatMessage.localTime | date:'MMM dd, h:mm a'}}</span>
-                        {{unreadCount}} 
 
                     </div>
                 </div>
+               
 
             </li>
 
@@ -119,7 +154,7 @@
                     <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">When you have notifications, they will appear here.</div>
                 </div>
             </ng-container> -->
-            <ng-container *ngIf="UserNotif == null">
+            <ng-container *ngIf="UserNotif == null && unreadCount + webSocketNotifService.notifMessages.length ==0">
                 <div class="flex flex-col flex-auto items-center justify-center sm:justify-start py-12 px-8">
                     <div class="flex flex-0 items-center justify-center w-14 h-14 rounded-full bg-primary-100">
                         <mat-icon class="text-primary-500-700" [svgIcon]="'heroicons_outline:bell'"></mat-icon>

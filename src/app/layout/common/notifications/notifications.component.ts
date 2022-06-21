@@ -54,7 +54,7 @@ import { Users } from 'app/models/Users';
     selector: 'notifications',
     templateUrl: './notifications.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    //changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'notifications'
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
@@ -100,12 +100,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
+        console.log("number",this.webSocketNotifService.notifMessages.length)
+
 
         this.isLoggedIn = !!this.tokenStorageService.getToken();
 
         if (this.isLoggedIn) {
             const user = this.tokenStorageService.getUser();
             this.username = user.username;
+            this.id = user.id;
+            console.log(this.id);
             this._calculateUnreadCount();
 
 

@@ -1,101 +1,149 @@
-   
-   
-   <ul class="chat-history">
+   <div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
+
+       <ul class="chat-history">
 
 
 
+           <!-- Contact info -->
+           <div class="flex items-center ml-2 lg:ml-0 mr-2 cursor-pointer">
+               <!----  <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+       <ng-container *ngIf="chat.contact.avatar">
+              <img
+                  class="w-full h-full rounded-full object-cover"
+                  [src]="chat.contact.avatar"
+                  alt="Contact avatar"/>
+          </ng-container>
+          <ng-container *ngIf="!chat.contact.avatar">
+              <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                  {{chat.contact.name.charAt(0)}}
+              </div>
+          </ng-container> --
+      </div>
+      <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div> -->
+           </div>
 
 
 
-
-            <li class="list-group-item" *ngFor="let chat of EventChat">
-                <hr>
-                <div class="friend-drawer ">
-                    <img class="profile-image"
-                        src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png"
-                        alt="">
-                    <div class="text">
-                        <h6>{{chat.user.username}}:</h6>
-                        <p class="text-muted">{{chat.message}}</p>
+           <li *ngFor="let chat of EventChat">
+                <div class="chat-msg " *ngIf="chat.user.username != username">
+                    <div class="chat-msg-profile" >
+                        <img class="chat-msg-img"
+                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png" alt="" />
+ 
+ 
+ 
+                        <!----  <h6>{{chat.user.username}}: -->
+                        <div class="chat-msg-date">{{chat.localTime | date:' h:mm '}}</div>
                     </div>
-                    <span class="time text-muted small">{{chat.localTime | date:'MMM dd, h:mm a'}}</span>
-                </div>
-                <!----
-                                    <div class="friend-drawer friend-drawer--onhover">
-                                        <img class="profile-image" src="https://bcspecialolympics.org/wp-content/uploads/2021/09/Sample_User_Icon.png" alt="">
-                                    
-                                    <strong>{{chat.user.username}}: </strong>
-                                    <span >{{chat.message}} </span>
-                                    <span class="time text-muted small">{{chat.localTime}}</span>
-                                    </div>
-                                -->
-            </li>
-
-            <li class="list-group-item" *ngFor="let chatMessage of webSocketService.chatMessages">
-
-
-                <div class="friend-drawer friend-drawer--onhover">
-                    <img class="profile-image"
-                        src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png"
-                        alt="">
-                    <div class="text">
-                        <h6>{{chatMessage.user}}:</h6>
-                        <p class="text-muted">{{chatMessage.message}}</p>
+ 
+                    <div class="chat-msg-content">
+                        <div class="chat-msg-text">{{chat.message}}</div>
+ 
                     </div>
-                    <span class="time text-muted small">{{chatMessage.Date}}</span>
+ 
                 </div>
 
-                <!-----
-                                    <strong>{{chatMessage.user}}: </strong>
-                                    <span>{{chatMessage.message}}</span>
-                                    <span>{{chatMessage.Date}}</span> -->
-
-            </li>
-    </ul>
 
 
+                   <!---- date:'MMM dd, h:mm a'-->
 
-
-
-    <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
-        <div class="flex items-center h-11 my-px">
-            <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+               <div class="chat-msg owner " *ngIf="chat.user.username == username">
+                   <div class="chat-msg-profile" >
+                       <img class="chat-msg-img"
+                           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png" alt="" />
 
 
 
+                       <!----  <h6>{{chat.user.username}}: -->
+                       <div class="chat-msg-date">{{chat.localTime | date:' h:mm '}}</div>
+                   </div>
+
+                   <div class="chat-msg-content">
+                       <div class="chat-msg-text">{{chat.message}}</div>
+
+                   </div>
+
+               </div>
+           </li>
+           <li *ngFor="let chatMessage of webSocketService.chatMessages">
 
 
-                <div class="chat-send row">
-                    <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
-
-                        <div class="flex items-center h-11 my-px">
-
-                            <button mat-icon-button>
-                                <mat-icon [svgIcon]="'heroicons_outline:emoji-happy'"></mat-icon>
-                            </button>
-                            <button class="ml-0.5" mat-icon-button>
-                                <mat-icon [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
-                            </button>
-                        </div>
-
-                        <div class="col-8">
-
-                            <textarea class="min-h-5 my-0 resize-none"
-                                style="margin: 11px 0 !important; padding: 0px !important;" type="text"
-                                class="form-control" name="message" id="input-message" ngModel> </textarea>
-                        </div>
-
-                        <div class="col-2">
-                            <button type="submit" mat-icon-button>
-                                <mat-icon class="rotate-90" [svgIcon]="'heroicons_outline:paper-airplane'">
-                                </mat-icon>
-                            </button>
-                        </div>
+            <div class="chat-msg " *ngIf="chatMessage.user.username != username">
+                <div class="chat-msg-profile" >
+                    <img class="chat-msg-img"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png" alt="" />
 
 
-                    </div>
+
+                    <!----  <h6>{{chat.user.username}}: -->
+                    <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
                 </div>
 
-            </form>
-        </div>
-    </div>
+                <div class="chat-msg-content">
+                    <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+                </div>
+
+            </div>
+
+
+
+               <!---- date:'MMM dd, h:mm a'-->
+
+           <div class="chat-msg owner " *ngIf="chatMessage.user.username == username">
+               <div class="chat-msg-profile" >
+                   <img class="chat-msg-img"
+                       src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png" alt="" />
+
+
+
+                   <!----  <h6>{{chat.user.username}}: -->
+                   <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
+               </div>
+
+               <div class="chat-msg-content">
+                   <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+               </div>
+
+           </div>
+
+           </li>
+       </ul>
+
+
+
+
+
+
+
+
+
+
+
+       <!-------------------button--------------------->
+       <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+
+           <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
+
+               <div class="flex items-center h-11 my-px">
+                   <button mat-icon-button>
+                       <mat-icon [svgIcon]="'heroicons_outline:emoji-happy'"></mat-icon>
+                   </button>
+                   <button class="ml-0.5" mat-icon-button>
+                       <mat-icon [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                   </button>
+               </div>
+               <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded fuse-mat-bold w-full ml-4">
+                   <textarea class="min-h-5 my-0 resize-none" style="margin: 11px 0 !important; padding: 0 !important;"
+                       [rows]="1" matInput #messageInput name="message" ngModel></textarea>
+               </mat-form-field>
+               <div class="flex items-center h-11 my-px ml-4">
+                   <button type="submit" mat-icon-button>
+                       <mat-icon class="rotate-90" [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
+                   </button>
+               </div>
+           </div>
+
+       </form>
+   </div>
