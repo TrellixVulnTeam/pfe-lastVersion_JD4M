@@ -24,7 +24,7 @@ isMine : false;
   product: Program;
   participants : any[];
   date : Date
-  User : Users;
+  user : Users;
   text = "<i class="+"fas fa-user"+"> </i>"
   myDate = new Date();
 
@@ -35,7 +35,7 @@ isMine : false;
     private productService : ProductsService,
     private tokenStorageService : TokenStorageService,
     private route: ActivatedRoute,private router: Router,
-    private UserService : UsersService,
+    private userService : UsersService,
     
     ) { }
 
@@ -43,6 +43,7 @@ isMine : false;
     this.webSocketService.openWebSocket();
 
     this.product = new Program();
+    console.log ("user",this.userService.getUser(this.tokenStorageService.getUser().id));
   
     this.id = this.route.snapshot.params['id'];
 
@@ -76,14 +77,29 @@ isMine : false;
     })*/
     
     }
-  }
+    this.userService.getUser(this.tokenStorageService.getUser().id
+    ).subscribe((users : Users) => {
+        this.user = users;
+        console.log("user",this.user)
+         
+    }, (error: ErrorEvent) => {
+    })
+    this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
+      this.participants = participants;
+      console.log(this.participants)
+
+    }, (error: ErrorEvent) => {})
+
+  };
+  
+
 
   ngOnDestroy(): void {
     this.webSocketService.closeWebSocket();
   }
 
   sendMessage(sendForm: NgForm) {
-    const chatMessageDto = new ChatMessageDto(this.tokenStorageService.getUser(), sendForm.value.message,this.myDate);
+    const chatMessageDto = new ChatMessageDto(this.user, sendForm.value.message,this.myDate);
     this.webSocketService.sendMessage(chatMessageDto);
     sendForm.controls.message.reset();
     this.productService.addChatToEvent(this.product.id,this.tokenStorageService.getUser().id,chatMessageDto.message).subscribe(data => {

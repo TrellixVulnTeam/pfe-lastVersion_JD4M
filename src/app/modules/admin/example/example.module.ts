@@ -36,6 +36,7 @@ import { ChatsComponent } from './events/chats/chats.component';
 import { ChatComponent } from './chat/chat.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { HomeComponent } from './home/home.component';
+import { CartProfileComponent } from './cart-profile/cart-profile.component';
 
 
 
@@ -58,6 +59,11 @@ const exampleRoutes: Route[] = [
     {
         path     : 'add',
         component: FormsWizardsComponent,
+       
+    },
+    {
+        path     : 'carduser',
+        component: CartProfileComponent,
        
     },
     {
@@ -115,6 +121,7 @@ const exampleRoutes: Route[] = [
         ChatsComponent,
         ChatComponent,
         HomeComponent,
+        CartProfileComponent,
         
     
 
