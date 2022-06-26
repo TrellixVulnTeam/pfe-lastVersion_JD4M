@@ -253,6 +253,7 @@ UserNotif: any;
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
       console.log("data",data)
       this.notif = data; 
+      
 
    
     

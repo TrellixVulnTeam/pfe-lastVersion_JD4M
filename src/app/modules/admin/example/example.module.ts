@@ -61,11 +61,7 @@ const exampleRoutes: Route[] = [
         component: FormsWizardsComponent,
        
     },
-    {
-        path     : 'carduser',
-        component: CartProfileComponent,
-       
-    },
+   
     {
         path     : 'addNew',
         component: AddNewEventComponent,
@@ -95,7 +91,11 @@ const exampleRoutes: Route[] = [
       { path: 'cancel', component: CancelComponent },
       { path: 'success', component: SuccessComponent },
 
-   
+      {
+        path     : 'carduser/:id',
+        component: CartProfileComponent,
+       
+    },
     {
         path     : ':id',
         component: DetailsComponent,

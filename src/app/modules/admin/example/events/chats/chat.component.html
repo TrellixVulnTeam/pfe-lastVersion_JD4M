@@ -1,7 +1,7 @@
    <div class=" lg:overflow-hidden bg-card dark:bg-default">
        <div class="app">
            <div class="header">
-              
+
                <div class="search-bar">
                    <input type="text" placeholder="Search..." />
                </div>
@@ -23,7 +23,8 @@
                </div>
            </div>
            <div class="wrapper">
-            <!----
+
+               <!----
 
                <div class="conversation-area" >
 
@@ -46,50 +47,88 @@
                    <div class="overlay"></div>
                </div>-->
                <div class="conversation-area">
-                <div class="msg " >
-                    <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}" alt="" />
-                    <div class="msg-detail">
-                     <div class="msg-username">{{this.product.organizer.username}}</div>
-                     <div class="msg-content">
-                      <span class="msg-message">Organizer</span>
-                   <!----   <span class="msg-date"></span> -->
-                     </div>
-                    </div>
+                   <div class="   py-8 px-6 md:px-8 border-b">
+
+                       <div>
+                           <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                           <div class="ml-0.5 font-medium text-secondary">
+                               <ng-container *ngIf="participants.length > 0">
+                                   {{participants.length +1}}
+                               </ng-container>
+                               {{participants.length | i18nPlural: {
+                        '=0'   : 'No Participants',
+                        '=1'   : 'participants',
+                        'other': 'Participants'
+                    } }}
+                           </div>
+                       </div>
+                       <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                           <!-- Search -->
+                           <div class="flex-auto">
+                               <mat-form-field
+                                   class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
+                                   <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'">
+                                   </mat-icon>
+                                   <input matInput [formControl]="" [autocomplete]="'off'"
+                                       [placeholder]="'Search contacts'">
+                               </mat-form-field>
+                           </div>
+                           <!-- Add contact button --
+                    <button
+                        class="ml-4"
+                        mat-flat-button
+                        [color]="'primary'"
+                        >
+                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                        <span class="ml-2 mr-1">Add</span>
+                    </button> -->
+                       </div>
                    </div>
-   
-                
-               
-               
-                
-               
-                
-                <div class="msg " *ngFor="let participant of participants">
-                 <img class="msg-profile" src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
-                 <div class="msg-detail">
-                  <div class="msg-username">{{participant.username}}</div>
-                  <div class="msg-content">
-                   <span class="msg-message">Participant</span>
-                   <!--<span class="msg-date"></span> -->
-                  </div>
-                 </div>
-                </div>
-                <button class="add"></button>
-                <div class="overlay"></div>
+                   <div class="msg " [routerLink]="['/events/carduser/',product.organizer.id]">
+                       <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
+                           alt="" />
+                       <div class="msg-detail">
+                           <div class="msg-username">{{this.product.organizer.username}}</div>
+                           <div class="msg-content">
+                               <span class="msg-message">Organizer</span>
+                               <!----   <span class="msg-date"></span> -->
+                           </div>
+                       </div>
+                   </div>
+
+
+
+
+
+
+
+                   <div class="msg " *ngFor="let participant of participants"
+                       [routerLink]="['/events/carduser/',participant.id]" (click)="ShowUserDetails()">
+
+                       <img class="msg-profile" src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
+                       <div class="msg-detail">
+                           <div class="msg-username">{{participant.username}}</div>
+                           <div class="msg-content">
+                               <span class="msg-message">Participant</span>
+                               <!--<span class="msg-date"></span> -->
+                           </div>
+                       </div>
+                   </div>
+                   <button class="add"></button>
+                   <div class="overlay"></div>
                </div>
                <div class="chat-area">
                    <div class="chat-area-header">
                        <div class="chat-area-title">{{product.title}} Group</div>
-                       <div class="chat-area-group" >
-                        <img class="chat-area-profile" 
-                        src="data:image/jpg;base64,{{product.organizer.picture.data}}"
-                        alt="" />
-                           <img class="chat-area-profile" *ngFor="let participant of participants.slice(0,2)"
-                               src="data:image/jpg;base64,{{participant.picture.data}}"
+                       <div class="chat-area-group">
+                           <img class="chat-area-profile" src="data:image/jpg;base64,{{product.organizer.picture.data}}"
                                alt="" />
-                          <div *ngIf="participants.length >2" >
-                            <span>+ {{participants.length -2}}</span>
+                           <img class="chat-area-profile" *ngFor="let participant of participants.slice(0,2)"
+                               src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
+                           <div *ngIf="participants.length >2">
+                               <span>+ {{participants.length -2}}</span>
 
-                          </div>
+                           </div>
                        </div>
                    </div>
                    <div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
@@ -116,23 +155,60 @@
       <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div> -->
                            </div>
 
+                           <div class="flex items-center justify-center my-3 -mx-6 ">
+                               <div class="flex-auto border-b"></div>
+                               <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary"
+                                   *ngIf='EventChat[0].localTime.split("-")[2].split("T")[0] == currentDate.split("-")[2] && EventChat[0].localTime.split("-")[1] == currentDate.split("-")[1] ; else notToday'>
+                                   Today
+                                   <!----    {{myDate | date:  'longDate' }} -->
+                               </div>
+                               <ng-template #notToday>
+                                   <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                       {{EventChat[0].localTime | date:  'longDate'}}
+                                       <!----    {{myDate | date:  'longDate' }} -->
+                                   </div>
+                               </ng-template>
+                               <div class="flex-auto border-b"></div>
+                           </div>
 
 
-                           <li *ngFor="let chat of EventChat">
+
+                           <li *ngFor="let chat of EventChat.slice(1)  ; index as i">
+
+                               <ng-container>
+
+                                   <div class="flex items-center justify-center my-3 -mx-6 "
+                                       *ngIf='EventChat[i+1].localTime.split("-")[2].split("T")[0]!=EventChat[i].localTime.split("-")[2].split("T")[0]'>
+                                       <div class="flex-auto border-b"></div>
+                                       <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary"
+                                           *ngIf='EventChat[i+1].localTime.split("-")[2].split("T")[0] == currentDate.split("-")[2] && EventChat[i+1].localTime.split("-")[1] == currentDate.split("-")[1] ; else notToday'>
+                                           Today
+                                           <!----    {{myDate | date:  'longDate' }} -->
+                                       </div>
+                                       <ng-template #notToday>
+                                           <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                               {{EventChat[i+1].localTime | date:  'longDate'}}
+                                               <!----    {{myDate | date:  'longDate' }} -->
+                                           </div>
+                                       </ng-template>
+                                       <div class="flex-auto border-b"></div>
+                                   </div>
+                               </ng-container>
                                <div class="chat-msg " *ngIf="chat.user.username != username">
-                                   <div class="chat-msg-profile">
-                                       <img class="chat-msg-img"
-                                           src="data:image/jpg;base64,{{chat.user.picture.data}}"
+                                   <div class="chat-msg-profile" *ngIf="EventChat[i+1].user.username == EventChat[i].user.username">
+                                       <span style="font-size:10px ;">{{chat.user.username}}:</span>
+
+                                       <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
                                            alt="" />
 
 
 
-                                       <!----  <h6>{{chat.user.username}}: -->
-                                       <div class="chat-msg-date">{{chat.localTime | date:' h:mm '}}</div>
+                                       <div class="chat-msg-date">{{chat.localTime | date:' h:mm a '}}</div>
                                    </div>
 
                                    <div class="chat-msg-content">
                                        <div class="chat-msg-text">{{chat.message}}</div>
+
 
                                    </div>
 
@@ -143,15 +219,14 @@
                                <!---- date:'MMM dd, h:mm a'-->
 
                                <div class="chat-msg owner " *ngIf="chat.user.username == username">
-                                   <div class="chat-msg-profile">
-                                       <img class="chat-msg-img"
-                                           src="data:image/jpg;base64,{{chat.user.picture.data}}"
+                                   <div class="chat-msg-profile" >
+                                       <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
                                            alt="" />
 
 
 
                                        <!----  <h6>{{chat.user.username}}: -->
-                                       <div class="chat-msg-date">{{chat.localTime | date:' h:mm '}}</div>
+                                       <div class="chat-msg-date">{{chat.localTime | date:' h:mm a'}}</div>
                                    </div>
 
                                    <div class="chat-msg-content">
@@ -167,8 +242,7 @@
                                <div class="chat-msg " *ngIf="chatMessage.user.username != username">
                                    <div class="chat-msg-profile">
                                        <img class="chat-msg-img"
-                                           src="data:image/jpg;base64,{{chatMessage.user.picture.data}}"
-                                           alt="" />
+                                           src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
 
 
 
@@ -190,8 +264,7 @@
                                <div class="chat-msg owner " *ngIf="chatMessage.user.username == username">
                                    <div class="chat-msg-profile">
                                        <img class="chat-msg-img"
-                                           src="data:image/jpg;base64,{{chatMessage.user.picture.data}}"
-                                           alt="" />
+                                           src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
 
 
 
@@ -251,5 +324,5 @@
                </div>
            </div>
        </div>
-   
+
    </div>

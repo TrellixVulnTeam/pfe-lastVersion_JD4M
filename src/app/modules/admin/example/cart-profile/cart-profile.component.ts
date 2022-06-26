@@ -13,6 +13,7 @@ import { UsersService } from 'app/__services/users.service';
 export class CartProfileComponent implements OnInit {
 
   user: Users;
+  id : string; 
   constructor(
     private tokenStorageService : TokenStorageService,
     private route: ActivatedRoute,private router: Router,
@@ -22,13 +23,18 @@ export class CartProfileComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.userService.getUser(this.tokenStorageService.getUser().id
-    ).subscribe((users : Users) => {
-        this.user = users;
-        console.log("user",this.user)
-         
-    }, (error: ErrorEvent) => {
-    })
+ 
+    this.id = this.route.snapshot.params['id'];
+    console.log("id",this.id)
+    this.userService.getUser(this.id
+      ).subscribe((users : Users) => {
+          this.user = users;
+          console.log("userProfile",this.user)
+           
+      }, (error: ErrorEvent) => {
+      })
+
+
   }
 
 }

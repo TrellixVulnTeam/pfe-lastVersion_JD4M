@@ -1,5 +1,8 @@
+import { ContentObserver } from '@angular/cdk/observers';
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatMessageDto } from 'app/models/chatMessageDto';
 import { Program } from 'app/models/Program';
@@ -9,6 +12,8 @@ import { ProductsService } from 'app/__services/products.service';
 import { UsersService } from 'app/__services/users.service';
 import { WebSocketService } from 'app/__services/web-socket-message.service';
 import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
+import moment from 'moment';
+import { CartProfileComponent } from '../../cart-profile/cart-profile.component';
 
 @Component({
   selector: 'app-chat',
@@ -23,23 +28,36 @@ isMine : false;
   id: string;
   product: Program;
   participants : any[];
-  date : Date
+  date : any;
   user : Users;
   text = "<i class="+"fas fa-user"+"> </i>"
   myDate = new Date();
-
+today = false;  
+currentDate : any ;
+day : any;
   EventChat : any;
 
   constructor(public webSocketService: WebSocketService,
     public webSocketNotifService: WebSocketNotifService,
     private productService : ProductsService,
+    
     private tokenStorageService : TokenStorageService,
     private route: ActivatedRoute,private router: Router,
     private userService : UsersService,
+    private _matDialog: MatDialog,
     
     ) { }
 
   ngOnInit(): void {
+    this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
+    console.log(this.currentDate)
+    console.log("CurrentDate",this.currentDate.split("-"));
+    console.log("CurrentDay",this.currentDate.split("-")[2]);
+
+    console.log("CurrentMonth",this.currentDate.split("-")[1]);
+
+    console.log("CurrentYear",this.currentDate.split("-")[0])
+
     this.webSocketService.openWebSocket();
 
     this.product = new Program();
@@ -47,11 +65,24 @@ isMine : false;
   
     this.id = this.route.snapshot.params['id'];
 
+
+    
     this.productService.getchatRoomByEvent(this.id)
     .subscribe(data => {
-      console.log("chat",data)
     
       this.EventChat = data;
+      console.log("chat",this.EventChat)
+      for ( let chat of this.EventChat) {
+          this.day= chat.localTime.split("-")[2];
+        console.log("year",chat.localTime.split("-")[0]);
+        console.log("month",chat.localTime.split("-")[1]);
+        console.log("day",chat.localTime.split("-")[2].split("T")[0]);
+      
+
+      
+
+  }
+
     }, error => console.log(error));
     
     
@@ -77,6 +108,9 @@ isMine : false;
     })*/
     
     }
+    this.date = moment().format("MMM dd, h:mm a");
+    console.log("date",this.myDate)
+
     this.userService.getUser(this.tokenStorageService.getUser().id
     ).subscribe((users : Users) => {
         this.user = users;
@@ -86,7 +120,7 @@ isMine : false;
     })
     this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
       this.participants = participants;
-      console.log(this.participants)
+      console.log("participants",this.participants)
 
     }, (error: ErrorEvent) => {})
 
@@ -106,11 +140,26 @@ isMine : false;
       console.log("data",data)
 
 
+
     }, error => console.log(error));
    
     console.log("h",chatMessageDto);
 
 
+
   }
+
+  ShowUserDetails() {
+    this._matDialog.open(CartProfileComponent, {
+      autoFocus: false,
+      height: '700px',
+
+      
+
+      
+  });
+  }
+
+ 
 }
 
