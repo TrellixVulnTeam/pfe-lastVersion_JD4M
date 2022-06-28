@@ -195,7 +195,7 @@
                                    </div>
                                </ng-container>
                                <div class="chat-msg " *ngIf="chat.user.username != username">
-                                   <div class="chat-msg-profile" *ngIf="EventChat[i+1].user.username == EventChat[i].user.username">
+                                   <div class="chat-msg-profile">
                                        <span style="font-size:10px ;">{{chat.user.username}}:</span>
 
                                        <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
@@ -219,7 +219,7 @@
                                <!---- date:'MMM dd, h:mm a'-->
 
                                <div class="chat-msg owner " *ngIf="chat.user.username == username">
-                                   <div class="chat-msg-profile" >
+                                   <div class="chat-msg-profile">
                                        <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
                                            alt="" />
 

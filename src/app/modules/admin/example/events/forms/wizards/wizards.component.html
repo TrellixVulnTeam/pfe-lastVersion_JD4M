@@ -1,138 +1,140 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="z-10 relative flex flex-col items-center">
+
+    <div class="flex flex-col flex-auto min-w-0">
 
 
 
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
+        <!-- Main -->
+        <div class="flex-auto p-6 sm:p-10">
 
-        <div class="max-w-3xl">
-            <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="max-w-3xl">
+                <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
 
-                <!-- APP TITLE -->
-                <div fxLayout="row" fxLayoutAlign="start center">
+                    <!-- APP TITLE -->
+                    <div fxLayout="row" fxLayoutAlign="start center">
 
-                    <button mat-icon-button *ngIf="submitted  ;else contenu_pas_bon" (click)="clickMethod()"
-                        class="mr-0 mr-sm-16">
-                        <mat-icon>arrow_back</mat-icon>
-                    </button>
-
-                    <ng-template #contenu_pas_bon> <button mat-icon-button class="mr-0 mr-sm-16"
-                            [routerLink]="'/events/list'">
+                        <button mat-icon-button *ngIf="submitted  ;else contenu_pas_bon" (click)="clickMethod()"
+                            class="mr-0 mr-sm-16">
                             <mat-icon>arrow_back</mat-icon>
                         </button>
-                    </ng-template>
+
+                        <ng-template #contenu_pas_bon> <button mat-icon-button class="mr-0 mr-sm-16"
+                                [routerLink]="'/events/list'">
+                                <mat-icon>arrow_back</mat-icon>
+                            </button>
+                        </ng-template>
 
 
 
 
-                </div>
+                    </div>
 
 
 
-                <!-- Horizontal stepper -->
-                <div class="mt-16 mb-8 text-3xl font-bold">Create your own Event</div>
+                    <!-- Horizontal stepper -->
+                    <div class="mt-16 mb-8 text-3xl font-bold">Create your own Event</div>
 
-                <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="horizontalStepperForm">
-                    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
-                        <mat-step [stepControl]="horizontalStepperForm.get('step1')" #horizontalStepperStep1>
-                            <form [formGroupName]="'step1'" (ngSubmit)="onSubmit()">
+                    <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="horizontalStepperForm">
+                        <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+                            <mat-step [stepControl]="horizontalStepperForm.get('step1')" #horizontalStepperStep1>
+                                <form [formGroupName]="'step1'" (ngSubmit)="onSubmit()">
 
-                                <ng-template matStepLabel>Basic information</ng-template>
-                                <p class="my-6 font-medium">
-                                    Fill in your basic information to let us know your preferences
-                                </p>
-                                <div class="flex">
-                                    <mat-form-field class="flex-auto">
-                                        <input matInput [formControlName]="'title'" [placeholder]="'Event title'"
-                                            required [(ngModel)]="event.title">
-                                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:'">
-                                        </mat-icon>
-                                    </mat-form-field>
-                                </div>
-                                <div class="flex flex-col gt-xs:flex-row">
-                                    <mat-form-field class="flex-auto">
-                                        <textarea matInput [formControlName]="'description'"
-                                            [placeholder]="'description'" [rows]="3"
-                                            [(ngModel)]="event.description"></textarea>
-                                        <mat-icon class="icon-size-5" matPrefix
-                                            [svgIcon]="'heroicons_solid:menu-alt-2'">
-                                        </mat-icon>
-                                    </mat-form-field>
+                                    <ng-template matStepLabel>Basic information</ng-template>
+                                    <p class="my-6 font-medium">
+                                        Fill in your basic information to let us know your preferences
+                                    </p>
+                                    <div class="flex">
+                                        <mat-form-field class="flex-auto">
+                                            <input matInput [formControlName]="'title'" [placeholder]="'Event title'"
+                                                required [(ngModel)]="event.title">
+                                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:'">
+                                            </mat-icon>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col gt-xs:flex-row">
+                                        <mat-form-field class="flex-auto">
+                                            <textarea matInput [formControlName]="'description'"
+                                                [placeholder]="'description'" [rows]="3"
+                                                [(ngModel)]="event.description"></textarea>
+                                            <mat-icon class="icon-size-5" matPrefix
+                                                [svgIcon]="'heroicons_solid:menu-alt-2'">
+                                            </mat-icon>
+                                        </mat-form-field>
 
-                                </div>
-                                <div class="flex flex-col gt-xs:flex-row">
-                                    <mat-form-field class="flex-auto">
-                                        <input matInput [formControlName]="'type'" [placeholder]="'Event type'"
-                                            [(ngModel)]="event.type">
-                                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:'">
-                                        </mat-icon>
-                                    </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col gt-xs:flex-row">
+                                        <mat-form-field class="flex-auto">
+                                            <input matInput [formControlName]="'type'" [placeholder]="'Event type'"
+                                                [(ngModel)]="event.type">
+                                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:'">
+                                            </mat-icon>
+                                        </mat-form-field>
 
-                                </div>
-                                <div class="flex flex-col gt-xs:flex-row">
-                                    <mat-form-field class="flex-auto">
-                                        <input matInput [formControlName]="'price'" [placeholder]="'Event price'"
-                                        required  [(ngModel)]="event.prices" >
-                                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:price'">
-                                        </mat-icon>
-                                    </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col gt-xs:flex-row">
+                                        <mat-form-field class="flex-auto">
+                                            <input matInput [formControlName]="'price'" [placeholder]="'Event price'"
+                                                required [(ngModel)]="event.prices">
+                                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:price'">
+                                            </mat-icon>
+                                        </mat-form-field>
 
-                                </div>
-                                <div class="flex justify-end">
-                                    <button class="px-8" mat-flat-button [color]="'primary'"
-                                        [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
-                                        type="button" matStepperNext type="submit" value="Submit">
-                                        Next
-                                    </button>
-                                </div>
-                            </form>
-                        </mat-step>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button class="px-8" mat-flat-button [color]="'primary'"
+                                            [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
+                                            type="button" matStepperNext type="submit" value="Submit">
+                                            Next
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
 
-                        //////////////////////////////////////////////////////////card//////////////////////////::/:
-
-
-                        <mat-step [stepControl]="horizontalStepperForm.get('step2')" #horizontalStepperStep2>
-                            <form (ngSubmit)="onSubmit4()" [formGroupName]="'step2'">
-
-                                <ng-template matStepLabel>Add card</ng-template>
+                            //////////////////////////////////////////////////////////card//////////////////////////::/:
 
 
-                                      <div class="form-row">
+                            <mat-step [stepControl]="horizontalStepperForm.get('step2')" #horizontalStepperStep2>
+                                <form (ngSubmit)="onSubmit4()" [formGroupName]="'step2'">
+
+                                    <ng-template matStepLabel>Add card</ng-template>
+
+
+                                    <div class="form-row">
                                         <label for="card-info">Card Info</label>
                                         <div id="card-info" #cardInfo></div>
-                                    
+
                                         <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
-                                      </div>
-                                    
-
-                               
-
-
-                                <div class="flex justify-end">
-                                  
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                                        matStepperNext type="submit" value="Submit" [disabled]="this.card == null">
-                                        Next
-                                    </button>
-
-                                </div>
-                            </form>
-                        </mat-step>
+                                    </div>
 
 
 
 
 
+                                    <div class="flex justify-end">
 
-                        ///////////////////////////////////////////location////////////////////////////////////////////////::
+                                        <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                                            matStepperNext type="submit" value="Submit" [disabled]="this.card == null">
+                                            Next
+                                        </button>
+
+                                    </div>
+                                </form>
+                            </mat-step>
 
 
 
-                        <mat-step [stepControl]="horizontalStepperForm.get('step3')" #horizontalStepperStep2>
-                            <form (ngSubmit)="onSubmit3()" [formGroupName]="'step3'">
 
-                                <ng-template matStepLabel>Add location</ng-template>
-                                <!---- <p class="my-6 font-medium">
+
+
+                            ///////////////////////////////////////////location////////////////////////////////////////////////::
+
+
+
+                            <mat-step [stepControl]="horizontalStepperForm.get('step3')" #horizontalStepperStep2>
+                                <form (ngSubmit)="onSubmit3()" [formGroupName]="'step3'">
+
+                                    <ng-template matStepLabel>Add location</ng-template>
+                                    <!---- <p class="my-6 font-medium">
                                     You can add more than one location
                                 </p> --
 
@@ -146,104 +148,105 @@
                                         </agm-info-window>
                                     </agm-marker>
                                 </agm-map> -->
-                                <div>
+                                    <div>
 
-                                    <mat-google-maps-autocomplete country="tn"
-                                        (onLocationSelected)="onLocationSelected($event)"
-                                        addressLabelText="Recherche d'adresse" placeholderText="Address"
-                                        invalidErrorText="Adresse invalide" requiredErrorText="Address required">
-                                    </mat-google-maps-autocomplete>
-                                </div>
-
-
-                                <div class="flex justify-end">
-                                    <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
-                                        matStepperPrevious>
-                                        Back
-                                    </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                                        matStepperNext type="submit" value="Submit" [disabled]="eventWithPlace == null">
-                                        Next
-                                    </button>
-
-                                </div>
-                            </form>
-                        </mat-step>
-
-
-
-                        ////////////////////////////////////:::::::image/////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <mat-step [stepControl]="horizontalStepperForm.get('step4')" #horizontalStepperStep3>
-                            <form (ngSubmit)="onSubmit2()" [formGroupName]="'step4'">
-
-                                <ng-template matStepLabel>Add Image</ng-template>
-                                <p class="my-6 font-medium">
-                                    You can add more than one image
-                                </p>
-                                <div class="flex flex-col gt-xs:flex-row">
-                                    <a mat-stroked-button fxFlexAlign="start" color="primary"
-                                        (click)="fileInput.click()">
-                                        <span>Importer</span>
-                                    </a>
-
-                                    <input type="file" multiple="multiple" id="upload-file-input" #fileInput
-                                        (change)="onFileChanged($event)" hidden accept="image/*">
-                                    <div *ngFor="let picture of picture4">
-
-                                        <img class="file-upload-image" [src]="picture" *ngIf="picture"
-                                            alt="your image" />
-                                    </div>
-                                    <div class="drag-text">
-                                        <h4>Or Drag and drop a file</h4>
+                                        <mat-google-maps-autocomplete country="tn"
+                                            (onLocationSelected)="onLocationSelected($event)"
+                                            addressLabelText="Recherche d'adresse" placeholderText="Address"
+                                            invalidErrorText="Adresse invalide" requiredErrorText="Address required">
+                                        </mat-google-maps-autocomplete>
                                     </div>
 
 
-                                </div>
-
-
-                                <div class="flex justify-end">
-                                    <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
-                                        matStepperPrevious>
-                                        Back
-                                    </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                                        matStepperNext type="submit" value="Submit"
-                                        *ngIf="picture4!=Null  ;else contenu_ps_bon">
-                                        Add
-                                    </button>
-                                    <ng-template #contenu_ps_bon>
-
+                                    <div class="flex justify-end">
+                                        <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
+                                            matStepperPrevious>
+                                            Back
+                                        </button>
                                         <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                                            matStepperNext [routerLink]="'/events/list'">
+                                            matStepperNext type="submit" value="Submit"
+                                            [disabled]="eventWithPlace == null">
+                                            Next
+                                        </button>
+
+                                    </div>
+                                </form>
+                            </mat-step>
+
+
+
+                            ////////////////////////////////////:::::::image/////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <mat-step [stepControl]="horizontalStepperForm.get('step4')" #horizontalStepperStep3>
+                                <form (ngSubmit)="onSubmit2()" [formGroupName]="'step4'">
+
+                                    <ng-template matStepLabel>Add Image</ng-template>
+                                    <p class="my-6 font-medium">
+                                        You can add more than one image
+                                    </p>
+                                    <div class="flex flex-col gt-xs:flex-row">
+                                        <a mat-stroked-button fxFlexAlign="start" color="primary"
+                                            (click)="fileInput.click()">
+                                            <span>Importer</span>
+                                        </a>
+
+                                        <input type="file" multiple="multiple" id="upload-file-input" #fileInput
+                                            (change)="onFileChanged($event)" hidden accept="image/*">
+                                        <div *ngFor="let picture of picture4">
+
+                                            <img class="file-upload-image" [src]="picture" *ngIf="picture"
+                                                alt="your image" />
+                                        </div>
+                                        <div class="drag-text">
+                                            <h4>Or Drag and drop a file</h4>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="flex justify-end">
+                                        <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
+                                            matStepperPrevious>
+                                            Back
+                                        </button>
+                                        <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                                            matStepperNext type="submit" value="Submit"
+                                            *ngIf="picture4!=Null  ;else contenu_ps_bon">
                                             Add
                                         </button>
-                                    </ng-template>
+                                        <ng-template #contenu_ps_bon>
 
-                                </div>
-                            </form>
-                        </mat-step>
+                                            <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                                                matStepperNext [routerLink]="'/events/list'">
+                                                Add
+                                            </button>
+                                        </ng-template>
+
+                                    </div>
+                                </form>
+                            </mat-step>
 
 
 
 
 
-                        <!----
+                            <!----
                     <mat-step [formGroupName]="'step3'" [stepControl]="horizontalStepperForm.get('step3')">
                         <ng-template matStepLabel>Notifications</ng-template>
                         <p class="my-6 font-medium">
@@ -310,13 +313,15 @@
                             </button>
                         </div>
                     </mat-step> -->
-                    </mat-horizontal-stepper>
-                </form>
+                        </mat-horizontal-stepper>
+                    </form>
 
 
+
+                </div>
 
             </div>
 
         </div>
-
     </div>
+</div>

@@ -4,18 +4,42 @@
 <!------ Include the above in your HEAD tag ---------->
 
 
-<head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>eCommerce Product Detail</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-
-</head>
-
 <body>
-    <!---->
+
+
+    <!----
+    <mdb-carousel class="carousel slide carousel-fade" [animation]="'fade'">
+        <mdb-carousel-item>
+          <div class="view w-100">
+            <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).webp" alt="First slide">
+            <div class="mask rgba-black-light waves-light" mdbWavesEffect></div>
+          </div>
+          <div class="carousel-caption">
+            <h3 class="h3-responsive">Light mask</h3>
+            <p>First text</p>
+          </div>
+        </mdb-carousel-item>
+        <mdb-carousel-item>
+          <div class="view w-100">
+            <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(6).webp" alt="Second slide">
+            <div class="mask rgba-black-strong waves-light" mdbWavesEffect></div>
+          </div>
+          <div class="carousel-caption">
+            <h3 class="h3-responsive">Strong mask</h3>
+            <p>Secondary text</p>
+          </div>
+        </mdb-carousel-item>
+        <mdb-carousel-item>
+          <div class="view w-100">
+            <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(9).webp" alt="Third slide">
+            <div class="mask rgba-black-slight waves-light" mdbWavesEffect></div>
+          </div>
+          <div class="carousel-caption">
+            <h3 class="h3-responsive">Slight mask</h3>
+            <p>Third text</p>
+          </div>
+        </mdb-carousel-item>
+      </mdb-carousel> -->
 
     <div class="container">
         <button mat-icon-button class="mr-16" [routerLink]="'/events/list'">
@@ -28,14 +52,21 @@
 
                 <mat-tab label="Event Details">
 
+                    <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent"
+                        maxWidth="auto" proportion="35" slides="5" [loop]="true" [hideArrows]="false"
+                        [hideIndicators]="false" [useKeyboard]="true" [useMouseWheel]="false" orientation="ltr">
+                        <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
+                            image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
+                        </mat-carousel-slide>
+                    </mat-carousel>
+                    <div flex flex-col>
+                        <div class="container-fliud">
 
-                    <div class="container-fliud">
-
-                        <div class="wrapper row">
+                            <div class="wrapper row">
 
 
-                            <div class="preview col-md-6">
-
+                                <div class="preview col-md-0.8">
+                                    <!----
                                 <div class="preview-pic tab-content">
                                     <div class="tab-pane active" id="pic-i">
                                         <img src="data:image/jpg;base64,{{product.pics[0].data}}" /></div>
@@ -47,111 +78,115 @@
                                                 src="data:image/jpg;base64,{{picture.data}}" /></a></li>
 
                                 </ul>
-
-                            </div>
-                            <div class="details col-md-6">
-                                <h3 class="product-title">{{product.title}}</h3>
-                                <div class="rating">
-                                    <div class="stars">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <span class="review-no">41 reviews</span>
+                            -->
                                 </div>
-                                <p class="product-description">{{product.description}}.</p>
-                                <h4 class="price" *ngIf="product.price !=null"> price: <span>{{product.price}}</span>
-                                </h4>
-                                <h4 class="price" *ngIf="product.price ===null"> price: <span>{{product.prices}} TN
-                                    </span></h4>
-                                    
 
-                                <p class="vote"><strong>91%</strong> of participants enjoyed this event! <strong>(87
-                                        votes)</strong></p>
-                                <h5 class="sizes">type:
-                                    <span class="size" data-toggle="tooltip" title="small">{{product.type}}</span>
-                                </h5>
-                                <!----
+
+                           
+                            <div class="flex flex-row " style="width: 100%;">
+
+                                <div class="details col-md-6">
+                                    <h3 class="product-title">{{product.title}}</h3>
+                                    <div class="rating">
+                                        <div class="stars">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                        <span class="review-no">41 reviews</span>
+                                    </div>
+                                    <p class="product-description">{{product.description}}.</p>
+                                    <h4 class="price" *ngIf="product.price !=null"> price:
+                                        <span>{{product.price}}</span>
+                                    </h4>
+                                    <h4 class="price" *ngIf="product.price ===null"> price: <span>{{product.prices}} TN
+                                        </span></h4>
+
+
+                                    <p class="vote"><strong>91%</strong> of participants enjoyed this event! <strong>(87
+                                            votes)</strong></p>
+                                    <h5 class="sizes">type:
+                                        <span class="size" data-toggle="tooltip" title="small">{{product.type}}</span>
+                                    </h5>
+                                    <!----
 						<h5 class="colors">colors:
 							<span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
 							<span class="color green"></span>
 							<span class="color blue"></span>
 						</h5> -->
-                                <div class="action">
-                                    <button class="add-to-cart btn btn-default" type="button"
-                                        [routerLink]="['/events/payment/', product.id]">pay {{product.prices}} TN
+                                    <div class="action">
+                                      <!----  <button class="add-to-cart btn btn-default" type="button"
+                                            [routerLink]="['/events/payment/', product.id]">pay {{product.prices}} TN
 
-                                    </button>
-                                    <button class="like btn btn-default" type="button"><span
-                                            class="fa fa-shopping-cart"></span></button>
+                                        </button> -->
+                                        <button class="add-to-cart btn btn-default" type="button"
+                                            [routerLink]="['/events/payment/', product.id]">pay {{product.prices}} TN
+
+                                        </button>
+                                        
+                                        <button class="like btn btn-default" type="button"><span
+                                                class="fa fa-shopping-cart"></span></button>
+                                    </div>
+
                                 </div>
+                                <app-payment></app-payment>
+
+
                             </div>
-                            <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude"
-                                [disableDefaultUI]="false" [zoom]="13">
-                                <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
-                                    [longitude]="product.place.longitude" [label]="product.title">
-                                    <agm-info-window>
-                                        <strong>Info Window! This is a random location</strong>
-                                    </agm-info-window>
-                                </agm-marker>
-                            </agm-map>
                         </div>
+                        <!----
+                        <form (ngSubmit)="onSubmit()">
+
+
+                            <ul>
+                                <li *ngFor="let participant of participants">{{ participant.username }}</li>
+                            </ul>
+                            <button *ngIf="username != product.organizer.username" type="submit"
+                                class="btn btn-success">Reserve</button>
+
+                        </form>
+
+                        <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+
+
+
+                            <button type="submit" class="btn btn-success">Send Notif</button>
+
+                        </form> -->
+
+
                     </div>
-
-                    <form (ngSubmit)="onSubmit()">
-
-
-                        <ul>
-                            <li *ngFor="let participant of participants">{{ participant.username }}</li>
-                        </ul>
-                        <button *ngIf="username != product.organizer.username" type="submit"
-                            class="btn btn-success">Reserve</button>
-
-                    </form>
-
-                    <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
-
-
-                       
-                        <button  type="submit"
-                            class="btn btn-success">Send Notif</button>
-
-                    </form>
-                </mat-tab>
+                    <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude"
+                        [disableDefaultUI]="false" [zoom]="13">
+                        <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
+                            [longitude]="product.place.longitude" [label]="product.title">
+                            <agm-info-window>
+                                <strong>Info Window! This is a random location</strong>
+                            </agm-info-window>
+                        </agm-marker>
+                    </agm-map>
             </div>
-
-            <mat-tab label="Chat">
-
-
-                <!-- ////////////chat////////////// -->
-
-                <app-chat></app-chat>
             </mat-tab>
-        </mat-tab-group>
+    </div>
+
+    <mat-tab label="Chat">
+
+
+        <!-- ////////////chat////////////// -->
+
+        <app-chat></app-chat>
+    </mat-tab>
+    </mat-tab-group>
 
     </div>
 </body>
 
 <!--///////////////////////////// !chat///////////// -->
 
-<div id="academy-course" class="page-layout simple">
-    <div class="center">
 
-        <!-- HEADER -->
-        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
-
-
-
-
-
-            <div>
-                <h2></h2>
-            </div>
-
-        </div>
-        <!----
+<!----
             <div class="product-card">
                 <div class="badge">{{product.type}}</div>
                 <div class="product-tumb" *ngIf="product.pics != null;else contenu_p_bon">
@@ -241,9 +276,8 @@
          </div> -->
 
 
-    </div>
 
-    <!----
+<!----
     # angular
     <h1>Google Maps With AGM</h1>
 
@@ -272,8 +306,3 @@
     </div>
 
 -->
-
-
-
-
-</div>

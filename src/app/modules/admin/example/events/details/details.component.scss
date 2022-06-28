@@ -1,6 +1,16 @@
 
 /*****************globals*************/
+
+
 body {
+
+
+
+    mat-carousel{
+        width: 100%;
+  
+    }
+    
     font-family: 'open sans';
     overflow-x: hidden; }
   
@@ -62,7 +72,14 @@ body {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
-      display: flex; } }
+      display: flex;
+      app-payment {
+        width: 100%;
+        height: 200px;
+      }
+
+      
+    } }
   
   .details {
     display: -webkit-box;
@@ -163,7 +180,7 @@ body {
               transform: scale(1); } }
               agm-map {
                 height: 500px;
-                width: 300px;
+                width: 70%;
               }
               
               .container {
@@ -493,6 +510,10 @@ body {
             width: 600px;
             padding: 3rem 3.5rem;
             box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+
+         
+            
+            
         }
 
         .mt-50 {
@@ -514,6 +535,8 @@ body {
             .card {
                 width: 90%;
                 padding: 8vh
+
+                
             }
         }
 
@@ -1047,6 +1070,7 @@ body{
     }
     
     .details{
+        margin-top: 40px;
     width:35%;
     position:absolute;
     top:0;
@@ -1317,3 +1341,4 @@ body{
     .rating-box .rating-container label:hover, .rating-box .rating-container label:hover ~ label, .rating-box .rating-container input:checked ~ label {
     color: gold;
     }
+    

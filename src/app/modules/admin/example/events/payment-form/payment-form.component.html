@@ -1,0 +1,107 @@
+
+<div id="academy-course" class="page-layout simple" style="width: 60%;">
+
+
+    <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+        {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+    </button>
+    <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
+        proportion="35" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
+        [useMouseWheel]="false" orientation="ltr">
+        <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
+            image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
+        </mat-carousel-slide>
+    </mat-carousel>
+    <mat-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Fill out your personal information</ng-template>
+
+                <form>
+                    <p>
+                        <label for='fullName'>Mobile*: </label>
+                        <input type='text' id='fullName' name='fullName' placeholder='Mobile ' />
+                    </p>
+                    <p>
+                        <label for='email'>Email Address*: </label>
+                        <input type='text' id='email' name='email' placeholder='{{user.email}} ' />
+                    </p>
+                    <p>
+                        <label for="tourPackage"> Number of persons*: </label>
+                        <select >
+                            <option *ngFor="let number of [1,2,3,4,5]" value="number"> {{number }}</option>
+                            
+                        </select>
+                    </p>
+                    <p>
+                        <label for="arrivalDate">Arrival date*: </label>
+                        <input type="date" id="arrivalDate" name="arrivalDate" />
+                    </p>
+                    
+                    <p class='paddingTop'>
+                        <label for="avail"> Payment type* </label>
+                        <input type="radio" class="custom-control-input" id="defaultChecked2" name="defaultExample2" checked mdbInput  value="Credit cards.
+                        "> Credit cards.
+
+                        <input type="radio" class="custom-control-input" id="defaultChecked2" name="defaultExample2" checked mdbInput  value="Cash.
+                        "> Cash.
+
+                    </p>
+                    <p>
+                        <label for="coupon"> Discount coupon code: </label>
+                        <input type="text" name="coupon" placeholder="UNKNOWN_TYPE" />
+                    </p>
+                    <p class='paddingTop'>
+                        <label for="terms"> Terms and conditions* </label>
+                        <input type="radio" class="radio" name="terms" value="Iagree"> I agree
+                        <input type="radio" class="radio" name="terms" value="Idisagree"> I disagree
+                    </p>
+                    <p>
+                        <button type="button"> Complete reservation </button>
+                    </p>
+
+                </form>
+
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" label="Fill out your card information">
+            <form [formGroup]="secondFormGroup" style="width: 100%;">
+
+                <app-payment></app-payment>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>You are now done.</p>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+
+
+
+
+</div>
+
+
+
+<!----  <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+    <div class="form-row">
+      <label for="card-info">Card Info</label>
+      <div class="card-info" #cardInfo></div>
+  
+      <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+    </div>
+  
+    <button type="submit">Pay {{product.prices}} TN</button>
+  </form>
+  -->

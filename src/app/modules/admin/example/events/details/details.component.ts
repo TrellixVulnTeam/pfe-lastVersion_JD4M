@@ -91,6 +91,8 @@ UserNotif: any;
     label: 'your place',
   }, ];
 
+ 
+
   ////////////////stripe ///////////////////
 
   async pay(): Promise < void > {
