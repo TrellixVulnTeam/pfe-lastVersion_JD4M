@@ -8,4 +8,56 @@
     
 
 }
+.msg {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    &:hover {
+     background-color: var(--msg-hover-bg);
+    }
+    &.active {
+     background: var(--active-conversation-bg);
+     border-left: 4px solid var(--theme-color);
+    }
+    &.online:before {
+     content: "";
+     position: absolute;
+     background-color: #23be7e;
+     width: 9px;
+     height: 9px;
+     border-radius: 50%;
+     border: 2px solid var(--theme-bg-color);
+     left: 50px;
+     bottom: 19px;
+    }
+    
+   }
+   .msg-username {
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 15px;
+   }
+   
+   
+   .msg-profile {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    &.group {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: var(--border-color);
+   
+     svg {
+      width: 60%;
+     }
+    }
+   }
+
 

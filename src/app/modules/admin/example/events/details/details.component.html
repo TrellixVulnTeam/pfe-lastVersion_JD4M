@@ -158,7 +158,7 @@
 
 
                     </div>
-                    <agm-map [latitude]="product.place.latitude" [longitude]="product.place.longitude"
+                    <agm-map *ngIf="product.place!=null" [latitude]="product.place.latitude" [longitude]="product.place.longitude"
                         [disableDefaultUI]="false" [zoom]="13">
                         <agm-marker *ngFor="let a of markers; let b = index" [latitude]="product.place.latitude"
                             [longitude]="product.place.longitude" [label]="product.title">
@@ -171,7 +171,7 @@
             </mat-tab>
     </div>
 
-    <mat-tab label="Chat">
+    <mat-tab label="Chat" >
 
 
         <!-- ////////////chat////////////// -->

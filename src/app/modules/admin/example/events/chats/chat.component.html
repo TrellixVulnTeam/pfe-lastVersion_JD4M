@@ -1,5 +1,5 @@
-   <div class=" lg:overflow-hidden bg-card dark:bg-default">
-       <div class="app" >
+   <div class=" lg:overflow-hidden bg-card dark:bg-default" >
+       <div class="app">
            <div class="header">
 
                <div class="search-bar">
@@ -46,7 +46,7 @@
                    <button class="add"></button>
                    <div class="overlay"></div>
                </div>-->
-               <div class="conversation-area" *ngIf="participants.length != 0 ; else NoParticipant">
+               <div class="conversation-area" *ngIf="participants != null ; else NoParticipant">
                    <div class="   py-8 px-6 md:px-8 border-b">
 
                        <div>
@@ -55,9 +55,7 @@
                                <ng-container *ngIf="participants.length > 0">
                                    {{participants.length +1}}
                                </ng-container>
-                               <ng-container *ngIf="participants.length == 0">
-                                   No Participants
-                               </ng-container>
+                               
                                {{participants.length | i18nPlural: {
                         '=0'   : 'No Participants',
                         '=1'   : 'participants',
@@ -87,7 +85,7 @@
                     </button> -->
                        </div>
                    </div>
-                   <div class="msg " [routerLink]="['/events/carduser/',product.organizer.id]">
+                   <div class="msg " *ngIf="product.organizer!=null" [routerLink]="['/events/carduser/',product.organizer.id]">
                        <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
                            alt="" />
                        <div class="msg-detail">
@@ -122,31 +120,31 @@
                </div>
 
                <ng-template #NoParticipant>
-                <div class="conversation-area" >
-                    <div class="   py-8 px-6 md:px-8 border-b">
- 
-                        <div>
-                            <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
-                            <div class="ml-0.5 font-medium text-secondary">
-                               
-                                <ng-container *ngIf="participants.length == 0">
-                                    No Participants
-                                </ng-container>
-                               
-                            </div>
-                        </div>
-                        <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
-                            <!-- Search -->
-                            <div class="flex-auto">
-                                <mat-form-field
-                                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
-                                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'">
-                                    </mat-icon>
-                                    <input matInput [formControl]="" [autocomplete]="'off'"
-                                        [placeholder]="'Search contacts'">
-                                </mat-form-field>
-                            </div>
-                            <!-- Add contact button --
+                   <div class="conversation-area">
+                       <div class="   py-8 px-6 md:px-8 border-b">
+
+                           <div>
+                               <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                               <div class="ml-0.5 font-medium text-secondary">
+
+                                   <ng-container *ngIf="participants.length == 0">
+                                       No Participants
+                                   </ng-container>
+
+                               </div>
+                           </div>
+                           <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                               <!-- Search -->
+                               <div class="flex-auto">
+                                   <mat-form-field
+                                       class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
+                                       <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'">
+                                       </mat-icon>
+                                       <input matInput [formControl]="" [autocomplete]="'off'"
+                                           [placeholder]="'Search contacts'">
+                                   </mat-form-field>
+                               </div>
+                               <!-- Add contact button --
                      <button
                          class="ml-4"
                          mat-flat-button
@@ -155,37 +153,37 @@
                          <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                          <span class="ml-2 mr-1">Add</span>
                      </button> -->
-                        </div>
-                    </div>
-                    <div class="msg " [routerLink]="['/events/carduser/',product.organizer.id]">
-                        <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
-                            alt="" />
-                        <div class="msg-detail">
-                            <div class="msg-username">{{this.product.organizer.username}}</div>
-                            <div class="msg-content">
-                                <span class="msg-message">Organizer</span>
-                                <!----   <span class="msg-date"></span> -->
-                            </div>
-                        </div>
-                    </div>
- 
- 
- 
- 
- 
- 
- 
-                 
-                    <button class="add"></button>
-                    <div class="overlay"></div>
-                </div>
+                           </div>
+                       </div>
+                       <div class="msg " [routerLink]="['/events/carduser/',product.organizer.id]" *ngIf="product.organizer !=null">
+                           <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
+                               alt="" />
+                           <div class="msg-detail">
+                               <div class="msg-username">{{this.product.organizer.username}}</div>
+                               <div class="msg-content">
+                                   <span class="msg-message">Organizer</span>
+                                   <!----   <span class="msg-date"></span> -->
+                               </div>
+                           </div>
+                       </div>
+
+
+
+
+
+
+
+
+                       <button class="add"></button>
+                       <div class="overlay"></div>
+                   </div>
                </ng-template>
 
                <div class="chat-area">
                    <div class="chat-area-header" *ngIf="participants !=null ; else 0Participant">
                        <div class="chat-area-title">{{product.title}} Group</div>
                        <div class="chat-area-group">
-                           <img class="chat-area-profile" src="data:image/jpg;base64,{{product.organizer.picture.data}}"
+                           <img class="chat-area-profile" *ngIf="product.organizer!=null" src="data:image/jpg;base64,{{product.organizer.picture.data}}"
                                alt="" />
                            <img class="chat-area-profile" *ngFor="let participant of participants.slice(0,2)"
                                src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
