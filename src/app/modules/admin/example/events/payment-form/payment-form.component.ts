@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatRadioButton } from '@angular/material/radio';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Program } from 'app/models/Program';
 import { Users } from 'app/models/Users';
@@ -16,13 +17,16 @@ export class PaymentFormComponent implements OnInit {
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
+    defaultChecked2 : [''],
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
   });
+  creditCard = false;
   isLinear = false;
   id : string;
   user : Users;
+value : any;
   product : Program;
   stripe;
   loading = false;
@@ -43,8 +47,7 @@ export class PaymentFormComponent implements OnInit {
     ngOnInit(): void
     {
         // Subscribe to courses
-      
-  
+           console.log("vale",this.value);
             this.id = this.route.snapshot.params['id'];
             
             this.productService.getProduct(this.id)
@@ -71,5 +74,8 @@ export class PaymentFormComponent implements OnInit {
                  
             }, (error: ErrorEvent) => {
             })
+           
+
         }
+        
 }

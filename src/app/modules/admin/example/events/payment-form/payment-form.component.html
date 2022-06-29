@@ -1,26 +1,28 @@
 
-<div id="academy-course" class="page-layout simple" style="width: 60%;">
+<div id="payment-form" class="page-layout simple" style="width: 100%;">
 
 
     <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
         {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
     </button>
-    <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
-        proportion="35" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
+    <mat-carousel  timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
+        proportion="25" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
         [useMouseWheel]="false" orientation="ltr">
         <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
             image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
         </mat-carousel-slide>
     </mat-carousel>
-    <mat-stepper [linear]="isLinear" #stepper>
+    <!--[linear]="isLinear"-->
+    <mat-stepper [linear]="isLinear"  #stepper>
         <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
+            <form [formGroup]="firstFormGroup " >
                 <ng-template matStepLabel>Fill out your personal information</ng-template>
 
                 <form>
                     <p>
                         <label for='fullName'>Mobile*: </label>
-                        <input type='text' id='fullName' name='fullName' placeholder='Mobile ' />
+                        <input type='text' id='mobile' name='mobile' placeholder='Mobile ' required>
+                        
                     </p>
                     <p>
                         <label for='email'>Email Address*: </label>
@@ -40,34 +42,33 @@
                     
                     <p class='paddingTop'>
                         <label for="avail"> Payment type* </label>
-                        <input type="radio" class="custom-control-input" id="defaultChecked2" name="defaultExample2" checked mdbInput  value="Credit cards.
-                        "> Credit cards.
-
-                        <input type="radio" class="custom-control-input" id="defaultChecked2" name="defaultExample2" checked mdbInput  value="Cash.
-                        "> Cash.
-
+                        <mat-radio-group aria-label="Select an option" name="payment"  ngModel #payment="ngModel" required >
+                            <mat-radio-button value="1"    >credit Card</mat-radio-button>
+                            <mat-radio-button value="2" >cash</mat-radio-button>
+                          </mat-radio-group >
                     </p>
                     <p>
                         <label for="coupon"> Discount coupon code: </label>
-                        <input type="text" name="coupon" placeholder="UNKNOWN_TYPE" />
+                        <input type="text" name="coupon" placeholder="Discount code" />
                     </p>
                     <p class='paddingTop'>
                         <label for="terms"> Terms and conditions* </label>
-                        <input type="radio" class="radio" name="terms" value="Iagree"> I agree
-                        <input type="radio" class="radio" name="terms" value="Idisagree"> I disagree
+                        <mat-radio-group aria-label="Select an option" name="terms" ngModel #terms="ngModel">
+                            <mat-radio-button value="1">I agree</mat-radio-button>
+                            <mat-radio-button value="2">I disagree</mat-radio-button>
+                          </mat-radio-group>
                     </p>
-                    <p>
-                        <button type="button"> Complete reservation </button>
-                    </p>
+                   
 
                 </form>
 
                 <div>
-                    <button mat-button matStepperNext>Next</button>
+                    <button mat-button matStepperNext  [disabled]="terms.value != 1 " 
+                    >Next</button>
                 </div>
             </form>
         </mat-step>
-        <mat-step [stepControl]="secondFormGroup" label="Fill out your card information">
+        <mat-step [stepControl]="secondFormGroup" label="Fill out your card information" *ngIf="payment.value ==1 " >
             <form [formGroup]="secondFormGroup" style="width: 100%;">
 
                 <app-payment></app-payment>

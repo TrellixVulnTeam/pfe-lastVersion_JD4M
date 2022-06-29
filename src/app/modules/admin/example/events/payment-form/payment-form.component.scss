@@ -1,9 +1,13 @@
 @import "src/@fuse/scss/fuse";
 
-#academy-course {
+#payment-form {
    width : 50%;
 
   .mat-stepper-horizontal {
+    .mat-radio-button ~ .mat-radio-button {
+      margin-left: 16px;
+    }
+    
 
    
 
@@ -37,7 +41,7 @@ input[type=text], select, input[type=date]{
 }
 label {
   width: 30%;
-  text-align: right;
+  text-align: center;
   padding: 0 2% 0 5%;
 }
 button{
@@ -64,8 +68,7 @@ input:focus {
   
 
 
-    width : 50%;
-    height : 500px;
+    
 form.checkout {
 .form-row {
   flex-direction: row;
@@ -75,11 +78,9 @@ form.checkout {
 
 
     max-width: 20000px;
-    margin: 2rem auto;
     text-align: center;
     border: 2px solid #eee;
-    border-radius: 8px;
-    padding: 1rem 2rem;
+    border-radius: 20px;
     background: white;
   
     font-family: monospace;
