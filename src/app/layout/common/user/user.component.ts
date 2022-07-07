@@ -4,8 +4,8 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
-import { UsersService } from 'app/__services/users.service';
-import { TokenStorageService } from 'app/__services/ token-storage.service';
+import { UsersService } from 'app/__services/user_services/users.service';
+import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 
 @Component({
     selector       : 'user',

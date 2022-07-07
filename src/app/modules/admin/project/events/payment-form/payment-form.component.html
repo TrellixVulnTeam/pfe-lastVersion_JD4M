@@ -1,0 +1,213 @@
+<div id="payment-form" class="page-layout simple" style="width: 100%;">
+
+
+    <button mat-raised-button (click)="isLinear = !isLinear " id="toggle-linear">
+        {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+    </button>
+    <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
+        proportion="25" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
+        [useMouseWheel]="false" orientation="ltr">
+        <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
+            image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
+        </mat-carousel-slide>
+    </mat-carousel>
+    <!--[linear]="isLinear"-->
+    <mat-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup ">
+                <ng-template matStepLabel>Fill out your personal information</ng-template>
+
+                <form>
+                    <p>
+                        <label for='fullName'>Mobile*: </label>
+                        <input type='text' id='mobile' name='mobile' placeholder='Mobile ' required>
+
+                    </p>
+                    <p>
+                        <label for='email'>Email Address*: </label>
+                        <input type='text' id='email' name='email' placeholder='{{user.email}} ' />
+                    </p>
+                    <p>
+                        <label for="tourPackage"> Number of persons*: </label>
+                        <select name="number" (change)="selectChangeHandler($event)">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+
+
+
+                        <p class='paddingTop'>
+                            <label for="avail"> Payment type* </label>
+                            <mat-radio-group aria-label="Select an option" name="payment" ngModel #payment="ngModel"
+                                required style="margin-left: 110px ;">
+                                <mat-radio-button value="1">credit Card</mat-radio-button>
+                                <mat-radio-button value="2">cash</mat-radio-button>
+                            </mat-radio-group>
+                        </p>
+                        <p>
+                            <label for="coupon"> Discount coupon code: </label>
+                            <input type="text" name="coupon" placeholder="Discount code" />
+                        </p>
+                        <p class='paddingTop'>
+                            <label for="terms"> Terms and conditions* </label>
+                            <mat-radio-group aria-label="Select an option" name="terms" ngModel #terms="ngModel"
+                                style="margin-left: 110px ;">
+                                <mat-radio-button value="1">I agree</mat-radio-button>
+                                <mat-radio-button value="2">I disagree</mat-radio-button>
+                            </mat-radio-group>
+                        </p>
+
+
+                </form>
+
+                <div>
+                    <button mat-button matStepperNext [disabled]="terms.value != 1 ">Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <!-------------step2---------->
+        <mat-step [stepControl]="secondFormGroup" label="Fill out your card information" *ngIf="payment.value ==1 ">
+            <form [formGroup]="secondFormGroup">
+
+                <app-payment (newItemEvent)="getIsReserved($event)" [selectedOption]="selectedOption"></app-payment>
+                <!----
+                              <button  id="PayButton" class="btn btn-block btn-success submit-button" type="submit">
+                                  <span class="submit-button-lock"></span>
+                                  <span class="align-middle">Pay {{product.prices}} TN</span>
+                              </button> -->
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="IsReserved ==false">Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step >
+            <ng-template matStepLabel>Done</ng-template>
+
+        
+                <div class="mt-16"  *ngIf="payment.value == 2" >
+                    <div class="font-medium" class="gallary-header text-center" >Please pay within 2 days. Thank you for choosing us.</div>
+                    <div class="flex items-start mt-4">
+                       
+                        <div class="ml-6 text-sm text-secondary">
+                            In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque scelerisque lacus sed feugiat fermentum.
+                            Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus dapibus. Etiam at felis volutpat est mollis lacinia.
+                            Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero tincidunt lacinia et eget.
+                        </div>
+                    </div>
+                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                    matStepperPrevious >
+                    Back
+                </button>
+                <button (click)="AddPendingParticipant()" class="px-8" mat-flat-button [color]="'primary'" type="button"
+                matStepperNext >
+                Done
+            </button>
+                </div>
+
+
+
+            <!-- Main -->
+            <div class="inline-block p-6 sm:p-10 text-left print:p-0" *ngIf="this.IsReserved">
+
+                <!-- Invoice -->
+                <div
+                    class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent">
+
+                    <div class="flex items-start">
+                        <div class="grid grid-rows-2 place-items-start gap-y-12">
+                            <div class="grid auto-cols-max grid-flow-col gap-x-8">
+                                <div class="place-self-center w-24">
+                                    <!--<img
+                                class="w-24"
+                                src="https://cdn.pixabay.com/photo/2019/05/21/19/44/camping-4219962__340.png"> -->
+                                    <div class="place-self-center w-24 text-center text-2xl text-secondary">
+                                        Tunisia Here We Go
+                                    </div>
+                                </div>
+                                <div class="pl-10 border-l text-md">
+                                    <div class="font-medium">Tunisia Here We Go.</div>
+                                    <div>Sousse,Tunisia</div>
+                                    <div>+6216 51 106 135</div>
+                                    <div>takwa.benabdessalem@eniso.u-sousse.tn</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div class="grid auto-cols-max grid-flow-col gap-x-8">
+                                <div class="place-self-center w-24 text-center text-2xl text-secondary">
+                                    Bill To
+                                </div>
+                                <div class="pl-10 border-l text-md">
+                                    <div class="font-medium">{{product.organizer.username}}</div>
+                                    <div>Tunisia</div>
+                                    <div>+55 552 455 87</div>
+                                    <div>{{product.organizer.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                            <div class="justify-self-end text-4xl tracking-tight text-secondary">INVOICE</div>
+                            <div class="text-4xl">{{product.title}}</div>
+                            <div class="justify-self-end font-medium tracking-tight text-secondary"> DATE</div>
+                            <div class="font-medium">{{currentDate | date:  'longDate' }} </div>
+
+                            <div class="justify-self-end font-medium tracking-tight text-secondary">TOTAL DUE</div>
+                            <div class="font-medium" *ngIf="selectedOption == null ">{{product.prices}} TN</div>
+                            <div class="font-medium" *ngIf="selectedOption != null ">{{product.prices * selectedOption}}
+                                TN</div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="mt-16">
+                        <div class="font-medium"> Thank you for your trust.</div>
+                        <div class="flex items-start mt-4">
+                            <img class="flex-0 w-10 mt-2" src="">
+                            <div class="ml-6 text-sm text-secondary">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                matStepperPrevious >
+                Back
+            </button>
+            <button routerLink="/events/list" class="px-8" mat-flat-button [color]="'primary'" type="button"
+            matStepperNext >
+            Done
+        </button>
+            </div>
+
+
+               
+
+            
+        </mat-step>
+    </mat-stepper>
+
+
+
+
+</div>
+
+
+
+<!----  <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+    <div class="form-row">
+      <label for="card-info">Card Info</label>
+      <div class="card-info" #cardInfo></div>
+  
+      <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+    </div>
+  
+    <button type="submit">Pay {{product.prices}} TN</button>
+  </form>
+  -->

@@ -7,10 +7,10 @@ import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
-import { UsersService } from 'app/__services/users.service';
-import { TokenStorageService } from 'app/__services/ token-storage.service';
+import { UsersService } from 'app/__services/user_services/users.service';
+import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 import { Users } from 'app/models/Users';
-import { WebSocketNotifService } from 'app/__services/web-socket-notif.service';
+import { WebSocketNotifService } from 'app/__services//Event_services/web-socket-notif.service';
 
 @Component({
     selector     : 'classy-layout',
@@ -85,6 +85,13 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             console.log("email",this.users.email)
             
               })
+              this.userService.getUser(this.tokenStorageService.getUser().id
+              ).subscribe((users : Users) => {
+                  this.users = users;
+                  console.log("user",this.users)
+                   
+              }, (error: ErrorEvent) => {
+              })
         }
         // Subscribe to navigation data
         this._navigationService.navigation$
@@ -99,13 +106,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             .subscribe((user: User) => {
                 this.user = user;
             });
-            this.userService.getUser(this.tokenStorageService.getUser().id
-            ).subscribe((users : Users) => {
-                this.users = users;
-                console.log("user",this.users)
-                 
-            }, (error: ErrorEvent) => {
-            })
+         
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))

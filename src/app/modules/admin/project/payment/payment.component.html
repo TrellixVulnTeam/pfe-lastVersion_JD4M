@@ -1,0 +1,46 @@
+<div id="academy-course" class="page-layout simple" *ngIf="product.prices!=null">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <div id="Checkout" class="inline">
+
+        <h1>Pay Invoice</h1>
+        <div class="card-row">
+            <span class="visa"></span>
+            <span class="mastercard"></span>
+            <span class="amex"></span>
+            <span class="discover"></span>
+        </div>
+        <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+          <div class="form-row" >
+            <label for="card-info">Card Info</label>
+             
+            <div class="card-info" style="padding: 30px;" #cardInfo></div>
+        
+            <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+          </div>
+        
+         <button   type="submit" *ngIf="selectedOption !=null ">Pay {{product.prices * selectedOption}} TN</button>
+         <button  type="submit" *ngIf="selectedOption ==null ">Pay {{product.prices }} TN</button>
+
+        </form>
+      <!----
+            <button  id="PayButton" class="btn btn-block btn-success submit-button" type="submit">
+                <span class="submit-button-lock"></span>
+                <span class="align-middle">Pay {{product.prices}} TN</span>
+            </button> -->
+  </div>
+</div>
+
+
+
+<!----  <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+  <div class="form-row">
+    <label for="card-info">Card Info</label>
+    <div class="card-info" #cardInfo></div>
+
+    <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+  </div>
+
+  <button type="submit">Pay {{product.prices}} TN</button>
+</form>
+-->

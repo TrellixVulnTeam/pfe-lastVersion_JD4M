@@ -1,0 +1,493 @@
+<div class=" lg:overflow-hidden bg-card dark:bg-default" >
+    <div class="app">
+        <div class="header">
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." />
+            </div>
+            <div class="user-settings">
+                <div class="dark-light">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                </div>
+                <div class="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+        <div class="wrapper">
+
+            <!----
+
+            <div class="conversation-area" >
+
+
+
+
+
+                <div class="msg"*ngFor="let participant of participants">
+                    <img class="msg-profile"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%286%29.png" alt="" />
+                    <div class="msg-detail">
+                        <div class="msg-username">{{participant.username}}</div>
+                        <div class="msg-content">
+                            <!----  <span class="msg-message">Migas food truck crucifix vexi</span>
+                            <span class="msg-date">42m</span> --
+                        </div>
+                    </div>
+                </div> 
+                <button class="add"></button>
+                <div class="overlay"></div>
+            </div>-->
+            <div class="conversation-area" *ngIf="participants != null ; else NoParticipant">
+                <div class="   py-8 px-6 md:px-8 border-b">
+
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                        <div class="ml-0.5 font-medium text-secondary">
+                            <ng-container *ngIf="participants.length > 0">
+                                {{participants.length +1}}
+                            </ng-container>
+                            
+                            {{participants.length | i18nPlural: {
+                     '=0'   : 'No Participants',
+                     '=1'   : 'participants',
+                     'other': 'Participants'
+                 } }}
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                        <!-- Search -->
+                        <div class="flex-auto">
+                            <mat-form-field
+                                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
+                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'">
+                                </mat-icon>
+                                <input matInput [formControl]="" [autocomplete]="'off'"
+                                    [placeholder]="'Search contacts'">
+                            </mat-form-field>
+                        </div>
+                        <!-- Add contact button --
+                 <button
+                     class="ml-4"
+                     mat-flat-button
+                     [color]="'primary'"
+                     >
+                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                     <span class="ml-2 mr-1">Add</span>
+                 </button> -->
+                    </div>
+                </div>
+                <div class="msg " *ngIf="product.organizer!=null" [routerLink]="['/events/carduser/',product.organizer.id]">
+                    <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
+                        alt="" />
+                    <div class="msg-detail">
+                        <div class="msg-username">{{this.product.organizer.username}}</div>
+                        <div class="msg-content">
+                            <span class="msg-message">Organizer</span>
+                            <!----   <span class="msg-date"></span> -->
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="msg " *ngFor="let participant of participants"
+                    [routerLink]="['/events/carduser/',participant.id]" (click)="ShowUserDetails()">
+
+                    <img class="msg-profile" src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
+                    <div class="msg-detail">
+                        <div class="msg-username">{{participant.username}}</div>
+                        <div class="msg-content">
+                            <span class="msg-message">Participant</span>
+                            <!--<span class="msg-date"></span> -->
+                        </div>
+                    </div>
+                </div>
+                <button class="add"></button>
+                <div class="overlay"></div>
+            </div>
+
+            <ng-template #NoParticipant>
+                <div class="conversation-area">
+                    <div class="   py-8 px-6 md:px-8 border-b">
+
+                        <div>
+                            <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                            <div class="ml-0.5 font-medium text-secondary">
+
+                                <ng-container >
+                                    No Participants
+                                </ng-container>
+
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                            <!-- Search -->
+                            <div class="flex-auto">
+                                <mat-form-field
+                                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
+                                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'">
+                                    </mat-icon>
+                                    <input matInput [formControl]="" [autocomplete]="'off'"
+                                        [placeholder]="'Search contacts'">
+                                </mat-form-field>
+                            </div>
+                            <!-- Add contact button --
+                  <button
+                      class="ml-4"
+                      mat-flat-button
+                      [color]="'primary'"
+                      >
+                      <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                      <span class="ml-2 mr-1">Add</span>
+                  </button> -->
+                        </div>
+                    </div>
+                    <div class="msg " [routerLink]="['/events/carduser/',product.organizer.id]" *ngIf="product.organizer !=null">
+                        <img class="msg-profile" src="data:image/jpg;base64,{{this.product.organizer.picture.data}}"
+                            alt="" />
+                        <div class="msg-detail">
+                            <div class="msg-username">{{this.product.organizer.username}}</div>
+                            <div class="msg-content">
+                                <span class="msg-message">Organizer</span>
+                                <!----   <span class="msg-date"></span> -->
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <button class="add"></button>
+                    <div class="overlay"></div>
+                </div>
+            </ng-template>
+
+            <div class="chat-area">
+                <div class="chat-area-header" *ngIf="participants !=null ; else 0Participant">
+                    <div class="chat-area-title">{{product.title}} Group</div>
+                    <div class="chat-area-group">
+                        <img class="chat-area-profile" *ngIf="product.organizer!=null" src="data:image/jpg;base64,{{product.organizer.picture.data}}"
+                            alt="" />
+                        <img class="chat-area-profile" *ngFor="let participant of participants.slice(0,2)"
+                            src="data:image/jpg;base64,{{participant.picture.data}}" alt="" />
+                        <div *ngIf="participants.length >2">
+                            <span>+ {{participants.length -2}}</span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #0Participant>
+
+                    <div class="chat-area-header">
+                        <div class="chat-area-title">{{product.title}} Group</div>
+                        <div class="chat-area-group">
+                            <img class="chat-area-profile"
+                                src="data:image/jpg;base64,{{product.organizer.picture.data}}" alt="" />
+
+                        </div>
+                    </div>
+
+                </ng-template>
+                <div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
+
+                    <ul class="chat-history " *ngIf="EventChat !=null ; else NoChat">
+
+
+
+                        <!-- Contact info -->
+                        <div class="flex items-center ml-2 lg:ml-0 mr-2 cursor-pointer">
+                            <!----  <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+    <ng-container *ngIf="chat.contact.avatar">
+           <img
+               class="w-full h-full rounded-full object-cover"
+               [src]="chat.contact.avatar"
+               alt="Contact avatar"/>
+       </ng-container>
+       <ng-container *ngIf="!chat.contact.avatar">
+           <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+               {{chat.contact.name.charAt(0)}}
+           </div>
+       </ng-container> --
+   </div>
+   <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div> -->
+                        </div>
+
+                        <div class="flex items-center justify-center my-3 -mx-6 ">
+                            <div class="flex-auto border-b"></div>
+                            <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary"
+                                *ngIf='EventChat[0].localTime.split("-")[2].split("T")[0] == currentDate.split("-")[2] && EventChat[0].localTime.split("-")[1] == currentDate.split("-")[1] ; else notToday'>
+                                Today
+                                <!----    {{myDate | date:  'longDate' }} -->
+                            </div>
+                            <ng-template #notToday>
+                                <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                    {{EventChat[0].localTime | date:  'longDate'}}
+                                    <!----    {{myDate | date:  'longDate' }} -->
+                                </div>
+                            </ng-template>
+                            <div class="flex-auto border-b"></div>
+                        </div>
+
+
+
+                        <li *ngFor="let chat of EventChat.slice(1)  ; index as i">
+
+                            <ng-container>
+
+                                <div class="flex items-center justify-center my-3 -mx-6 "
+                                    *ngIf='EventChat[i+1].localTime.split("-")[2].split("T")[0]!=EventChat[i].localTime.split("-")[2].split("T")[0]'>
+                                    <div class="flex-auto border-b"></div>
+                                    <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary"
+                                        *ngIf='EventChat[i+1].localTime.split("-")[2].split("T")[0] == currentDate.split("-")[2] && EventChat[i+1].localTime.split("-")[1] == currentDate.split("-")[1] ; else notToday'>
+                                        Today
+                                        <!----    {{myDate | date:  'longDate' }} -->
+                                    </div>
+                                    <ng-template #notToday>
+                                        <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                            {{EventChat[i+1].localTime | date:  'longDate'}}
+                                            <!----    {{myDate | date:  'longDate' }} -->
+                                        </div>
+                                    </ng-template>
+                                    <div class="flex-auto border-b"></div>
+                                </div>
+                            </ng-container>
+                            <div class="chat-msg " *ngIf="chat.user.username != username">
+                                <div class="chat-msg-profile">
+                                    <span style="font-size:10px ;">{{chat.user.username}}:</span>
+
+                                    <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
+                                        alt="" />
+
+
+
+                                    <div class="chat-msg-date">{{chat.localTime | date:' h:mm a '}}</div>
+                                </div>
+
+                                <div class="chat-msg-content">
+                                    <div class="chat-msg-text">{{chat.message}}</div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!---- date:'MMM dd, h:mm a'-->
+
+                            <div class="chat-msg owner " *ngIf="chat.user.username == username">
+                                <div class="chat-msg-profile">
+                                    <img class="chat-msg-img" src="data:image/jpg;base64,{{chat.user.picture.data}}"
+                                        alt="" />
+
+
+
+                                    <!----  <h6>{{chat.user.username}}: -->
+                                    <div class="chat-msg-date">{{chat.localTime | date:' h:mm a'}}</div>
+                                </div>
+
+                                <div class="chat-msg-content">
+                                    <div class="chat-msg-text">{{chat.message}}</div>
+
+                                </div>
+
+                            </div>
+                        </li>
+                        <li *ngFor="let chatMessage of webSocketService.chatMessages">
+
+
+                            <div class="chat-msg " *ngIf="chatMessage.user.username != username">
+                                <div class="chat-msg-profile">
+                                    <img class="chat-msg-img"
+                                        src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
+
+
+
+                                    <!----  <h6>{{chat.user.username}}: -->
+                                    <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
+                                </div>
+
+                                <div class="chat-msg-content">
+                                    <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!---- date:'MMM dd, h:mm a'-->
+
+                            <div class="chat-msg owner " *ngIf="chatMessage.user.username == username">
+                                <div class="chat-msg-profile">
+                                    <img class="chat-msg-img"
+                                        src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
+
+
+
+                                    <!----  <h6>{{chat.user.username}}: -->
+                                    <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
+                                </div>
+
+                                <div class="chat-msg-content">
+                                    <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+                    </ul>
+
+                    <ng-template #NoChat>
+
+                        <ul class="chat-history ">
+
+
+
+                            <!-- Contact info -->
+                            <div class="flex items-center ml-2 lg:ml-0 mr-2 cursor-pointer">
+                                <!----  <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+     <ng-container *ngIf="chat.contact.avatar">
+            <img
+                class="w-full h-full rounded-full object-cover"
+                [src]="chat.contact.avatar"
+                alt="Contact avatar"/>
+        </ng-container>
+        <ng-container *ngIf="!chat.contact.avatar">
+            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                {{chat.contact.name.charAt(0)}}
+            </div>
+        </ng-container> --
+    </div>
+    <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div> -->
+                            </div>
+
+                            <div class="flex items-center justify-center my-3 -mx-6 ">
+                                <div class="flex-auto border-b"></div>
+
+                                <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                    {{currentDate | date:  'longDate'}}
+                                    <!----    {{myDate | date:  'longDate' }} -->
+                                </div>
+                                <div class="flex-auto border-b"></div>
+                            </div>
+
+
+
+
+                            <li *ngFor="let chatMessage of webSocketService.chatMessages">
+
+
+                                <div class="chat-msg " *ngIf="chatMessage.user.username != username">
+                                    <div class="chat-msg-profile">
+                                        <img class="chat-msg-img"
+                                            src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
+
+
+
+                                        <!----  <h6>{{chat.user.username}}: -->
+                                        <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
+                                    </div>
+
+                                    <div class="chat-msg-content">
+                                        <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!---- date:'MMM dd, h:mm a'-->
+
+                                <div class="chat-msg owner " *ngIf="chatMessage.user.username == username">
+                                    <div class="chat-msg-profile">
+                                        <img class="chat-msg-img"
+                                            src="data:image/jpg;base64,{{chatMessage.user.picture.data}}" alt="" />
+
+
+
+                                        <!----  <h6>{{chat.user.username}}: -->
+                                        <div class="chat-msg-date">{{chatMessage.date | date:' h:mm '}}</div>
+                                    </div>
+
+                                    <div class="chat-msg-content">
+                                        <div class="chat-msg-text">{{chatMessage.message}}</div>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+                        </ul>
+
+
+
+                    </ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-------------------button--------------------->
+                    <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+
+                        <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
+
+                            <div class="flex items-center h-11 my-px">
+                                <button mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_outline:emoji-happy'"></mat-icon>
+                                </button>
+                                <button class="ml-0.5" mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                </button>
+                            </div>
+                            <mat-form-field
+                                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded fuse-mat-bold w-full ml-4">
+                                <textarea class="min-h-5 my-0 resize-none"
+                                    style="margin: 11px 0 !important; padding: 0 !important;" [rows]="1" matInput
+                                    #messageInput name="message" ngModel></textarea>
+                            </mat-form-field>
+                            <div class="flex items-center h-11 my-px ml-4">
+                                <button type="submit" mat-icon-button>
+                                    <mat-icon class="rotate-90" [svgIcon]="'heroicons_outline:paper-airplane'">
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

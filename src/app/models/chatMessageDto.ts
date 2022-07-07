@@ -2,7 +2,6 @@ export class ChatMessageDto {
     user: any;
     message: string;
     date : Date;
-    countNotif
 
     constructor(user: any, message: string, date : Date){
         this.user = user;

@@ -31,19 +31,19 @@ import {
 } from 'app/layout/common/notifications/notifications.service';
 import {
     UsersService
-} from 'app/__services/users.service';
+} from 'app/__services/user_services/users.service';
 import {
     TokenStorageService
-} from 'app/__services/ token-storage.service';
+} from 'app/__services/user_services/ token-storage.service';
 import {
     WebSocketNotifService
-} from 'app/__services/web-socket-notif.service';
+} from 'app/__services/Event_services/web-socket-notif.service';
 import {
     Program
 } from 'app/models/Program';
 import {
     ProductsService
-} from 'app/__services/products.service';
+} from 'app/__services/Event_services/products.service';
 import {
     ActivatedRoute,
     Router

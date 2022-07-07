@@ -5,8 +5,8 @@ import { MatButton } from '@angular/material/button';
 import { Subject, takeUntil } from 'rxjs';
 import { Message } from 'app/layout/common/messages/messages.types';
 import { MessagesService } from 'app/layout/common/messages/messages.service';
-import { UsersService } from 'app/__services/users.service';
-import { TokenStorageService } from 'app/__services/ token-storage.service';
+import { UsersService } from 'app/__services/user_services/users.service';
+import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 
 @Component({
     selector       : 'messages',
