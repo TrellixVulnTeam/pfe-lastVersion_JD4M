@@ -30,6 +30,7 @@
         "@angular/router": "13.1.1",
         "@fireflysemantics/angular-stripe-service": "^1.0.6",
         "@fireflysemantics/slice": "^15.0.18",
+        "@ngmodule/material-carousel": "^0.6.0",
         "@ngneat/transloco": "3.1.1",
         "@stripe/stripe-js": "^1.31.0",
         "@swimlane/ngx-charts": "^20.1.0",

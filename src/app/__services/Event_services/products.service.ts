@@ -30,7 +30,7 @@ export class ProductsService {
     }
     getPendingProducts () : Observable<Program[]> {
       return this.http.get<Program[]>(`${this.baseUrl}/all/pending`);
-  }A
+  }
     getProduct (id : string) : Observable<Program> {
         return this.http.get<Program>(`${this.baseUrl}/all/${id}`);
     }
@@ -80,6 +80,12 @@ export class ProductsService {
       deleteEvent(id: string): Observable<any> {
         return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
       }
+
+      ChangeStatus(id: string, productId : string): Observable<any> {
+        return this.http.post(`${this.baseUrl}/changeStatus/${id}/pending/${productId}`, { responseType: 'text' });
+      }
+
+
       resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
       {
           return new Promise<void>((resolve, reject) => {

@@ -8,6 +8,8 @@ import { UsersService } from 'app/__services/user_services/users.service';
 @Component({
     selector       : 'settings-team',
     templateUrl    : './team.component.html',
+    styleUrls: ['./team.component.scss'],
+
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -57,18 +59,19 @@ export class SettingsTeamComponent implements OnInit
             this.productService.getPendingProducts().subscribe((products : any[]) => {
                 this.eventPending = products;
             for( let event of this.eventPending) {
-                if(event.event.organizer.id == this.tokenStorageService.getUser().id ) {
+                if(event.event.organizer.username == this.tokenStorageService.getUser().username ) {
                     this.isPending = true ;
 
-                }
+                
             this.productService.getPendingPartcipants(event.event.id).subscribe((users : any[]) => {
              this.participants = users;
              console.log(this.participants)
             })
-     
+        }
+        console.log("eventAdded",this.tokenStorageService.getUser().username)       
+
     }
             this.cdr.markForCheck();     
-            console.log("eventAdded",this.eventsAdded)       
             });
         }
         // Setup the team members
@@ -92,10 +95,21 @@ export class SettingsTeamComponent implements OnInit
                 description: 'Can read, clone, and push to this repository. Can also manage issues, pull requests, and repository settings, including adding collaborators.'
             }
         ];
+
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    changeStatus (id : string,productId : string){
+        this.productService.getPendingProducts().subscribe((products : any[]) => {
+            this.eventPending = products;
+        this.productService.ChangeStatus(id,productId).subscribe((products : any[]) => {
+            this.eventPending.event = products;
+            console.log("status",productId);
+            window.location.reload();
+
+        })})}
 
 }
