@@ -1,28 +1,46 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
     Location,
     GermanAddress,
   } from '@angular-material-extensions/google-maps-autocomplete';
+import { ProductsService } from 'app/__services/Event_services/products.service';
+import { Program } from 'app/models/Program';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector     : 'example',
     templateUrl  : './project.component.html',
+    styleUrls: ['./project.component.scss'],
+
     encapsulation: ViewEncapsulation.None
 })
-export class ExampleComponent
+export class ExampleComponent implements OnInit
 {
-    latitude: number;
-    longitude: number;
+   
+    products : Program[];
+    products2 : Program[];
+
+
     /**
      * Constructor
      */
-    constructor()
+    constructor(    private productsService : ProductsService,
+    
+      )
     {
     }
-    onLocationSelected(location: Location) {
-        this.latitude = location.latitude;
-        this.longitude = location.longitude;
-        console.log('latitude', this.latitude);
-        console.log('longitude', this.longitude);
-        return location;
-      }
+
+
+    ngOnInit(): void {
+      this.productsService.getProducts().subscribe((products : Program[]) => {
+        this.products = products;
+        this.products2 = this.products.reverse().slice(0,4);
+       console.log("program",this.products2)
+  console.log("length", products[products.length -1])
+      }, (error: ErrorEvent) => {
+      })
+    }
+
+
+   
+      
 }

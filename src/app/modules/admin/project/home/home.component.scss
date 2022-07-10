@@ -301,7 +301,7 @@ html,body{
     justify-content: center;
     align-items: center;
 	position: relative;
-	background: url(https://img.freepik.com/photos-gratuite/tentes-camping-sous-pins-lumiere-du-soleil-au-lac-pang-ung-mae-hong-son-thailande_335224-931.jpg?w=2000)no-repeat;
+	background: url(https://img.freepik.com/photos-gratuite/groupe-hommes-femmes-aime-faire-du-pique-nique-barbecue-au-lac-tentes-arriere-plan-jeune-femme-asiatique-mixte-homme-mains-jeunes-grignotent-acrochent-bouteilles-biere_1253-1041.jpg?w=2000)no-repeat;
 	background-size: cover;
 	background-position: center;
 	min-height: 1000px;
@@ -313,7 +313,7 @@ html,body{
 	left: 0;
 	width: 100%;
 	height: 100%;
-	//background: rgba(0,122,207,.4);
+	background: rgba(0,122,207,.4);
 }
 
 /*about-us-content*/
@@ -377,7 +377,7 @@ html,body{
 		4. 	Travel-box
 --------------------------------------*/
 .single-travel-boxes {
-    margin-top: -270px;
+    margin-top: -125px;
     background: #fff;
 }
 .tab-para p {
@@ -796,7 +796,7 @@ html,body{
 .discount-offer {
     padding: 120px 0;
     position: relative;
-    background: url(https://pcweb.azureedge.net/-/media/WET4/voyage-travel/hebergement-accommodation/camping-101/101-avant-front-870.jpg)no-repeat center fixed;
+    background: url()no-repeat center fixed;
     background-size: cover;
     z-index: 1;
 }
@@ -1049,7 +1049,7 @@ html,body{
 --------------------------------------*/
 .special-offer{
     position: relative;
-    background: url(../../../../../assets/images/offer/offer-banner.jpg)no-repeat center;
+    background: url()no-repeat center;
     background-size: cover;
     z-index: 1;
 }
@@ -1393,15 +1393,13 @@ html,body{
     padding: 0 0 60px;
 }
 .footer-content{
-    padding:100px ;
+    padding:120px 0;
 }
 
 /*single-footer-item*/
 .single-footer-item{
     font-family: 'Poppins', sans-serif;
     text-transform: capitalize;
-    padding:100px ;
-
 }
 .single-footer-item h2{
     color:#565a5c;
@@ -1450,7 +1448,10 @@ html,body{
     
 }
 .single-footer-txt p a:hover{
-
+    -webkit-transition:scaleX(1.2);
+    -moz-transition:scaleX(1.2);
+    -ms-transition:scaleX(1.2);
+    -o-transition:scaleX(1.2);
     transform:scaleX(1.2);
     color: #00d8ff;
 }/*single-footer-txt*/
@@ -1554,153 +1555,5 @@ html,body{
 
 }
 
-.single-logo-item img {
-    max-width: 180px;
-    margin: 0 auto;
-  }
-  
-  .logo-carousel-section {
-    background-color: #f5f5f5;
-    padding: 50px 0;
-  }
-  
-  .footer-area {
-    background-color: #1A374D;
-    color: #fff;
-    padding: 150px 0px;
-    max-height: 500px;
-  }
-  
-  h2.widget-title {
-    font-size: 30px;
-    font-weight: 500;
-    position: relative;
-    padding-bottom: 20px;
-    color: white;
-  
-    &:after {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 20px;
-      height: 2px;
-      background-color: orange;
-      content: "";
-    }
-  }
-  
-  .footer-box {
-    p {
-      color: white;
-      opacity: 0.7;
-      line-height: 1.8;
-      font-size: 18px;
 
-    }
-  
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-  
-      li {
-        opacity: 0.7;
-        margin-bottom: 10px;
-        line-height: 1.8;
-  
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-  
-    &.subscribe form {
-      input[type=email] {
-        border: none;
-        background-color: #012738;
-        width: 78%;
-        padding: 15px;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-        color: #fff;
-      }
-  
-      button {
-        width: 20%;
-        border: none;
-        background-color: #012738;
-        color: orange;
-        padding: 14px 0;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        cursor: pointer;
-  
-        &:focus {
-          outline: none;
-        }
-      }
-    }
-  }
-  
-  .copyright {
-    background-color:  #1A374D;
-    border-top: 1px solid #232a35;
-    max-height: 100px;
-  
-    p{
-      margin: 0;
-      color: #fff;
-      opacity: 0.7;
-      padding: 16px 0;
-      font-size: 18px;
-    }
-    a {
-      color: white;
-      font-weight: 700;
-      &:hover {
-        color: lighten(orange, 10%);
-      }
-    }
-  }
-  
-  .social-icons ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  
-    li {
-      display: inline-block;
-  
-      a {
-        font-size: 16px;
-        color: white;
-        opacity: 0.7;
-        padding: 16px 10px;
-        display: block;
-        background-color: white;
-      }
-    }
-  }
-  
-  .footer-box {
-    ul li a {
-      color: white;
-    }
-  
-    &.pages ul li {
-      position: relative;
-      padding-left: 20px;
-  
-      &:before {
-        position: absolute;
-        left: 0;
-        top: 0;
-        content: "\f105";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        color: #34306B ;
-      }
-    }
-    
-  }
 /*========================Thank you=================*/

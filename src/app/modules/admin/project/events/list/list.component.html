@@ -7,7 +7,7 @@
 
         <!-- Background - @formatter:off -->
         <!-- Rings -->
-        <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden transprant">
+        <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden transprant" >
 
             <!-- @formatter:on -->
             <div class="z-10 relative flex flex-col items-center">
@@ -44,7 +44,7 @@
 
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
-                <ng-container *ngFor="let product of products.slice().reverse()"
+                <ng-container *ngFor="let product of products.reverse()"
                     [@animate]="{value:'*',params:{y:'100%'}}">
                     <!-- Course -->
                     <div class="flex flex-col h-150 shadow rounded-2xl overflow-hidden bg-card">

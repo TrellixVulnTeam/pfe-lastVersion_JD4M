@@ -39,6 +39,7 @@ import { PaymentFormComponent } from './events/payment-form/payment-form.compone
 import { CommonModule } from '@angular/common';
 import { SettingsComponent } from './user/settings/settings.component';
 import { SettingsModule } from './user/settings/settings.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -121,6 +122,7 @@ const exampleRoutes: Route[] = [
         CartProfileComponent,
         PaymentFormComponent,
         
+        
 
         
     
@@ -128,7 +130,7 @@ const exampleRoutes: Route[] = [
     ],
     imports     : [
         RouterModule.forChild(exampleRoutes),
-        
+        CommonModule,
         MatIconModule,
 
         MatGoogleMapsAutocompleteModule,
@@ -137,7 +139,6 @@ const exampleRoutes: Route[] = [
             libraries: ['places']
           }),
         
-          MatButtonModule,
           MatCheckboxModule,
           MatFormFieldModule,
           MatSnackBarModule,
@@ -145,13 +146,12 @@ const exampleRoutes: Route[] = [
           MatRadioModule,
           MatTabsModule,
           MatCarouselModule.forRoot(),
-
           
 
 
 
 
-          MatIconModule,
+          
           MatInputModule,
           MatProgressSpinnerModule,
           FuseAlertModule,
@@ -168,9 +168,7 @@ const exampleRoutes: Route[] = [
           MatFormFieldModule,
           MatIconModule,
           MatInputModule,
-          MatRadioModule,
           MatSelectModule,
-          CommonModule,
 
           
           
