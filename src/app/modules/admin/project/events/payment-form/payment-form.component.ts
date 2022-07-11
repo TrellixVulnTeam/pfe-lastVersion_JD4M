@@ -82,7 +82,7 @@ export class PaymentFormComponent implements OnInit {
 
     this.productService.getProduct(this.id)
       .subscribe(data => {
-        console.log(data)
+        console.log("product",data)
         this.product = data;
       }, error => console.log(error));
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -90,14 +90,14 @@ export class PaymentFormComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-    }
+    
 
     this.userService.getUser(this.tokenStorageService.getUser().id).subscribe((users: Users) => {
       this.user = users;
       console.log("user", this.user)
     }, (error: ErrorEvent) => {})
   }
-
+  }
   selectChangeHandler(event: any) {
     //update the ui
     this.selectedOption = event.target.value;

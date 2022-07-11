@@ -49,6 +49,7 @@ import {
   PaymentComponent
 } from '../../payment/payment.component';
 
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',

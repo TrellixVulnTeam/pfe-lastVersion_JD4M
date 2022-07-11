@@ -1,16 +1,18 @@
-<div id="payment-form" class="page-layout simple" style="width: 100%;">
+<div id="payment-form" class="page-layout simple" style="width: 100%;" *ngIf="isLoggedIn">
 
 
     <button mat-raised-button (click)="isLinear = !isLinear " id="toggle-linear">
         {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
     </button>
-    <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
-        proportion="25" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
-        [useMouseWheel]="false" orientation="ltr">
-        <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
-            image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
-        </mat-carousel-slide>
-    </mat-carousel>
+    <ng-container *ngIf="product.pics !=null">
+        <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
+            proportion="25" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
+            [useMouseWheel]="false" orientation="ltr">
+            <mat-carousel-slide #matCarouselSlide *ngFor="let slide of product.pics; let i = index"
+                image="data:image/jpg;base64,{{slide.data}}" overlayColor="#00000040" [hideOverlay]="false">
+            </mat-carousel-slide>
+        </mat-carousel>
+    </ng-container>
     <!--[linear]="isLinear"-->
     <mat-stepper [linear]="isLinear" #stepper>
         <mat-step [stepControl]="firstFormGroup">
@@ -25,7 +27,7 @@
                     </p>
                     <p>
                         <label for='email'>Email Address*: </label>
-                        <input type='text' id='email' name='email' placeholder='{{user.email}} ' />
+                        <input *ngIf="user !=null" type='text' id='email' name='email' placeholder='{{user.email}} ' />
                     </p>
                     <p>
                         <label for="tourPackage"> Number of persons*: </label>
@@ -85,29 +87,32 @@
                 </div>
             </form>
         </mat-step>
-        <mat-step >
+        <mat-step>
             <ng-template matStepLabel>Done</ng-template>
 
-        
-                <div class="mt-16"  *ngIf="payment.value == 2" >
-                    <div class="font-medium" class="gallary-header text-center" >Please pay within 2 days. Thank you for choosing us.</div>
-                    <div class="flex items-start mt-4">
-                       
-                        <div class="ml-6 text-sm text-secondary">
-                            In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque scelerisque lacus sed feugiat fermentum.
-                            Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus dapibus. Etiam at felis volutpat est mollis lacinia.
-                            Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero tincidunt lacinia et eget.
-                        </div>
+
+            <div class="mt-16" *ngIf="payment.value == 2">
+                <div class="font-medium" class="gallary-header text-center">Please pay within 2 days. Thank you for
+                    choosing us.</div>
+                <div class="flex items-start mt-4">
+
+                    <div class="ml-6 text-sm text-secondary">
+                        In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque
+                        scelerisque lacus sed feugiat fermentum.
+                        Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
+                        dapibus. Etiam at felis volutpat est mollis lacinia.
+                        Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
+                        tincidunt lacinia et eget.
                     </div>
-                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                    matStepperPrevious >
+                </div>
+                <button class="px-8" mat-flat-button [color]="'primary'" type="button" matStepperPrevious>
                     Back
                 </button>
                 <button (click)="AddPendingParticipant()" class="px-8" mat-flat-button [color]="'primary'" type="button"
-                matStepperNext >
-                Done
-            </button>
-                </div>
+                    matStepperNext>
+                    Done
+                </button>
+            </div>
 
 
 
@@ -170,26 +175,25 @@
                         <div class="flex items-start mt-4">
                             <img class="flex-0 w-10 mt-2" src="">
                             <div class="ml-6 text-sm text-secondary">
-                                
+
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <button class="px-8" mat-flat-button [color]="'primary'" type="button"
-                matStepperPrevious >
-                Back
-            </button>
-            <button routerLink="/events/list" class="px-8" mat-flat-button [color]="'primary'" type="button"
-            matStepperNext >
-            Done
-        </button>
+                <button class="px-8" mat-flat-button [color]="'primary'" type="button" matStepperPrevious>
+                    Back
+                </button>
+                <button routerLink="/events/list" class="px-8" mat-flat-button [color]="'primary'" type="button"
+                    matStepperNext>
+                    Done
+                </button>
             </div>
 
 
-               
 
-            
+
+
         </mat-step>
     </mat-stepper>
 

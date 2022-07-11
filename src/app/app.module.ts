@@ -15,6 +15,7 @@ import { appRoutes } from 'app/app.routing';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { ExampleComponent } from './modules/admin/project/project.component';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -44,7 +45,8 @@ const routerConfig: ExtraOptions = {
 
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
-         AppRoutingModule
+         AppRoutingModule,
+         MatIconModule
     ],
     bootstrap   : [
         AppComponent

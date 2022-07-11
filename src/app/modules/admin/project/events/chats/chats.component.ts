@@ -61,7 +61,6 @@ day : any;
     this.webSocketService.openWebSocket();
 
     this.product = new Program();
-    console.log ("user",this.userService.getUser(this.tokenStorageService.getUser().id));
   
     this.id = this.route.snapshot.params['id'];
 
@@ -110,14 +109,14 @@ day : any;
     }
     this.date = moment().format("MMM dd, h:mm a");
     console.log("date",this.myDate)
-
+   if(this.isLoggedIn) {
     this.userService.getUser(this.tokenStorageService.getUser().id
     ).subscribe((users : Users) => {
         this.user = users;
         console.log("user",this.user)
          
     }, (error: ErrorEvent) => {
-    })
+    }) }
     this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
       this.participants = participants;
       console.log("participants",this.participants)
