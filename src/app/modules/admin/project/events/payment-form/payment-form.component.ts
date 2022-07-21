@@ -1,5 +1,5 @@
 import {formatDate} from '@angular/common';
-import {Component,OnDestroy,OnInit,Output} from '@angular/core';
+import {Component,ElementRef,OnDestroy,OnInit,Output, ViewChild} from '@angular/core';
 import {FormBuilder,Validators} from '@angular/forms';
 import {MatRadioButton} from '@angular/material/radio';
 import { ActivatedRoute,Router} from '@angular/router';
@@ -10,6 +10,10 @@ import { ProductsService} from 'app/__services/Event_services/products.service';
 import { UsersService} from 'app/__services/user_services/users.service';
 import { WebSocketNotifService } from 'app/__services/Event_services/web-socket-notif.service';
 import { NotifDto } from 'app/models/NotifDto';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
+
 
 @Component({
   selector: 'app-payment-form',
@@ -112,6 +116,20 @@ export class PaymentFormComponent implements OnInit,OnDestroy {
     console.log("h",notifDtoR);     })
 
 
+}
+captureScreen() {
+  let data = document.getElementById('contentToConvert');
+  html2canvas(data as any).then(canvas => {
+      var imgWidth = 210;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdfData = new jsPDF('p', 'mm', 'a4');
+      var position = 0;
+      pdfData.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdfData.save(`MyPdf.pdf`);
+  });
 }
   
 }
