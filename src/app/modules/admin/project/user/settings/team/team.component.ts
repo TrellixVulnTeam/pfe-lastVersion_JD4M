@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { NotifDto } from 'app/models/NotifDto';
 import { Program } from 'app/models/Program';
 import { Users } from 'app/models/Users';
 import { ProductsService } from 'app/__services/Event_services/products.service';
+import { WebSocketNotifService } from 'app/__services/Event_services/web-socket-notif.service';
 import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 import { UsersService } from 'app/__services/user_services/users.service';
 
@@ -13,7 +15,7 @@ import { UsersService } from 'app/__services/user_services/users.service';
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsTeamComponent implements OnInit
+export class SettingsTeamComponent implements OnInit,OnDestroy
 {
     members: any[];
     roles: any[];
@@ -24,6 +26,8 @@ export class SettingsTeamComponent implements OnInit
     participants : any [];
     isPending = false;
     eventPending : any ;
+    notif : any
+    unreadCount : any;
 
 
 
@@ -34,6 +38,7 @@ export class SettingsTeamComponent implements OnInit
         private cdr: ChangeDetectorRef,
         private tokenStorageService: TokenStorageService,
         private productService : ProductsService,
+        public webSocketNotifService: WebSocketNotifService,
 
 
         )
@@ -49,7 +54,10 @@ export class SettingsTeamComponent implements OnInit
      * On init
      */
     ngOnInit(): void
-    {    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    {  
+        this.webSocketNotifService.openWebSocket();
+
+        this.isLoggedIn = !!this.tokenStorageService.getToken();
 
         if (this.isLoggedIn) {
            
@@ -97,18 +105,31 @@ export class SettingsTeamComponent implements OnInit
         ];
 
     }
-
+    ngOnDestroy() {
+  
+        this.webSocketNotifService.closeWebSocket();
+    
+      }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     changeStatus (id : string,productId : string){
+        this.userService.addNotifToUser(id, "you have been accepted by the event organizer to be one of the participants of  " + "make sure to have fun.").subscribe(data => {
+            console.log("data",data)
+            this.notif = data; 
+       
+            const notifDtoR = new NotifDto(id,  "you have been accepted by the event organizer to be one of the participants  " + "make sure to have fun.",this.notif.notifCount, this.unreadCount);
+      
+          this.webSocketNotifService.sendMessage(notifDtoR);
+          console.log("h",notifDtoR);     })
         this.productService.getPendingProducts().subscribe((products : any[]) => {
             this.eventPending = products;
         this.productService.ChangeStatus(id,productId).subscribe((products : any[]) => {
             this.eventPending.event = products;
             console.log("status",productId);
             window.location.reload();
+          
 
         })})}
 

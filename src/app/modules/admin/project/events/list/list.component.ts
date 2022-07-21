@@ -81,7 +81,7 @@ export class ListComponent implements OnInit {
     // Set the defaults
 
     this.productsService.getProducts().subscribe((products: Program[]) => {
-      this.products = products;
+      this.products = products.reverse();
       console.log("program", this.products)
 
     }, (error: ErrorEvent) => {})

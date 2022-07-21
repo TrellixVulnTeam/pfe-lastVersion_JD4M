@@ -4,7 +4,7 @@
     <button mat-raised-button (click)="isLinear = !isLinear " id="toggle-linear">
         {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
     </button>
-    <ng-container *ngIf="product.pics !=null">
+    <ng-container *ngIf="product.pics!=null">
         <mat-carousel timings="250ms ease-in" [autoplay]="true" interval="5000" color="accent" maxWidth="auto"
             proportion="25" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true"
             [useMouseWheel]="false" orientation="ltr">

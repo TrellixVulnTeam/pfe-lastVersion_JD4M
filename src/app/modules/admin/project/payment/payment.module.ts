@@ -14,7 +14,6 @@ import { SettingComponent } from 'app/layout/common/setting/settings.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { ExampleComponent } from 'app/modules/admin/project/project.component';
 import { SharedModule } from 'app/shared/shared.module';
-import { ProductsService } from 'app/__services/products.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatTooltipModule} from '@angular/material/tooltip'; 

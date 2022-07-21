@@ -1,5 +1,5 @@
 import {formatDate} from '@angular/common';
-import {Component,OnInit,Output} from '@angular/core';
+import {Component,OnDestroy,OnInit,Output} from '@angular/core';
 import {FormBuilder,Validators} from '@angular/forms';
 import {MatRadioButton} from '@angular/material/radio';
 import { ActivatedRoute,Router} from '@angular/router';
@@ -8,13 +8,15 @@ import { Users} from 'app/models/Users';
 import {TokenStorageService} from 'app/__services/user_services/ token-storage.service';
 import { ProductsService} from 'app/__services/Event_services/products.service';
 import { UsersService} from 'app/__services/user_services/users.service';
+import { WebSocketNotifService } from 'app/__services/Event_services/web-socket-notif.service';
+import { NotifDto } from 'app/models/NotifDto';
 
 @Component({
   selector: 'app-payment-form',
   templateUrl: './payment-form.component.html',
   styleUrls: ['./payment-form.component.scss']
 })
-export class PaymentFormComponent implements OnInit {
+export class PaymentFormComponent implements OnInit,OnDestroy {
 
   @Output() reserved = false;
 
@@ -38,17 +40,23 @@ export class PaymentFormComponent implements OnInit {
   username: string;
   isLoggedIn = false;
   IsReserved = false;
+  notif : any;
+  unreadCount : any;
 
   constructor(private _formBuilder: FormBuilder,
     private productService: ProductsService,
     private tokenStorageService: TokenStorageService,
     private route: ActivatedRoute, private router: Router,
     private userService: UsersService,
+    public webSocketNotifService: WebSocketNotifService,
+
   ) {
 
   }
 
   ngOnInit(): void {
+    this.webSocketNotifService.openWebSocket();
+
 
     this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
 
@@ -86,10 +94,24 @@ export class PaymentFormComponent implements OnInit {
 
 
   }
+  ngOnDestroy() {
+  
+    this.webSocketNotifService.closeWebSocket();
+
+  }
 
   AddPendingParticipant() {
     this.productService.addPendingParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
+    this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has chosen to pay cash for" + " " + this.product.title +" " + "please make sure to accept him/her after payment.").subscribe(data => {
+      console.log("data",data)
+      this.notif = data; 
+ 
+      const notifDtoR = new NotifDto(this.product.organizer.id,this.username + " " + "has chosen to pay cash for" + " " + this.product.title +" " + "please make sure to accept him/her after payment.",this.notif.notifCount, this.unreadCount);
 
-  }
+    this.webSocketNotifService.sendMessage(notifDtoR);
+    console.log("h",notifDtoR);     })
+
+
+}
   
 }
