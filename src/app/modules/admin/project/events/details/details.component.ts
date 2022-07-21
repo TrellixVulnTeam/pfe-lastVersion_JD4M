@@ -26,7 +26,9 @@ import {
 import {
   ChatMessageDto
 } from 'app/models/chatMessageDto';
-import { NotifDto } from 'app/models/NotifDto';
+import {
+  NotifDto
+} from 'app/models/NotifDto';
 import {
   Program
 } from 'app/models/Program';
@@ -36,15 +38,21 @@ import {
 import {
   ProductsService
 } from 'app/__services/Event_services/products.service';
-import { UsersService } from 'app/__services/user_services/users.service';
+import {
+  UsersService
+} from 'app/__services/user_services/users.service';
 import {
   WebSocketService
 } from 'app/__services/Event_services/web-socket-message.service';
-import { WebSocketNotifService } from 'app/__services/Event_services/web-socket-notif.service';
+import {
+  WebSocketNotifService
+} from 'app/__services/Event_services/web-socket-notif.service';
 import {
   environment
 } from 'environments/environment';
-import { combineLatest } from 'rxjs';
+import {
+  combineLatest
+} from 'rxjs';
 import {
   PaymentComponent
 } from '../../payment/payment.component';
@@ -77,10 +85,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
   id: string;
   product: Program;
   participants: any[];
-notif : any;
-unreadCount: number = 0;
-NotifD : any;
-UserNotif: any;
+  notif: any;
+  unreadCount: number = 0;
+  NotifD: any;
+  UserNotif: any;
+
+  recommendedEvents: any
+  number: any
+  recommendedId = []
+  recommendedImage : any
 
 
 
@@ -92,7 +105,7 @@ UserNotif: any;
     label: 'your place',
   }, ];
 
- 
+
 
   ////////////////stripe ///////////////////
 
@@ -143,21 +156,15 @@ UserNotif: any;
     private http: HttpClient,
     private _matDialog: MatDialog,
     public webSocketService: WebSocketService,
-  private userService : UsersService,
-  public webSocketNotifService: WebSocketNotifService,
-
-
-
-
-
+    private userService: UsersService,
+    public webSocketNotifService: WebSocketNotifService,
   ) {
     // Set the defaults
     this.animationDirection = 'none';
     this.currentStep = 0;
 
     // Set the private defaults
-
-  }
+}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -167,6 +174,7 @@ UserNotif: any;
    * On init
    */
   ngOnInit(): void {
+   
     this.webSocketNotifService.openWebSocket();
 
     this.product = new Program();
@@ -179,12 +187,10 @@ UserNotif: any;
         this.product = data;
       }, error => console.log(error));
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
+    
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-
-
 
       this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
         this.participants = participants;
@@ -192,8 +198,33 @@ UserNotif: any;
       }, (error: ErrorEvent) => {})
 
     };
-    
+
+    this.productService.getRecommendation(this.id)
+      .subscribe(
+        (response) => {
+          this.recommendedEvents = response["Events"];
+          console.log("response",this.recommendedEvents)
+
+        for (let i in this.recommendedEvents) {
+          this.recommendedId.push(this.recommendedEvents[i][0]["$oid"])
+          if (this.recommendedEvents[i][7][0]!= undefined) {
+          console.log("response",this.recommendedEvents[i][7][0]["$binary"])
+        this.recommendedImage = this.recommendedEvents[i][7][0]["$binary"]
+        }
+
+
+        }
+
+
+        },
+        (error) => {
+          console.log("No Data Found" + error);
+        }
+
+      )
+
   }
+ 
 
 
 
@@ -245,46 +276,47 @@ UserNotif: any;
   ngOnDestroy(): void {
     this.webSocketService.closeWebSocket();
     this.webSocketNotifService.closeWebSocket();
-    
+
   }
+ 
 
   sendMessage(sendForm: NgForm) {
-  
+
 
 
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
-      console.log("data",data)
-      this.notif = data; 
-      
-
-   
-    
-
-
-
-      
-
-     
-
-      const notifDtoR = new NotifDto(this.product.organizer.id,this.username + " " + "has reserved" + " " + this.product.title,this.notif.notifCount, this.unreadCount);
-
-    this.webSocketNotifService.sendMessage(notifDtoR);
-    console.log("h",notifDtoR);
-  })
-
-
-    
+      console.log("data", data)
+      this.notif = data;
 
 
 
 
 
-    
-
-    
 
 
-    
+
+
+
+
+      const notifDtoR = new NotifDto(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title, this.notif.notifCount, this.unreadCount);
+
+      this.webSocketNotifService.sendMessage(notifDtoR);
+      console.log("h", notifDtoR);
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
 
 

@@ -1,37 +1,13 @@
-import {
-  formatDate
-} from '@angular/common';
-import {
-  Component,
-  OnInit,
-  Output
-} from '@angular/core';
-import {
-  FormBuilder,
-  Validators
-} from '@angular/forms';
-import {
-  MatRadioButton
-} from '@angular/material/radio';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
-import {
-  Program
-} from 'app/models/Program';
-import {
-  Users
-} from 'app/models/Users';
-import {
-  TokenStorageService
-} from 'app/__services/user_services/ token-storage.service';
-import {
-  ProductsService
-} from 'app/__services/Event_services/products.service';
-import {
-  UsersService
-} from 'app/__services/user_services/users.service';
+import {formatDate} from '@angular/common';
+import {Component,OnInit,Output} from '@angular/core';
+import {FormBuilder,Validators} from '@angular/forms';
+import {MatRadioButton} from '@angular/material/radio';
+import { ActivatedRoute,Router} from '@angular/router';
+import {Program} from 'app/models/Program';
+import { Users} from 'app/models/Users';
+import {TokenStorageService} from 'app/__services/user_services/ token-storage.service';
+import { ProductsService} from 'app/__services/Event_services/products.service';
+import { UsersService} from 'app/__services/user_services/users.service';
 
 @Component({
   selector: 'app-payment-form',

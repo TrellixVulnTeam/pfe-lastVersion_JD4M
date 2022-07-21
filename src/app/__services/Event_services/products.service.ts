@@ -156,6 +156,10 @@ export class ProductsService {
         return this.http.get<Program>(`${this.baseUrl}/get/chat/${productId}`);
     }
 
+    getRecommendation(productId : string): Observable<Program> {
+      return this.http.get<Program>(`http://127.0.0.1:5000/products?id=${productId}`);
+  }
+
 
 
 
