@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/core/auth/auth.service';
+import { AuthService } from 'app/__services/user_services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,9 +24,10 @@ export class SignupComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _authService: AuthService,
+        private authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private router: Router
     )
     {
     }
@@ -42,13 +43,14 @@ export class SignupComponent implements OnInit {
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
+                username      : ['', Validators.required],
                 email     : ['', [Validators.required, Validators.email]],
                 password  : ['', Validators.required],
-                company   : [''],
-                agreements: ['', Validators.requiredTrue]
             }
         );
+    }
+    back(): void {
+        this.router.navigateByUrl('/events/auth')
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,6 +60,7 @@ export class SignupComponent implements OnInit {
     /**
      * Sign up
      */
+
     signUp(): void
     {
         // Do nothing if the form is invalid
@@ -73,12 +76,12 @@ export class SignupComponent implements OnInit {
         this.showAlert = false;
 
         // Sign up
-        this._authService.signUp(this.signUpForm.value)
+        this.authService.register(this.signUpForm.value)
             .subscribe(
                 (response) => {
 
                     // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
+                    this._router.navigateByUrl('/events/auth');
                 },
                 (response) => {
 

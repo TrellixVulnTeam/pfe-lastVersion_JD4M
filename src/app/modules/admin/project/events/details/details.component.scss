@@ -134,9 +134,7 @@ p a:hover::after {
     opacity: 0.2;
 }
 
-::selection {}
 
-p::selection {}
 
 h1 {
     font-size: 48px;
@@ -1183,8 +1181,6 @@ section {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none;
-    -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-    -webkit-user-select: none;
     background-image: url();
     background-position: center right;
     background-repeat: no-repeat;
@@ -1282,7 +1278,6 @@ section {
     display: inline-block;
     position: relative;
     cursor: pointer;
-    float: left;
 }
 
 .search_extras_cb:focus {
@@ -2219,8 +2214,6 @@ section {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none;
-    -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-    -webkit-user-select: none;
     background-image: url();
     background-position: center right;
     background-repeat: no-repeat;
