@@ -1,4 +1,6 @@
 @import "src/@fuse/scss/fuse";
+@import url('https://fonts.googleapis.com/css?family=Lato:300&subset=latin-ext');
+
 
 #payment-form {
    width : 50%;
@@ -7,7 +9,6 @@
     .mat-radio-button ~ .mat-radio-button {
       margin-left: 16px;
     }
-    @import "src/@fuse/scss/fuse";
 
 #academy-course {
 
@@ -281,7 +282,6 @@ form.checkout {
 
     margin-top: 8px;
 
-    @import url('https://fonts.googleapis.com/css?family=Lato:300&subset=latin-ext');
 
 * {
   font-family: 'Lato', sans-serif;

@@ -42,6 +42,7 @@ import {
 import {
   FormsWizardsComponent
 } from '../add-event/wizards/wizards.component';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-list',
@@ -63,6 +64,9 @@ export class ListComponent implements OnInit {
   program: Program;
   lat: string = '';
   lng: string = ''
+  currentDate : any ;
+  myDate = new Date();
+
 
 
 
@@ -79,6 +83,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     // Set the defaults
+    this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
 
     this.productsService.getProducts().subscribe((products: Program[]) => {
       this.products = products.reverse();

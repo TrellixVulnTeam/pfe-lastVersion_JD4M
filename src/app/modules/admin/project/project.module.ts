@@ -40,6 +40,9 @@ import { CommonModule } from '@angular/common';
 import { SettingsComponent } from './user/settings/settings.component';
 import { SettingsModule } from './user/settings/settings.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { SignupComponent } from './user/signup/signup.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -57,6 +60,11 @@ const exampleRoutes: Route[] = [
     {
         path     : 'auth',
         component: AuthenComponent,
+       
+    },
+    {
+        path     : 'auth/signup',
+        component: SignupComponent,
        
     },
     {
@@ -121,6 +129,7 @@ const exampleRoutes: Route[] = [
         HomeComponent,
         CartProfileComponent,
         PaymentFormComponent,
+        SignupComponent,
         
         
 
@@ -146,28 +155,19 @@ const exampleRoutes: Route[] = [
           MatRadioModule,
           MatTabsModule,
           MatCarouselModule.forRoot(),
-          
-
-
-
-
-          
+          MatDatepickerModule, 
+          MatNativeDateModule,
           MatInputModule,
           MatProgressSpinnerModule,
           FuseAlertModule,
           FormsModule,
           MatCardModule,
-
           SharedModule,
-
-
           MatStepperModule,
-
           MatButtonModule,
           MatCheckboxModule,
           MatFormFieldModule,
           MatIconModule,
-          MatInputModule,
           MatSelectModule,
 
           

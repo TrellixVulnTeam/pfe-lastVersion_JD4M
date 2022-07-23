@@ -16,6 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { ExampleComponent } from './modules/admin/project/project.component';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -46,7 +48,13 @@ const routerConfig: ExtraOptions = {
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
          AppRoutingModule,
-         MatIconModule
+         MatIconModule,
+         ServiceWorkerModule.register('ngsw-worker.js', {
+           enabled: environment.production,
+           // Register the ServiceWorker as soon as the app is stable
+           // or after 30 seconds (whichever comes first).
+           registrationStrategy: 'registerWhenStable:30000'
+         })
     ],
     bootstrap   : [
         AppComponent

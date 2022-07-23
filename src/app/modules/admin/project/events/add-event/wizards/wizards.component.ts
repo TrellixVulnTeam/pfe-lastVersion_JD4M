@@ -26,16 +26,13 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
     stripe;
     card: any;
     @ViewChild('cardInfo', { static: false }) cardInfo: ElementRef;
-
     latitudedef: number = 35.825603;
     latitude: any;
     longitude: any;
     longitudedef: number = 10.608395;
-
     event: Program = new Program();    
     submitted = false;
     public user : Users
-    // Private
     private _unsubscribeAll: Subject<any>;
     public isProductInCart : boolean;
     selectedFile2: any;
@@ -46,30 +43,26 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
     convertedImage: string;
     products : Program[];
     programsadded : any[];
-
     eventTest:any;
     idTest:any = [];
     Null:null;
     images : File[]
-  myForm: any;
-  result: string = '';
-  selectedFiles: File[];
-  picture4: any[];
-  free2: any;
-  eventLocation : any;
-  eventWithPlace : any;
-  eventWithCard : any;
-
-  data : any;
-  error : string;
-  confirmation;
-
-  cardHandler = this.onChange.bind(this);
-
-  
+    myForm: any;
+    result: string = '';
+    selectedFiles: File[];
+    picture4: any[];
+    free2: any;
+    eventLocation : any;
+    eventWithPlace : any;
+    eventWithCard : any;
+    data : any;
+    error : string;
+    confirmation;
+    minDate = new Date();
+    maxDate = new Date(2024,0,1);
+    cardHandler = this.onChange.bind(this);
     horizontalStepperForm: FormGroup;
     verticalStepperForm: FormGroup;
-
     markers: marker[] = [
       {
         latitude: this.latitudedef,
@@ -111,6 +104,7 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
                 description : [''],
                 type: [''],
                 price: [''],
+                date:['']
 
             }),
             step2: this._formBuilder.group({
@@ -148,6 +142,9 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
             })
         });
     }
+
+  
+
     onSubmit() {
         this.submitted = true;
         this.save();   
@@ -333,6 +330,13 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
         return location;
       }
 
+      onDateSelected(date : Date) {
+       
+          this.event.date = date;
+         console.log(date)
+       
+        return date;
+      }
       onSubmit3(){
         this.onLocationSelected;
         this.submitted = true;

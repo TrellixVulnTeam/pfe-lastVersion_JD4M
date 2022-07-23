@@ -14,6 +14,7 @@ export class Program {
     type : string
     link : string
     place : Place
+    date : Date
     participants: [any]
 
 }

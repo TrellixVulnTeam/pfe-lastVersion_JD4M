@@ -24,7 +24,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
 
   isLoggedIn = false;
   username :string;
-isMine : false;
+  isMine : false;
   id: string;
   product: Program;
   participants : any[];
@@ -32,9 +32,9 @@ isMine : false;
   user : Users;
   text = "<i class="+"fas fa-user"+"> </i>"
   myDate = new Date();
-today = false;  
-currentDate : any ;
-day : any;
+  today = false;  
+  currentDate : any ;
+  day : any;
   EventChat : any;
 
   constructor(public webSocketService: WebSocketService,
