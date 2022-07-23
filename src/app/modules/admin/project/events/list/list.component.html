@@ -33,11 +33,11 @@
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
 
                 <!-- ADD BUTTON -->
-                <button mat-raised-button *ngIf="isLoggedIn;else contenu_pas_bon" routerLink="/events/add"
+                <button mat-raised-button *ngIf="isLoggedIn;else No_login" routerLink="/events/add"
                     class="add-product-button fuse-white mt-24 mt-md-0">
                     <span>ADD NEW EVENT</span>
                 </button>
-                <ng-template #contenu_pas_bon> <button mat-raised-button (click)="login()"
+                <ng-template #No_login> <button mat-raised-button (click)="login()"
                         class="add-product-button fuse-white mt-24 mt-md-0">
                         <span>ADD NEW EVENT</span>
                     </button></ng-template>

@@ -56,6 +56,8 @@ import {
 import {
   PaymentComponent
 } from '../../payment/payment.component';
+import { AuthenComponent } from '../../user/authen/authen.component';
+import { Users } from 'app/models/Users';
 
 
 @Component({
@@ -67,9 +69,6 @@ import {
 })
 
 export class DetailsComponent implements OnInit, OnDestroy {
-
-  stripePromise = loadStripe(environment.stripe);
-
 
   latitudedef: number = 35.825603;
   latitude: any;
@@ -89,15 +88,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
   unreadCount: number = 0;
   NotifD: any;
   UserNotif: any;
-
   recommendedEvents: any
   number: any
   recommendedId = []
+  user = Users
+  OneOfPartcipants = false
   recommendedImage : any
-
-
-
-
   markers: marker[] = [{
     latitude: this.latitudedef,
 
@@ -109,35 +105,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ////////////////stripe ///////////////////
 
-  async pay(): Promise < void > {
-
-
-    const payment = {
-      name: this.product.title,
-      currency: 'eur',
-      // amount on cents *10 => to be on dollar
-      amount: parseInt(this.product.price) * 100,
-      quantity: '1',
-      cancelUrl: 'http://localhost:4200/cancel',
-      successUrl: 'http://localhost:4200/success',
-    };
-
-    const stripe = await this.stripePromise;
-    this.http
-    .post(` http://localhost:8082/api/payment`, payment)
-    .subscribe((data: any) => {
-      console.log(payment);
-
-
-      // I use stripe to redirect To Checkout page of Stripe platform
-      stripe.redirectToCheckout({
-        sessionId: data.id,
-
-      });
-      console.log(data)
-
-    });
-  }
+ 
 
 
   // Private
@@ -191,9 +159,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
+      console.log(typeof(this.username))
 
       this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
         this.participants = participants;
+        for (let item of this.participants) {
+  
+          if (this.username == item.username) {
+            console.log(item); 
+
+            this.OneOfPartcipants = true;
+            console.log(this.OneOfPartcipants)
+  
+            break;
+          }
+      }
 
       }, (error: ErrorEvent) => {})
 
@@ -210,24 +190,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
           if (this.recommendedEvents[i][7][0]!= undefined) {
           console.log("response",this.recommendedEvents[i][7][0]["$binary"])
         this.recommendedImage = this.recommendedEvents[i][7][0]["$binary"]
-        }
-
-
-        }
-
-
-        },
+        }}},
         (error) => {
           console.log("No Data Found" + error);
-        }
-
-      )
-
+        }  )
+      
+    
   }
  
 
 
+  ngAfterViewInit() {
 
+  }
 
 
 
@@ -238,15 +213,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     console.log("product1", this.product)
-
     this.addParticipant();
     console.log("product", this.product)
 
-
-
-
-
   }
+  login(): void {
+    this._matDialog.open(AuthenComponent, {
+      autoFocus: false,
+      height: '700px',
+
+
+
+
+    });
+  }
+
   reloadPage(): void {
     window.location.reload();
   }
