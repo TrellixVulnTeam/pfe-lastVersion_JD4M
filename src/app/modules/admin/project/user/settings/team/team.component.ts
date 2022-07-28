@@ -28,6 +28,8 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
     eventPending : any ;
     notif : any
     unreadCount : any;
+    error: string;
+    cardHandler = this.onChange.bind(this);
 
 
 
@@ -39,6 +41,8 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
         private tokenStorageService: TokenStorageService,
         private productService : ProductsService,
         public webSocketNotifService: WebSocketNotifService,
+        private cd: ChangeDetectorRef,
+
 
 
         )
@@ -68,9 +72,7 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
                 this.eventPending = products;
             for( let event of this.eventPending) {
                 if(event.event.organizer.username == this.tokenStorageService.getUser().username ) {
-                    this.isPending = true ;
-
-                
+                    this.isPending = true ;     
             this.productService.getPendingPartcipants(event.event.id).subscribe((users : any[]) => {
              this.participants = users;
              console.log(this.participants)
@@ -105,6 +107,17 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
         ];
 
     }
+
+    onChange({
+        error
+      }) {
+        if (error) {
+          this.error = error.message;
+        } else {
+          this.error = null;
+        }
+        this.cd.detectChanges();
+      }
     ngOnDestroy() {
   
         this.webSocketNotifService.closeWebSocket();
@@ -118,19 +131,18 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
         this.userService.addNotifToUser(id, "you have been accepted by the event organizer to be one of the participants of  " + "make sure to have fun.").subscribe(data => {
             console.log("data",data)
             this.notif = data; 
-       
             const notifDtoR = new NotifDto(id,  "you have been accepted by the event organizer to be one of the participants  " + "make sure to have fun.",this.notif.notifCount, this.unreadCount);
-      
-          this.webSocketNotifService.sendMessage(notifDtoR);
-          console.log("h",notifDtoR);     })
-        this.productService.getPendingProducts().subscribe((products : any[]) => {
+            this.webSocketNotifService.sendMessage(notifDtoR);
+            console.log("h",notifDtoR);     })
+            this.productService.getPendingProducts().subscribe((products : any[]) => {
             this.eventPending = products;
-        this.productService.ChangeStatus(id,productId).subscribe((products : any[]) => {
+            this.productService.ChangeStatus(id,productId).subscribe((products : any[]) => {
             this.eventPending.event = products;
             console.log("status",productId);
-            window.location.reload();
           
 
-        })})}
+        })})
+
+    }
 
 }

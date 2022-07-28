@@ -81,7 +81,13 @@ const exampleRoutes: Route[] = [
     {
         path     : 'chat',
         component: ChatsComponent,
-       
+        children : [
+            {
+                path         : ':id',
+                component    : CartProfileComponent,
+              
+            }
+        ] 
     },
     {
         path     : 'home',
@@ -90,21 +96,11 @@ const exampleRoutes: Route[] = [
     },
 
 
-    {
-        path: 'checkout',
-        component: CheckoutComponent,
-      },
-
-
-    
-      { path: 'cancel', component: CancelComponent },
-      { path: 'success', component: SuccessComponent },
 
       {
         path     : 'carduser/:id',
         component: CartProfileComponent,
-       
-    },
+       },
     {
         path     : ':id',
         component: DetailsComponent,
@@ -140,8 +136,6 @@ const exampleRoutes: Route[] = [
     imports     : [
         RouterModule.forChild(exampleRoutes),
         CommonModule,
-        MatIconModule,
-
         MatGoogleMapsAutocompleteModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI', // TODO: Colocar nos env variables
@@ -165,10 +159,9 @@ const exampleRoutes: Route[] = [
           SharedModule,
           MatStepperModule,
           MatButtonModule,
-          MatCheckboxModule,
-          MatFormFieldModule,
           MatIconModule,
           MatSelectModule,
+
 
           
           

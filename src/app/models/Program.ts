@@ -13,8 +13,11 @@ export class Program {
     image : string
     type : string
     link : string
+    plateform : string
+    plateformLogo : string
     place : Place
     date : Date
+    dateS : any
     participants: [any]
 
 }

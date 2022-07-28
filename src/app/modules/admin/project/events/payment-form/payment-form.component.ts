@@ -60,26 +60,19 @@ export class PaymentFormComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
     this.webSocketNotifService.openWebSocket();
-
-
     this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
-
     // Subscribe to courses
     console.log("vale", this.value);
     this.id = this.route.snapshot.params['id'];
-
     this.productService.getProduct(this.id)
       .subscribe(data => {
         console.log("product",data)
         this.product = data;
       }, error => console.log(error));
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-    
-
     this.userService.getUser(this.tokenStorageService.getUser().id).subscribe((users: Users) => {
       this.user = users;
       console.log("user", this.user)
@@ -100,7 +93,7 @@ export class PaymentFormComponent implements OnInit,OnDestroy {
   }
   ngOnDestroy() {
   
-    this.webSocketNotifService.closeWebSocket();
+    //this.webSocketNotifService.closeWebSocket();
 
   }
 

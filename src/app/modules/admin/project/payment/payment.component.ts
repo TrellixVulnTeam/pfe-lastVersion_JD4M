@@ -114,7 +114,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
     this.webSocketNotifService.closeWebSocket();
 
   }
-
   onChange({
     error
   }) {
@@ -125,7 +124,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
     }
     this.cd.detectChanges();
   }
-
   async onSubmit(form: NgForm) {
     const {
       token,
@@ -142,8 +140,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
       this.openDialog({
         success: true
       });
-
-
       console.log('Success!', token.card.last4);
     if(this.selectedOption == null) {
       this.productService.validateCart(token.card.last4).subscribe((card: Card) => {
@@ -169,8 +165,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
 
       )
       this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
-
-
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
       console.log("data",data)
       this.notif = data; 
@@ -184,8 +178,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
   this.newItemEvent.emit(this.reserved);
 
     }
-  
-
   if(this.selectedOption != null) {
     this.productService.validateCart(token.card.last4).subscribe((card: Card) => {
         this.cards = card;
@@ -210,8 +202,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
 
     )
     this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
-
-
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
       console.log("data",data)
       this.notif = data; 
@@ -227,8 +217,6 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
 
   }
 
-
-
   openDialog(data) {
     this.dialog.open(AppDialogComponent, {
       data
@@ -239,28 +227,17 @@ export class PaymentComponent implements AfterViewInit, OnDestroy {
   ngOnInit(): void {
 
     this.webSocketNotifService.openWebSocket();
-
-
     this.id = this.route.snapshot.params['id'];
-
     this.productService.getProduct(this.id)
       .subscribe(data => {
         console.log(data)
         this.product = data;
       }, error => console.log(error));
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-
-
-
-
-
-
     }
   }
-
 
 }

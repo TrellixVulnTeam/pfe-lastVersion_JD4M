@@ -97,19 +97,24 @@
                                 <ng-container *ngFor="let participant of event.participant">
 
                                     <li href="#" class="list-group-item text-left">
-                                        <img class="img-thumbnail rounded-full"
+                                        <img class="img-thumbnail rounded-full" *ngIf="participant.picture !=null"
                                             src="data:image/jpg;base64,{{participant.picture.data}}">
+                                            <img class="img-thumbnail rounded-full" *ngIf="participant.picture ==null"
+                                            src="https://icon-library.com/images/user-image-icon/user-image-icon-17.jpg">
                                         <label class="name" style="font-size: 15px;">
                                             {{participant.username}}<br>
                                         </label>
+                                        
                                         <label class="pull-right">
-                                            <a class="btn btn-success btn-xs glyphicon glyphicon-ok" (click)="changeStatus(participant.id,event.event.id)"
-                                                title="View"></a>
-                                            <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#"
-                                                title="Delete"></a>
+                                           
+                                                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="changeStatus(participant.id,event.event.id)">
+                                                    <mat-icon>done</mat-icon>
+                                                  </button>
+                                          
                                      
                                         </label>
                                         <div class="break"></div>
+                                        
                                     </li>
                                 </ng-container>
 

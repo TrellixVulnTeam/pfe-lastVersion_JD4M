@@ -66,6 +66,7 @@ export class ListComponent implements OnInit {
   lng: string = ''
   currentDate : any ;
   myDate = new Date();
+  dateS : Date;
 
 
 
@@ -83,12 +84,22 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     // Set the defaults
-    this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
-
+    //this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
+    console.log("time",this.myDate)
+   console.log(this.currentDate)
     this.productsService.getProducts().subscribe((products: Program[]) => {
       this.products = products.reverse();
       console.log("program", this.products)
+      for (let i = 0; i < products.length; i++) {
+        if ( this.products[i].dateS != undefined) {
+          this.products[i].dateS = new Date(products[i].dateS) }
+        if (this.products[i].date != undefined) {
+          this.products[i].date = new Date(products[i].date) }
 
+        
+
+      
+    }
     }, (error: ErrorEvent) => {})
 
     this.isLoggedIn = !!this.tokenStorageService.getToken();

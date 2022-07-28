@@ -117,6 +117,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
       autoFocus: false,
       height: '700px',  
   });
+  
   }
 }
 

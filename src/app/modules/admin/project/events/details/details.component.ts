@@ -56,8 +56,12 @@ import {
 import {
   PaymentComponent
 } from '../../payment/payment.component';
-import { AuthenComponent } from '../../user/authen/authen.component';
-import { Users } from 'app/models/Users';
+import {
+  AuthenComponent
+} from '../../user/authen/authen.component';
+import {
+  Users
+} from 'app/models/Users';
 
 
 @Component({
@@ -89,11 +93,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
   NotifD: any;
   UserNotif: any;
   recommendedEvents: any
+
+  recommendedEvents2= []
   number: any
   recommendedId = []
-  user = Users
+  user: Users;
   OneOfPartcipants = false
-  recommendedImage : any
+  organizer = false;
+  recommendedImage: any
   markers: marker[] = [{
     latitude: this.latitudedef,
 
@@ -105,7 +112,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ////////////////stripe ///////////////////
 
- 
+
 
 
   // Private
@@ -132,7 +139,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.currentStep = 0;
 
     // Set the private defaults
-}
+  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -142,96 +149,86 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-   
+
+
     this.webSocketNotifService.openWebSocket();
-
     this.product = new Program();
-
     this.id = this.route.snapshot.params['id'];
-
     this.productService.getProduct(this.id)
       .subscribe(data => {
         console.log(data)
         this.product = data;
       }, error => console.log(error));
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-      console.log(typeof(this.username))
-
+      this.userService.getUser(this.tokenStorageService.getUser().id).subscribe((user: Users) => {
+        this.user = user;
+        console.log(this.user)
+      })
       this.productService.getPartcipants(this.id).subscribe((participants: any[]) => {
         this.participants = participants;
         for (let item of this.participants) {
-  
+
           if (this.username == item.username) {
-            console.log(item); 
+            console.log(item);
 
             this.OneOfPartcipants = true;
             console.log(this.OneOfPartcipants)
-  
+
             break;
           }
-      }
-
-      }, (error: ErrorEvent) => {})
+        }
+        if (this.username == this.product.organizer.username) {
+          this.organizer = true
+        }
+      }, )
 
     };
-
     this.productService.getRecommendation(this.id)
       .subscribe(
         (response) => {
           this.recommendedEvents = response["Events"];
-          console.log("response",this.recommendedEvents)
+          console.log("response2", this.recommendedEvents)
 
-        for (let i in this.recommendedEvents) {
-          this.recommendedId.push(this.recommendedEvents[i][0]["$oid"])
-          if (this.recommendedEvents[i][7][0]!= undefined) {
-          console.log("response",this.recommendedEvents[i][7][0]["$binary"])
-        this.recommendedImage = this.recommendedEvents[i][7][0]["$binary"]
-        }}},
+          for (let i = 0; i < this.recommendedEvents.length; i++) {
+            //this.recommendedId.push(this.recommendedEvents[i]["$oid"])
+            this.productService.getProduct(this.recommendedEvents[i]["$oid"]).subscribe(data => {
+              this.recommendedEvents2.push(data)
+
+            }, error => console.log(error));
+            //if (this.recommendedEvents[i][7][0]!= undefined) {
+            //console.log("response",this.recommendedEvents[i][7][0]["$binary"])
+            //this.recommendedImage = this.recommendedEvents[i][7][0]["$binary"]
+          }
+          console.log("id", this.recommendedEvents2)
+
+        },
+
         (error) => {
           console.log("No Data Found" + error);
-        }  )
-      
-    
+        })
   }
- 
-
-
-  ngAfterViewInit() {
-
-  }
-
-
 
   addParticipant() {
     this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
     this.product = new Program();
-
   }
   onSubmit() {
     console.log("product1", this.product)
     this.addParticipant();
     console.log("product", this.product)
-
   }
   login(): void {
     this._matDialog.open(AuthenComponent, {
       autoFocus: false,
       height: '700px',
-
-
-
-
     });
   }
-
   reloadPage(): void {
     window.location.reload();
   }
-
   onLocationSelected(location: Location) {
     this.productService.addPlace(this.product.id, location).subscribe(data2 => {
       console.log("data", data2)
@@ -242,45 +239,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     return location;
   }
-
   payment(): void {
     this._matDialog.open(PaymentComponent, {
       autoFocus: false,
       height: '300px',
-
-
-
-
     });
   }
-
   ngOnDestroy(): void {
-    this.webSocketService.closeWebSocket();
-    this.webSocketNotifService.closeWebSocket();
-
+    //this.webSocketService.closeWebSocket();
+    //this.webSocketNotifService.closeWebSocket();
   }
- 
-
   sendMessage(sendForm: NgForm) {
-
-
-
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
       console.log("data", data)
       this.notif = data;
-
-
-
-
-
-
-
-
-
-
-
       const notifDtoR = new NotifDto(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title, this.notif.notifCount, this.unreadCount);
-
       this.webSocketNotifService.sendMessage(notifDtoR);
       console.log("h", notifDtoR);
     })
@@ -300,7 +273,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   }
 
+  ProfileDetails(id) {
+    this.router.navigateByUrl('/events/carduser/', id);
 
+  }
 
 }
 interface marker {
