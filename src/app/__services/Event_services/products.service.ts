@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Feedback } from 'app/models/Feedback';
 import { Program } from 'app/models/Program';
 import { Users } from 'app/models/Users';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -159,6 +160,14 @@ export class ProductsService {
     getRecommendation(productId : string): Observable<Program> {
       return this.http.get<Program>(`http://127.0.0.1:5000/products?id=${productId}`);
   }
+
+  AddFeedback(productId : string, userId : string , feedback : Feedback): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/add/feedback/${productId}/${userId}`, feedback);
+  }
+  getFeedbacks(productId : string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get/feedback/${productId}`);
+}
+
 
 
 

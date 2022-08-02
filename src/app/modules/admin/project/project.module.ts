@@ -43,8 +43,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SignupComponent } from './user/signup/signup.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AddFeedbackComponent } from './events/details/add-feedback/add-feedback.component';
+import {MatSliderModule} from '@angular/material/slider';
 
-
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 const exampleRoutes: Route[] = [
   
@@ -95,6 +97,11 @@ const exampleRoutes: Route[] = [
        
     },
 
+    {
+        path     : 'AddFeedback',
+        component: AddFeedbackComponent,
+       
+    },
 
 
       {
@@ -126,6 +133,7 @@ const exampleRoutes: Route[] = [
         CartProfileComponent,
         PaymentFormComponent,
         SignupComponent,
+        AddFeedbackComponent,
         
         
 
@@ -151,6 +159,9 @@ const exampleRoutes: Route[] = [
           MatCarouselModule.forRoot(),
           MatDatepickerModule, 
           MatNativeDateModule,
+          MatSliderModule,
+          NgxSliderModule,
+
           MatInputModule,
           MatProgressSpinnerModule,
           FuseAlertModule,

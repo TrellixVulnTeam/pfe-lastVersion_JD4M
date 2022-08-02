@@ -62,6 +62,7 @@ import {
 import {
   Users
 } from 'app/models/Users';
+import { AddFeedbackComponent } from './add-feedback/add-feedback.component';
 
 
 @Component({
@@ -93,8 +94,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   NotifD: any;
   UserNotif: any;
   recommendedEvents: any
-
-  recommendedEvents2= []
+  feedbacks: any 
+  rating : any
+  recommendedEvents2 = []
   number: any
   recommendedId = []
   user: Users;
@@ -198,9 +200,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
               this.recommendedEvents2.push(data)
 
             }, error => console.log(error));
-            //if (this.recommendedEvents[i][7][0]!= undefined) {
-            //console.log("response",this.recommendedEvents[i][7][0]["$binary"])
-            //this.recommendedImage = this.recommendedEvents[i][7][0]["$binary"]
           }
           console.log("id", this.recommendedEvents2)
 
@@ -209,8 +208,25 @@ export class DetailsComponent implements OnInit, OnDestroy {
         (error) => {
           console.log("No Data Found" + error);
         })
-  }
 
+        this.productService.getFeedbacks(this.id).subscribe(data => {
+          this.feedbacks = data
+          console.log("feedbacks",this.feedbacks)
+
+          let sum = 0;
+
+          for (let i = 0; i < this.feedbacks.length; i++) {
+              sum += this.feedbacks[i].stars; 
+          this.rating = (sum/this.feedbacks.length)
+          console.log(this.rating)
+            }  
+          
+          
+
+        }, error => console.log(error));
+
+     
+      }
   addParticipant() {
     this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
     this.product = new Program();
@@ -257,25 +273,26 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.webSocketNotifService.sendMessage(notifDtoR);
       console.log("h", notifDtoR);
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
   ProfileDetails(id) {
     this.router.navigateByUrl('/events/carduser/', id);
 
+  }
+
+  addFeedback(): void {
+
+    
+    const dialogRef = this._matDialog.open(AddFeedbackComponent, {
+      autoFocus: false,
+      height: '700px',
+      data: this.id
+
+
+
+
+
+    });
   }
 
 }
