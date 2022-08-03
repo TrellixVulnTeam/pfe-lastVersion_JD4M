@@ -19,13 +19,7 @@
                                         <div class="hotel_title_container d-flex flex-lg-row flex-column">
                                             <div class="hotel_title_content ">
                                                 <h1 class="hotel_title">{{product.title}}</h1>
-                                                <div class="rating_r rating_r_4 hotel_rating">
-                                                    <i></i>
-                                                    <i></i>
-                                                    <i></i>
-                                                    <i></i>
-                                                    <i></i>
-                                                </div>
+                                               
                                                 <div class="hotel_location">Tunisie</div>
                                                 <div class="hotel_location">{{product.type}}</div>
                                                 <div *ngIf="isLoggedIn ;else No_login">
@@ -71,10 +65,25 @@
                                                 class="hotel_review_container d-flex flex-column align-items-center justify-content-center">
                                                 <div class="hotel_review">
                                                     <div class="hotel_review_content">
-                                                        <div class="hotel_review_title">very good</div>
+                                                        <div class="hotel_review_title">
+                                                            {{(this.rating| number : '1.0-0')| i18nPlural: {
+                                                                '=1'   : 'very poor',
+                                                                '=2'   : 'very poor',
+                                                                '=3'   : 'Fair',
+                                                                '=4'   : 'Fair',
+                                                                '=5'   : 'Average',
+                                                                '=6'   : 'Average',
+                                                                '=7'   : 'Cood',
+                                                                '=8'   : 'Good',
+                                                                '=9'   : 'Excellent',
+                                                                '=10'   : 'Excellent'
+
+
+                                               } }}
+                                                        </div>
                                                         <div class="hotel_review_subtitle" *ngIf="feedbacks !=null">{{feedbacks.length}} reviews</div>
                                                     </div>
-                                                    <div class="hotel_review_rating text-center">{{this.rating}}</div>
+                                                    <div class="hotel_review_rating text-center">{{this.rating | number : '1.0-0'}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,8 +176,12 @@
                                             </div>
                                           
                                         </div>
-                                        <button (click)="addFeedback()"> Add</button>
+                                       
 
+                                                <div class="hotel_map_link " style="  margin-left: 40%;
+                                                margin-top: 10%;
+"
+                                                (click)="addFeedback()">Add feedback</div>
                                     </div>
                                     <div class="location_on_map">
                                         <div class="location_on_map_title">location on map</div>

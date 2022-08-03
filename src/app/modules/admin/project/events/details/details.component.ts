@@ -4,6 +4,7 @@ import {
 import {
   ChangeDetectorRef,
   Component,
+  Inject,
   OnDestroy,
   OnInit,
   QueryList,
@@ -14,7 +15,7 @@ import {
   NgForm
 } from '@angular/forms';
 import {
-  MatDialog
+  MatDialog, MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import {
   ActivatedRoute,
@@ -51,7 +52,7 @@ import {
   environment
 } from 'environments/environment';
 import {
-  combineLatest
+  combineLatest, Subject, takeUntil, tap
 } from 'rxjs';
 import {
   PaymentComponent
@@ -95,7 +96,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   UserNotif: any;
   recommendedEvents: any
   feedbacks: any 
-  rating : any
+  rating : number
   recommendedEvents2 = []
   number: any
   recommendedId = []
@@ -110,6 +111,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     label: 'your place',
   }, ];
 
+  private destroy$: Subject<any> = new Subject<any>();
 
 
   ////////////////stripe ///////////////////
@@ -136,9 +138,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private userService: UsersService,
     public webSocketNotifService: WebSocketNotifService,
   ) {
-    // Set the defaults
-    this.animationDirection = 'none';
-    this.currentStep = 0;
+
 
     // Set the private defaults
   }
@@ -151,7 +151,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-
+    this.productService.getReloadFeedback().pipe(
+      tap(value => {
+        if (value === true) {
+          this.getFeedbacks();
+        }
+      }
+      ),
+      takeUntil(this.destroy$)
+    ).subscribe();
 
     this.webSocketNotifService.openWebSocket();
     this.product = new Program();
@@ -161,7 +169,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
         console.log(data)
         this.product = data;
       }, error => console.log(error));
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
@@ -188,6 +198,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       }, )
 
     };
+
     this.productService.getRecommendation(this.id)
       .subscribe(
         (response) => {
@@ -209,6 +220,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
           console.log("No Data Found" + error);
         })
 
+
+
+       this.getFeedbacks();
+
+     
+      }
+
+      getFeedbacks() {
         this.productService.getFeedbacks(this.id).subscribe(data => {
           this.feedbacks = data
           console.log("feedbacks",this.feedbacks)
@@ -219,13 +238,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
               sum += this.feedbacks[i].stars; 
           this.rating = (sum/this.feedbacks.length)
           console.log(this.rating)
-            }  
+            }
+
+            this._changeDetectorRef.markForCheck()
           
           
 
         }, error => console.log(error));
-
-     
+        
       }
   addParticipant() {
     this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
@@ -264,6 +284,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     //this.webSocketService.closeWebSocket();
     //this.webSocketNotifService.closeWebSocket();
+    this.destroy$.next(undefined);
+    this.destroy$.complete();
   }
   sendMessage(sendForm: NgForm) {
     this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has reserved" + " " + this.product.title).subscribe(data => {
@@ -286,12 +308,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const dialogRef = this._matDialog.open(AddFeedbackComponent, {
       autoFocus: false,
       height: '700px',
-      data: this.id
-
-
-
-
-
+      data: { id: this.id }
     });
   }
 

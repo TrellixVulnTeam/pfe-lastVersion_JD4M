@@ -1074,8 +1074,6 @@ background-color: transparent;
     -ms-appearance:none;
     -o-appearance:none;
     appearance:none;
-	-webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-	-webkit-user-select: none;
 	background-image: url();
 	background-position: center right;
 	background-repeat: no-repeat;
@@ -1232,10 +1230,7 @@ background-color: transparent;
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
-.intro_center
-{
 
-}
 .intro_center h1
 {
 	font-size: 59px;
@@ -1306,10 +1301,7 @@ background-color: transparent;
 8.1 CTA Slider
 *********************************/
 
-.cta_slider_container
-{
 
-}
 .cta_item
 {
 	padding-top: 75px;
@@ -1409,10 +1401,7 @@ background-color: transparent;
 {
 	margin-bottom: 83px;
 }
-.offers_item
-{
 
-}
 .offers_image_container
 {
 	width: 100%;
@@ -1449,10 +1438,7 @@ background-color: transparent;
 	line-height: 35px;
 	padding-left: 22px;
 }
-.offers_content
-{
-	
-}
+
 .offers_price
 {
 	display: inline-block;
@@ -1468,10 +1454,7 @@ background-color: transparent;
 	color: #929191;
 	margin-left: 12px;
 }
-.offers_rating
-{
 
-}
 .offers_rating i::before
 {
 	font-size: 13px;
@@ -2140,10 +2123,7 @@ background-color: transparent;
 {
 	height: 52px;
 }
-.footer_nav
-{
-	
-}
+
 .footer_nav_list
 {
 	font-size: 0px;

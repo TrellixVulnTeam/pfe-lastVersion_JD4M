@@ -5,7 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 import { Feedback } from 'app/models/Feedback';
 import { Program } from 'app/models/Program';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+export type DialogDataSubmitCallback<T> = (row: T) => void;
 
 @Component({
   selector: 'app-add-feedback',
@@ -15,7 +16,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddFeedbackComponent implements OnInit {
   
   id: string;
-feedback : Feedback
+  feedback : Feedback
   value: number = 5;
   myDate = new Date();
   str: string;
@@ -42,8 +43,10 @@ feedback : Feedback
     private router: Router,
     private route: ActivatedRoute,
     private tokenStorageService : TokenStorageService,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-    private dialogRef: MatDialogRef<AddFeedbackComponent>
+    @Inject(MAT_DIALOG_DATA) public data: { id: string },
+    private dialogRef: MatDialogRef<AddFeedbackComponent>,
+    private _matDialog: MatDialog,
+
 
 
 
@@ -60,8 +63,10 @@ feedback : Feedback
   AddFeedback(message , stars  ) {
     console.log(message)
     this.feedback = new Feedback(message,stars)
-    this.productService.AddFeedback(this.data,this.tokenStorageService.getUser().id,this.feedback).subscribe(data => {
+    this.productService.AddFeedback(this.data.id,this.tokenStorageService.getUser().id,this.feedback).subscribe(data => {
       console.log("data",data)
+      this.productService.setReloadFeedback(true);
+      this._matDialog.closeAll();
     }, error => console.log(error)); 
     console.log(this.feedback)
     

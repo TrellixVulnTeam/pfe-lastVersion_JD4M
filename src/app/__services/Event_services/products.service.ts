@@ -20,6 +20,7 @@ export class ProductsService {
     listData : Program[];
     public dataForm:  FormGroup;
     private baseUrl2 = '/api/articles';
+    private reloadFeedback$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor(private http : HttpClient) {
         this.onProductChanged = new BehaviorSubject({});
@@ -166,9 +167,16 @@ export class ProductsService {
   }
   getFeedbacks(productId : string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get/feedback/${productId}`);
-}
 
+ } 
 
+ setReloadFeedback(value: Boolean) {
+  this.reloadFeedback$.next(value);
+ }  
+
+ getReloadFeedback() {
+  return this.reloadFeedback$.asObservable();
+ }
 
 
 
