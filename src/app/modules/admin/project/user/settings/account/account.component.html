@@ -1,7 +1,7 @@
 <div class="w-full max-w-3xl">
 
     <!-- Form -->
-    <form [formGroup]="accountForm">
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
 
         <!-- Section -->
         <div class="w-full">
@@ -29,39 +29,14 @@
                     <div
                         class="text-secondary"
                         matPrefix>
-                        fusetheme.com/
+                        TunisiaHereWeGo.tn/
                     </div>
                     <input
                         [formControlName]="'username'"
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Title -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Title</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:briefcase'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'title'"
-                        matInput>
-                </mat-form-field>
-            </div>
-            <!-- Company -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Company</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:office-building'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'company'"
-                        matInput>
-                </mat-form-field>
-            </div>
+        
             <!-- About -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
@@ -75,7 +50,30 @@
                 <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>
             </div>
         </div>
+    <!-- Title -->
+    <div class="sm:col-span-2">
+        <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-label>Image</mat-label>
+            <div class="flex flex-col gt-xs:flex-row">
+                <a mat-stroked-button fxFlexAlign="start" color="primary"
+                    (click)="fileInput.click()">
+                    <span>Importer</span>
+                </a>
 
+                <input type="file"  id="upload-file-input" #fileInput (change)="onFileChanged2($event)" hidden accept="image/*">
+
+                <img class="file-upload-image" [src]="imgURL2" *ngIf="imgURL2" alt="your image" />
+                </div>
+                <div class="drag-text">
+                </div>
+
+            <input
+                [formControlName]="'image'"
+                matInput>
+        </mat-form-field>
+        <div class="mt-1 text-md text-hint">Or Drag and drop a file.</div>
+
+    </div>
         <!-- Divider -->
         <div class="my-10 border-t"></div>
 
@@ -111,7 +109,7 @@
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Country -->
+            <!-- Country --
             <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
                     <mat-label>Country</mat-label>
@@ -128,7 +126,7 @@
                         <mat-option [value]="'italy'">Italy</mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
+            </div> -->
             <!-- Language -->
             <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -140,9 +138,6 @@
                     <mat-select [formControlName]="'language'">
                         <mat-option [value]="'english'">English</mat-option>
                         <mat-option [value]="'french'">French</mat-option>
-                        <mat-option [value]="'spanish'">Spanish</mat-option>
-                        <mat-option [value]="'german'">German</mat-option>
-                        <mat-option [value]="'italian'">Italian</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

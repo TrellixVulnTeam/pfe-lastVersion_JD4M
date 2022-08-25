@@ -51,12 +51,7 @@ export class SettingsComponent implements OnInit, OnDestroy
                 title      : 'Security',
                 description: 'Manage your password and 2-step verification preferences'
             },
-            {
-                id         : 'plan-billing',
-                icon       : 'heroicons_outline:credit-card',
-                title      : 'Plan & Billing',
-                description: 'Manage your subscription plan, payment method and billing information'
-            },
+          
             {
                 id         : 'notifications',
                 icon       : 'heroicons_outline:bell',
@@ -66,7 +61,7 @@ export class SettingsComponent implements OnInit, OnDestroy
             {
                 id         : 'team',
                 icon       : 'heroicons_outline:user-group',
-                title      : 'Team',
+                title      : 'Participants on hold',
                 description: 'Manage your existing team and change roles/permissions'
             }
         ];

@@ -70,8 +70,12 @@ export class SettingsTeamComponent implements OnInit,OnDestroy
             //this.eventsAdded = products;
             this.productService.getPendingProducts().subscribe((products : any[]) => {
                 this.eventPending = products;
+                
             for( let event of this.eventPending) {
-                if(event.event.organizer.username == this.tokenStorageService.getUser().username ) {
+                console.log(event.event.organizer.username)
+
+
+                if(event.event.organizer!=null && (event.event.organizer.username == this.tokenStorageService.getUser().username )) {
                     this.isPending = true ;     
             this.productService.getPendingPartcipants(event.event.id).subscribe((users : any[]) => {
              this.participants = users;

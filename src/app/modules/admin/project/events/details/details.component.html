@@ -19,7 +19,7 @@
                                         <div class="hotel_title_container d-flex flex-lg-row flex-column">
                                             <div class="hotel_title_content ">
                                                 <h1 class="hotel_title">{{product.title}}</h1>
-                                               
+
                                                 <div class="hotel_location">Tunisie</div>
                                                 <div class="hotel_location">{{product.type}}</div>
                                                 <div *ngIf="isLoggedIn ;else No_login">
@@ -81,9 +81,11 @@
 
                                                } }}
                                                         </div>
-                                                        <div class="hotel_review_subtitle" *ngIf="feedbacks !=null">{{feedbacks.length}} reviews</div>
+                                                        <div class="hotel_review_subtitle" *ngIf="feedbacks !=null">
+                                                            {{feedbacks.length}} reviews</div>
                                                     </div>
-                                                    <div class="hotel_review_rating text-center">{{this.rating | number : '1.0-0'}}</div>
+                                                    <div class="hotel_review_rating text-center">
+                                                        {{this.rating | number : '1.0-0'}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -155,7 +157,8 @@
                                                 <div class="row">
                                                     <div class="col-lg-1">
                                                         <div class="review_image">
-                                                            <img *ngIf="feedback.user.picture!=null" src="data:image/jpg;base64,{{feedback.user.picture.data}}"
+                                                            <img *ngIf="userF.picture"
+                                                                src="data:image/jpg;base64,{{userF.picture.data}}"
                                                                 alt="https://unsplash.com/@saaout">
                                                         </div>
                                                     </div>
@@ -168,20 +171,37 @@
                                                             <div class="review_text">
                                                                 <p>{{feedback.message}}.</p>
                                                             </div>
-                                                            <div class="review_name">{{feedback.user.username}}</div>
-                                                            <div class="review_date">{{feedback.localTime | date:  'longDate'}}</div>
+                                                            <div class="review_name">{{userF.username}}</div>
+                                                            <div class="review_date">
+                                                                {{feedback.localTime | date:  'longDate'}}</div>
+                                                                
                                                         </div>
+                                                        <div class="flex flex-row" style="margin-left: 90%;" >
+                                                            
+                                                      
+                                                          <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="editFeedback()" >
+                                                            <mat-icon>edit</mat-icon>
+                                                          </button> 
+                                                           <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="deleteFeedback(product.id,feedback)" >
+                                                            <mat-icon>delete</mat-icon>
+                                                          </button>
+                                                        </div>
+
+                                                  
+                                                        
                                                     </div>
+                                                    
                                                 </div>
+                                                
                                             </div>
-                                          
+                                            
+
                                         </div>
                                        
 
-                                                <div class="hotel_map_link " style="  margin-left: 40%;
-                                                margin-top: 10%;
-"
-                                                (click)="addFeedback()">Add feedback</div>
+
+                                        <div class="hotel_map_link " style="  margin-left: 40%;
+                                                margin-top: 10%;" (click)="addFeedback()">Add feedback</div>
                                     </div>
                                     <div class="location_on_map">
                                         <div class="location_on_map_title">location on map</div>
@@ -212,7 +232,7 @@
                                     <div class="rooms">
                                         <div class="reviews_title text-center">You may like</div>
                                         <div class="room" *ngFor="let i of recommendedEvents2; let index = index">
-                                            <div class="row" >
+                                            <div class="row">
                                                 <div class="col-lg-2">
                                                     <div class="room_image" *ngIf="i.pics== null"><img src="{{i.image}}"
                                                             alt="https://unsplash.com/@grovemade"></div>

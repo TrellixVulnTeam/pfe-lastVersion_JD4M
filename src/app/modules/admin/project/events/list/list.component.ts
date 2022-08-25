@@ -2,6 +2,7 @@ import {
   HttpClient
 } from '@angular/common/http';
 import {
+  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -80,6 +81,8 @@ export class ListComponent implements OnInit {
     private _matDialog: MatDialog,
     private _matSnackBar: MatSnackBar,
     private http: HttpClient,
+    private _changeDetectorRef: ChangeDetectorRef,
+
   ) {}
 
   ngOnInit(): void {
@@ -139,12 +142,13 @@ export class ListComponent implements OnInit {
             verticalPosition: 'top',
             duration: 2000
           });
+          this._changeDetectorRef.markForCheck()
 
 
         },
         error => console.log(error));
-    this.reloadPage();
 
+    
   }
   reloadPage(): void {
     window.location.reload();
@@ -156,6 +160,7 @@ export class ListComponent implements OnInit {
   /**
    * Filter courses by category
    */
+  
 
   
   addNewNote(): void {
@@ -180,6 +185,9 @@ export class ListComponent implements OnInit {
     });
   }
 
+  updateEvent(id: string) {
+   
+  }
 
 
   // Set the private defaults

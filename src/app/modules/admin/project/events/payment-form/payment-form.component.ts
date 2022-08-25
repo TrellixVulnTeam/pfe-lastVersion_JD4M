@@ -99,7 +99,7 @@ export class PaymentFormComponent implements OnInit,OnDestroy {
 
   AddPendingParticipant() {
     this.productService.addPendingParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
-    this.userService.addNotifToUser(this.product.organizer.id, this.username + " " + "has chosen to pay cash for" + " " + this.product.title +" " + "please make sure to accept him/her after payment.").subscribe(data => {
+    this.userService.addNotifToUser(this.product.organizer.id, "Hey" +" takwa_ba " + "! Just a friendly reminder from " +  this.product.organizer.username+ " that " + this.product.title +  " is happening tomorrow at 7.AM. Please make sure to arrive 30 minutes in advance. If you can't make the time slot, please let me know to reschedule. Can't wait to see you! <3 ").subscribe(data => {
       console.log("data",data)
       this.notif = data; 
  

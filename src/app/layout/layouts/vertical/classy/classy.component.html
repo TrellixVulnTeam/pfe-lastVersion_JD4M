@@ -27,8 +27,8 @@
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
-                    *ngIf="user.avatar"
-                    [src]="user.avatar"
+                    *ngIf="isLoggedIn && users.picture"
+                    src="data:image/jpg;base64,{{users.picture.data}}"
                     alt="User avatar">
                 <mat-icon
                     class="icon-size-24"

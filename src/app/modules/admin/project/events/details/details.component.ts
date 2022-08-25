@@ -15,7 +15,8 @@ import {
   NgForm
 } from '@angular/forms';
 import {
-  MatDialog, MAT_DIALOG_DATA
+  MatDialog,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import {
   ActivatedRoute,
@@ -52,7 +53,10 @@ import {
   environment
 } from 'environments/environment';
 import {
-  combineLatest, Subject, takeUntil, tap
+  combineLatest,
+  Subject,
+  takeUntil,
+  tap
 } from 'rxjs';
 import {
   PaymentComponent
@@ -63,7 +67,14 @@ import {
 import {
   Users
 } from 'app/models/Users';
-import { AddFeedbackComponent } from './add-feedback/add-feedback.component';
+import {
+  AddFeedbackComponent
+} from './add-feedback/add-feedback.component';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import { EditEventComponent } from '../edit-event/edit-event.component';
+import { EditFeedbackComponent } from './edit-feedback/edit-feedback.component';
 
 
 @Component({
@@ -95,10 +106,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   NotifD: any;
   UserNotif: any;
   recommendedEvents: any
-  feedbacks: any 
-  rating : number
+  feedbacks: any
+  rating: number
   recommendedEvents2 = []
   number: any
+  userF : any;
   recommendedId = []
   user: Users;
   OneOfPartcipants = false
@@ -111,7 +123,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     label: 'your place',
   }, ];
 
-  private destroy$: Subject<any> = new Subject<any>();
+  private destroy$: Subject < any > = new Subject < any > ();
 
 
   ////////////////stripe ///////////////////
@@ -137,6 +149,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public webSocketService: WebSocketService,
     private userService: UsersService,
     public webSocketNotifService: WebSocketNotifService,
+    private _matSnackBar: MatSnackBar,
+
   ) {
 
 
@@ -156,8 +170,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         if (value === true) {
           this.getFeedbacks();
         }
-      }
-      ),
+      }),
       takeUntil(this.destroy$)
     ).subscribe();
 
@@ -222,31 +235,37 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
 
 
-       this.getFeedbacks();
+    this.getFeedbacks();
 
-     
+
+  }
+
+  getFeedbacks() {
+    this.productService.getFeedbacks(this.id).subscribe(data => {
+      this.feedbacks = data
+      console.log("feedbacks", this.feedbacks)
+      for (let i = 0; i < this.feedbacks.length; i++) {
+        this.userService.getUser(this.feedbacks[i].userId).subscribe((user: Users) => {
+          this.userF = user;
+          console.log(this.userF)
+        })
       }
 
-      getFeedbacks() {
-        this.productService.getFeedbacks(this.id).subscribe(data => {
-          this.feedbacks = data
-          console.log("feedbacks",this.feedbacks)
+      let sum = 0;
 
-          let sum = 0;
-
-          for (let i = 0; i < this.feedbacks.length; i++) {
-              sum += this.feedbacks[i].stars; 
-          this.rating = (sum/this.feedbacks.length)
-          console.log(this.rating)
-            }
-
-            this._changeDetectorRef.markForCheck()
-          
-          
-
-        }, error => console.log(error));
-        
+      for (let i = 0; i < this.feedbacks.length; i++) {
+        sum += this.feedbacks[i].stars;
+        this.rating = (sum / this.feedbacks.length)
+        console.log(this.rating)
       }
+
+      this._changeDetectorRef.markForCheck()
+
+
+
+    }, error => console.log(error));
+
+  }
   addParticipant() {
     this.productService.addParticipant(this.tokenStorageService.getUser().id.toString(), this.id, this.product).subscribe(data => console.log(data), error => console.log(error));
     this.product = new Program();
@@ -304,13 +323,43 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   addFeedback(): void {
 
-    
+
     const dialogRef = this._matDialog.open(AddFeedbackComponent, {
       autoFocus: false,
       height: '700px',
-      data: { id: this.id }
+      data: {
+        id: this.id
+      }
     });
   }
+  deleteFeedback( id: string, value : any) {
+    this.productService.deleteFeedback(id,value)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.productService.setReloadFeedback(true);
+          this._matSnackBar.open('Feedback deleted', 'OK', {
+            verticalPosition: 'top',
+            duration: 2000
+          });
+
+
+        },
+        error => console.log(error));
+  }
+
+  editFeedback(): void {
+
+
+    const dialogRef = this._matDialog.open(EditFeedbackComponent, {
+      autoFocus: false,
+      height: '700px',
+      data: {
+        id: this.id
+      }
+    });
+  }
+
 
 }
 interface marker {

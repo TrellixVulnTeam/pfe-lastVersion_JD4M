@@ -1,0 +1,72 @@
+<!-- Main -->
+<div class="flex-auto p-6 sm:p-10">
+
+    <div class="max-w-3xl">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+
+
+
+            </div>
+
+
+
+            <!-- Horizontal stepper -->
+            <div class="mt-16 mb-8 text-3xl font-bold">Edit your Event</div>
+
+
+            <form [formGroup]="EditEvent" (ngSubmit)="onSubmit()" *ngIf="product">
+
+                <ng-template>Basic information</ng-template>
+                <p class="my-6 font-medium">
+                </p>
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <input matInput 
+                        [formControlName]="'title'"  [placeholder]="'Event title'">
+                       
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto">
+                        <textarea matInput [formControlName]="'description'" [placeholder]="'description'" [rows]="3"></textarea>
+                       
+                    </mat-form-field>
+
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto">
+                        <input matInput [formControlName]="'type'" >
+                        
+                    </mat-form-field>
+
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+
+                    <mat-form-field>
+                        <input #minmaxInput matInput [min]="minDate" [max]="maxDate" [matDatepicker]="minmaxvalidation"
+                            [formControlName]="'date'"   placeholder="Pick a date">
+                        <mat-datepicker-toggle matSuffix [for]="minmaxvalidation">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #minmaxvalidation></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto">
+                        <input matInput [formControlName]="'price'" [placeholder]="'Event price'" >
+                    
+                    </mat-form-field>
+
+                </div>
+                <div class="flex justify-end">
+                    <button class="px-8" mat-flat-button [color]="'primary'" type="button" type="submit" value="Submit" >
+                        Edit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

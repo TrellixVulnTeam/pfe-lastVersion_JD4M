@@ -47,6 +47,9 @@ import { AddFeedbackComponent } from './events/details/add-feedback/add-feedback
 import {MatSliderModule} from '@angular/material/slider';
 
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
+import { EditEventComponent } from './events/edit-event/edit-event.component';
+import { EditFeedbackComponent } from './events/details/edit-feedback/edit-feedback.component';
 
 const exampleRoutes: Route[] = [
   
@@ -70,6 +73,11 @@ const exampleRoutes: Route[] = [
        
     },
     {
+        path     : 'auth/resetPassword',
+        component: ResetPasswordComponent,
+       
+    },
+    {
         path     : 'add',
         component: FormsWizardsComponent,
        
@@ -78,7 +86,26 @@ const exampleRoutes: Route[] = [
     {
         path: 'setting',
         loadChildren: () => import('app/modules/admin/project/user/settings/settings.module').then(m => m.SettingsModule)
-    },    
+    },  
+    {
+        path     : 'home',
+        component: HomeComponent,
+       
+    },
+    {
+        path     : 'AddFeedback',
+        component: AddFeedbackComponent,
+       
+    },
+    {
+        path     : 'EditFeedback',
+        component: EditFeedbackComponent,
+       
+    },
+
+ 
+    
+      
 
     {
         path     : 'chat',
@@ -91,18 +118,14 @@ const exampleRoutes: Route[] = [
             }
         ] 
     },
+    
+    
     {
-        path     : 'home',
-        component: HomeComponent,
-       
+        path     : 'editEvent/:id',
+        component: EditEventComponent,
+     
     },
-
-    {
-        path     : 'AddFeedback',
-        component: AddFeedbackComponent,
-       
-    },
-
+   
 
       {
         path     : 'carduser/:id',
@@ -134,6 +157,9 @@ const exampleRoutes: Route[] = [
         PaymentFormComponent,
         SignupComponent,
         AddFeedbackComponent,
+        ResetPasswordComponent,
+        EditEventComponent,
+        EditFeedbackComponent,
         
         
 
