@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,9 @@ import { SharedModule } from 'app/shared/shared.module';
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        TranslocoCoreModule
+
     ],
     exports     : [
         MessagesComponent

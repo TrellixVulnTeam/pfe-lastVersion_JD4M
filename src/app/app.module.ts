@@ -13,11 +13,13 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { AppRoutingModule } from './app-routing.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ExampleComponent } from './modules/admin/project/project.component';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminModule } from './modules/admin/admin/admin.module';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -38,6 +40,9 @@ const routerConfig: ExtraOptions = {
         FuseModule,
         FuseConfigModule.forRoot(appConfig),
         FuseMockApiModule.forRoot(mockApiServices),
+        FormsModule,
+        CommonModule,
+        ReactiveFormsModule,
 
         // Core module of your application
         CoreModule,
@@ -54,7 +59,11 @@ const routerConfig: ExtraOptions = {
            // Register the ServiceWorker as soon as the app is stable
            // or after 30 seconds (whichever comes first).
            registrationStrategy: 'registerWhenStable:30000'
-         })
+         }),
+         AdminModule
+    ],
+    providers: [
+        DatePipe,
     ],
     bootstrap   : [
         AppComponent

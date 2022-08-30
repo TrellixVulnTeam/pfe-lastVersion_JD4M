@@ -41,7 +41,7 @@ export class ProductsService {
   public dataForm: FormGroup;
   private baseUrl2 = '/api/articles';
   private reloadFeedback$: BehaviorSubject < any > = new BehaviorSubject < any > (null);
-
+  private search$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor(private http: HttpClient) {
     this.onProductChanged = new BehaviorSubject({});
     this.onCategoriesChanged = new BehaviorSubject({});
@@ -178,7 +178,13 @@ export class ProductsService {
   addChatToEvent(productId: string, userId: string, message: string): Observable < Object > {
     return this.http.post(`${this.baseUrl}/add/chat/${productId}/${userId}`, message);
   }
+  setSearch(value: any) {
+    this.search$.next(value);
+  }
 
+  getSearch() {
+    return this.search$.asObservable();
+  }
   getchatRoomByEvent(productId: string): Observable < Program > {
     return this.http.get < Program > (`${this.baseUrl}/get/chat/${productId}`);
   }
@@ -209,6 +215,16 @@ export class ProductsService {
     return this.http.put(`${this.baseUrl}/edit/feedback/${id}/${index}`, feedback);
   }
 
-
-
+  refuseEvents(id: string): Observable < any > {
+    return this.http.put(`${this.baseUrl}/refuse/event/${id}`, Program);
+  }
+  acceptEvents(id: string): Observable < any > {
+    return this.http.put(`${this.baseUrl}/accept/event/${id}`, Program);
+  }
+  getByStatus(status: string): Observable < any > {
+    return this.http.get < any > (`${this.baseUrl}/${status}`);
+  }
+  getExtractedEvents(): Observable < any > {
+    return this.http.get < any > (`http://127.0.0.1:1234/`,{ responseType: 'json' });
+  }
 }

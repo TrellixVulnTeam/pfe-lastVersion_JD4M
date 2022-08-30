@@ -1,16 +1,16 @@
 <div class="login flex flex-col flex-auto items-center sm:justify-center min-w-0" >
     <div class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-            <!-- Logo --
-            <div class="w-12">
+            <!-- Logo -->
+            <!-- <div class="w-12">
                 <img src="assets/images/logo/logo.svg">
-            </div>
+            </div> -->
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">{{ 'sign_in' | transloco }}</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Don't have an account?</div>
-                <a class="ml-1 text-primary-500 hover:underline" routerLink="signup">Sign up
+                <div>{{ 'dont_have_an_account' | transloco }}</div>
+                <a class="ml-1 text-primary-500 hover:underline" routerLink="signup">{{ 'sign_up' | transloco }}
                 </a>
             </div>
 
@@ -33,20 +33,20 @@
   
                   <!-- Email field -->
                   <mat-form-field class="w-full">
-                      <mat-label>User name</mat-label>
+                      <mat-label>{{ 'user_name' | transloco }}</mat-label>
                       <input
                           id="username"
                           matInput
                           [formControlName]="'username'">
                       <mat-error *ngIf="signInForm.get('username').hasError('required')">
-                          username is required
+                        {{ 'username_is_required' | transloco }}
                       </mat-error>
                      
                   </mat-form-field>
   
                   <!-- Password field -->
                   <mat-form-field class="w-full">
-                      <mat-label>Password</mat-label>
+                      <mat-label>{{ 'password' | transloco }}</mat-label>
                       <input
                           id="password"
                           matInput
@@ -68,7 +68,7 @@
                               [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                       </button>
                       <mat-error>
-                          Password is required
+                        {{ 'password_is_required' | transloco }}
                       </mat-error>
                   </mat-form-field>
   
@@ -77,23 +77,24 @@
                       <mat-checkbox
                           [color]="'primary'"
                           [formControlName]="'rememberMe'">
-                          Remember me
+                          {{ 'remember_me' | transloco }}
                       </mat-checkbox>
                       <a
                           class="text-md font-medium text-primary-500 hover:underline"
-                          [routerLink]="['/forgot-password']">Forgot password?
+                          [routerLink]="['./resetPassword']">{{ 'forgot_password' | transloco }}
                       </a>
                   </div>
   
                   <!-- Submit button -->
+                  <!-- routerLink="/events" -->
                   <button
                       class="fuse-mat-button-large w-full mt-6"
                       mat-flat-button
                       [color]="'primary'"
                       [disabled]="signInForm.disabled"
-                      (click)="signIn()" routerLink="/events">
+                      (click)="signIn()">
                       <span *ngIf="!signInForm.disabled">
-                          Sign in
+                        {{ 'sign_in' | transloco }}
                       </span>
                       <mat-progress-spinner
                           *ngIf="signInForm.disabled"
@@ -104,7 +105,7 @@
                   <!-- Separator -->
                   <div class="flex items-center mt-8">
                       <div class="flex-auto mt-px border-t"></div>
-                      <div class="mx-2 text-secondary">Or continue with</div>
+                      <div class="mx-2 text-secondary">{{ 'or_continue_with' | transloco }}</div>
                       <div class="flex-auto mt-px border-t"></div>
                   </div>
   

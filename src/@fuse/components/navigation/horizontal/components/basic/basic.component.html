@@ -90,7 +90,7 @@
 
     <!-- Icon -->
     <ng-container *ngIf="item.icon">
-        <mat-icon
+        <mat-icon *ngIf="item.role === role"
             class="fuse-horizontal-navigation-item-icon"
             [ngClass]="item.classes?.icon"
             [svgIcon]="item.icon"></mat-icon>
@@ -99,7 +99,7 @@
     <!-- Title & Subtitle -->
     <div class="fuse-horizontal-navigation-item-title-wrapper">
         <div class="fuse-horizontal-navigation-item-title">
-            <span [ngClass]="item.classes?.title">
+            <span [ngClass]="item.classes?.title" *ngIf="item.role === role">
                 {{item.title}}
             </span>
         </div>
@@ -117,7 +117,7 @@
         <div class="fuse-horizontal-navigation-item-badge">
             <div
                 class="fuse-horizontal-navigation-item-badge-content"
-                [ngClass]="item.badge.classes">
+                [ngClass]="item.badge.classes" *ngIf="item.role === role">
                 {{item.badge.title}}
             </div>
         </div>

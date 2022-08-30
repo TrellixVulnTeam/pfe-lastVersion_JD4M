@@ -3,12 +3,12 @@
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">{{ 'sign_up' | transloco }}</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Already have an account?</div>
+                <div>{{ 'dont_have_an_account' | transloco }}</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    (click)="back()">Sign in
+                    (click)="back()">{{ 'sign_in' | transloco }}
                 </a>
             </div>
 
@@ -30,34 +30,34 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Username</mat-label>
+                    <mat-label>{{ 'full_name' | transloco }}</mat-label>
                     <input
                         id="username"
                         matInput
                         [formControlName]="'username'" >
                     <mat-error *ngIf="signUpForm.get('username').hasError('required')">
-                        Full name is required
+                            {{ 'full_name_is_required' | transloco }}
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>{{ 'email_address' | transloco }}</mat-label>
                     <input
                         id="email"
                         matInput
                         [formControlName]="'email'">
                     <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
+                        {{ 'Email address is required' | transloco }}
                     </mat-error>
                     <mat-error *ngIf="signUpForm.get('email').hasError('email')">
-                        Please enter a valid email address
+                        {{ 'Please enter a valid email address' | transloco }} 
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>{{ 'password' | transloco }}</mat-label>
                     <input
                         id="password"
                         matInput
@@ -79,7 +79,7 @@
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
                     <mat-error>
-                        Password is required
+                        {{ 'password_is_required' | transloco }}
                     </mat-error>
                 </mat-form-field>
 
@@ -95,7 +95,7 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                        {{ 'Create your free account' | transloco }}
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"

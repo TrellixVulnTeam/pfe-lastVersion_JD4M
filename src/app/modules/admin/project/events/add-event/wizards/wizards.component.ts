@@ -29,6 +29,7 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
     latitudedef: number = 35.825603;
     latitude: any;
     longitude: any;
+    label :any;
     longitudedef: number = 10.608395;
     event: Program = new Program();    
     submitted = false;
@@ -63,12 +64,13 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
     cardHandler = this.onChange.bind(this);
     horizontalStepperForm: FormGroup;
     verticalStepperForm: FormGroup;
+    labeldef : string = 'your place'
     markers: marker[] = [
       {
         latitude: this.latitudedef,
   
         longitude: this.longitudedef,
-        label: 'your place',
+        label: this.labeldef,
       },
     ];
 
@@ -324,7 +326,8 @@ export class FormsWizardsComponent implements OnInit ,AfterViewInit, OnDestroy
           console.log("data",data2)
           this.eventWithPlace = data2;
           this.latitude = this.eventWithPlace.place.latitude;
-          this.longitude = this.eventWithPlace.place.longitude
+          this.longitude = this.eventWithPlace.place.longitude;
+          this.label = this.eventWithPlace.place.label;
         }, error => console.log(error));
        
         return location;
@@ -387,4 +390,6 @@ interface marker {
 interface Location {
   latitude: number;
   longitude: number;
+  label?: string;
+
 }

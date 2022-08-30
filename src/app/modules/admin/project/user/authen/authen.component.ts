@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -40,7 +40,9 @@ export class AuthenComponent implements OnInit
         private _formBuilder: FormBuilder,
         private tokenStorage: TokenStorageService,
         private authService: AuthService,
-        private _router: Router
+        private _router: Router,
+        private cdr: ChangeDetectorRef,
+
 
 
 
@@ -74,6 +76,7 @@ export class AuthenComponent implements OnInit
           this.isLoggedIn = true;
           this.roles = this.tokenStorage.getUser().roles;
         }
+
       }
       onSubmit(): void {
         this.authService.login(this.form).subscribe(
@@ -84,7 +87,6 @@ export class AuthenComponent implements OnInit
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.tokenStorage.getUser().roles;
-            this.reloadPage();
           },
           err => {
             this.errorMessage = err.error.message;
@@ -93,7 +95,7 @@ export class AuthenComponent implements OnInit
         );
       
 
-    
+
     
     }
    
@@ -132,7 +134,6 @@ export class AuthenComponent implements OnInit
                       // Navigate to the redirect url
                      
                       // Navigate to the redirect url
-                      this.reloadPage()
   
                   },
                   (response) => {

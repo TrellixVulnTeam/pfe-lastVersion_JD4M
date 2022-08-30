@@ -5,6 +5,7 @@ import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/ver
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
+import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 
 @Component({
     selector       : 'fuse-vertical-navigation-basic-item',
@@ -15,7 +16,8 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
 {
     @Input() item: FuseNavigationItem;
     @Input() name: string;
-
+    isLoggedIn = false;
+    role: string;
     isActiveMatchOptions: IsActiveMatchOptions;
     private _fuseVerticalNavigationComponent: FuseVerticalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -26,7 +28,8 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseUtilsService: FuseUtilsService
+        private _fuseUtilsService: FuseUtilsService,
+        private tokenStorageService: TokenStorageService,
     )
     {
         // Set the equivalent of {exact: false} as default for active match options.
@@ -34,6 +37,7 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
         // [routerLinkActiveOptions] because if it's "undefined" initially, the router
         // will throw an error and stop working.
         this.isActiveMatchOptions = this._fuseUtilsService.subsetMatchOptions;
+        this.isLoggedIn = !!this.tokenStorageService.getToken();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -45,6 +49,17 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
      */
     ngOnInit(): void
     {
+        if (this.isLoggedIn) {
+            const roles = this.tokenStorageService.getUser().roles;
+            if (roles.includes('ROLE_USER')) {
+                this.role = 'ROLE_USER';
+            }
+            if (roles.includes('ROLE_ADMIN')) {
+                this.role = 'ROLE_ADMIN';
+            } 
+        } else {
+            this.role = '';
+        }
         // Set the "isActiveMatchOptions" either from item's
         // "isActiveMatchOptions" or the equivalent form of
         // item's "exactMatch" option

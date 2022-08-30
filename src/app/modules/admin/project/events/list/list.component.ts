@@ -4,6 +4,7 @@ import {
 import {
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 import {
@@ -43,17 +44,23 @@ import {
 import {
   FormsWizardsComponent
 } from '../add-event/wizards/wizards.component';
-import { formatDate } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy
 
+
+{
   public term: string
-
+   
   products: Program[];
   isLoggedIn = false;
   view: string;
@@ -66,9 +73,11 @@ export class ListComponent implements OnInit {
   lat: string = '';
   lng: string = ''
   currentDate : any ;
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+
   myDate = new Date();
   dateS : Date;
-
+  IsFiltered = false;
 
 
 
@@ -80,6 +89,7 @@ export class ListComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private _matDialog: MatDialog,
     private _matSnackBar: MatSnackBar,
+    private datePipe: DatePipe,
     private http: HttpClient,
     private _changeDetectorRef: ChangeDetectorRef,
 
@@ -90,20 +100,9 @@ export class ListComponent implements OnInit {
     //this.currentDate = formatDate(this.myDate, 'yyyy-MM-dd', 'en-US');
     console.log("time",this.myDate)
    console.log(this.currentDate)
-    this.productsService.getProducts().subscribe((products: Program[]) => {
-      this.products = products.reverse();
-      console.log("program", this.products)
-      for (let i = 0; i < products.length; i++) {
-        if ( this.products[i].dateS != undefined) {
-          this.products[i].dateS = new Date(products[i].dateS) }
-        if (this.products[i].date != undefined) {
-          this.products[i].date = new Date(products[i].date) }
-
-        
-
-      
-    }
-    }, (error: ErrorEvent) => {})
+  
+  
+   
 
     this.isLoggedIn = !!this.tokenStorageService.getToken();
 
@@ -115,17 +114,48 @@ export class ListComponent implements OnInit {
       //console.log('org',this.productsService.getOrganizer(this.products))
       console.log('name', this.tokenStorageService.getUser());
 
-
-
-
     }
-    //this.http.get("http://localhost:8081/api/events/all/image/" + this.program.id).subscribe(response => {
-      //this.program.pics = 'data:image/jpeg;base64,' + response;
-    //});
+    console.log(this.products)
+    this.productsService.getSearch().pipe(
+      tap(search => {
+        if (search !== null) {
+      
+          console.log(search)
 
+       this.products = search;
+       for (let i = 0; i < this.products.length; i++) {
+        if ( this.products[i].dateS != undefined) {
+          this.products[i].dateS = new Date(this.products[i].dateS) }
+        if (this.products[i].date != undefined) {
+          this.products[i].date = new Date(this.products[i].date) }
+       }
+       this.IsFiltered = true;
+      }
+       else{
+        this.getProducts() 
+      }
+      }),
+      takeUntil(this._unsubscribeAll)
+    ).subscribe();
+ 
   }
 
+getProducts() {
+  this.productsService.getByStatus("Accepted").subscribe((products: Program[]) => {
+    this.products = products.reverse();
+    console.log("program", this.products)
+    
+    console.log("program", this.products)
+    for (let i = 0; i < products.length; i++) {
+      if ( this.products[i].dateS != undefined) {
+        this.products[i].dateS = new Date(products[i].dateS) }
+      if (this.products[i].date != undefined) {
+        this.products[i].date = new Date(products[i].date) }
+  }
+  this.IsFiltered = false;
 
+  }, (error: ErrorEvent) => {})
+}
 
 
   eventDetails(id: string) {
@@ -188,7 +218,14 @@ export class ListComponent implements OnInit {
   updateEvent(id: string) {
    
   }
-
+  /**
+    On destroy
+  */
+    ngOnDestroy(): void {
+      // Unsubscribe from all subscriptions
+      this._unsubscribeAll.next(null);
+      this._unsubscribeAll.complete();
+    }
 
   // Set the private defaults
 

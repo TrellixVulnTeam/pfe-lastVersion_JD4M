@@ -50,6 +50,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { EditFeedbackComponent } from './events/details/edit-feedback/edit-feedback.component';
+import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
 
 const exampleRoutes: Route[] = [
   
@@ -102,11 +103,6 @@ const exampleRoutes: Route[] = [
         component: EditFeedbackComponent,
        
     },
-
- 
-    
-      
-
     {
         path     : 'chat',
         component: ChatsComponent,
@@ -136,11 +132,10 @@ const exampleRoutes: Route[] = [
         component: DetailsComponent,
        
     },
-
     {
         path: 'payment/:id',
         component: PaymentFormComponent,
-      },
+    },
    
 ];
 
@@ -198,6 +193,8 @@ const exampleRoutes: Route[] = [
           MatButtonModule,
           MatIconModule,
           MatSelectModule,
+          TranslocoCoreModule,
+
 
 
           

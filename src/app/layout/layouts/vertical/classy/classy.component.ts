@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
@@ -41,6 +41,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private tokenStorageService: TokenStorageService,
         private userService : UsersService,
         public webSocketNotifService: WebSocketNotifService,
+        private _changeDetectorRef: ChangeDetectorRef,
 
     )
     {
@@ -67,6 +68,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
         this.isLoggedIn = !!this.tokenStorageService.getToken();
    
         if (this.isLoggedIn) {
@@ -89,7 +91,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
               ).subscribe((users : Users) => {
                   this.users = users;
                   console.log("user",this.users)
-                   
+                  this._changeDetectorRef.markForCheck()
+
               }, (error: ErrorEvent) => {
               })
         }

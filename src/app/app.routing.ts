@@ -70,15 +70,17 @@ export const appRoutes: Route[] = [
 
     // Admin routes
     {
-        path       : '',
+        path       : 'events',
        
         component  : LayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,
         },
+        
         children   : [
-            {path: 'events', loadChildren: () => import('app/modules/admin/project/project.module').then(m => m.ExampleModule)},
-
+            { path: 'events', loadChildren: () => import('app/modules/admin/project/project.module').then(m => m.ExampleModule)},
+            { path: 'admin', loadChildren: () => import('app/modules/admin/admin/admin.module').then(m => m.AdminModule) },
+         
         ]
     }
 ];

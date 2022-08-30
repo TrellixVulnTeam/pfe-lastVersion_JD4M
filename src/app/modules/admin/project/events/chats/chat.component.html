@@ -22,7 +22,7 @@
             <div class="conversation-area" *ngIf="participants != null ; else NoParticipant">
                 <div class="   py-8 px-6 md:px-8 border-b">
                     <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">{{ 'Participants' | transloco }}</div>
                         <div class="ml-0.5 font-medium text-secondary">
                             <ng-container *ngIf="participants.length > 0">
                                 {{participants.length}}
@@ -54,7 +54,7 @@
                     <div class="msg-detail">
                         <div class="msg-username">{{this.product.organizer.username}}</div>
                         <div class="msg-content">
-                            <span class="msg-message">Organizer</span>
+                            <span class="msg-message">{{ 'Organizer' | transloco }}</span>
                             <!----   <span class="msg-date"></span> -->
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="msg-detail">
                         <div class="msg-username">{{participant.username}}</div>
                         <div class="msg-content">
-                            <span class="msg-message">Participant</span>
+                            <span class="msg-message">{{ 'Participant' | transloco }}</span>
                             <!--<span class="msg-date"></span> -->
                         </div>
                     </div>
@@ -79,10 +79,10 @@
                 <div class="conversation-area">
                     <div class="   py-8 px-6 md:px-8 border-b">
                         <div>
-                            <div class="text-4xl font-extrabold tracking-tight leading-none">Participants</div>
+                            <div class="text-4xl font-extrabold tracking-tight leading-none">{{ 'Participants' | transloco }}</div>
                             <div class="ml-0.5 font-medium text-secondary">
                                 <ng-container>
-                                    No Participants
+                                    {{ 'No Participants' | transloco }}
                                 </ng-container>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                         <div class="msg-detail">
                             <div class="msg-username">{{this.product.organizer.username}}</div>
                             <div class="msg-content">
-                                <span class="msg-message">Organizer</span>
+                                <span class="msg-message">{{ 'Organizer' | transloco }}</span>
                                 <!----   <span class="msg-date"></span> -->
                             </div>
                         </div>
@@ -117,7 +117,7 @@
             </ng-template>
             <div class="chat-area">
                 <div class="chat-area-header" *ngIf="participants !=null ; else 0Participant">
-                    <div class="chat-area-title">{{product.title}} Group</div>
+                    <div class="chat-area-title">{{product.title}}{{ 'Group' | transloco }}</div>
                     <div class="chat-area-group">
                         <img class="chat-area-profile" *ngIf="product.organizer!=null "
                             src="data:image/jpg;base64,{{product.organizer.picture.data}}" alt="" />
@@ -136,7 +136,7 @@
                 </div>
                 <ng-template #0Participant>
                     <div class="chat-area-header">
-                        <div class="chat-area-title">{{product.title}} Group</div>
+                        <div class="chat-area-title">{{product.title}} {{ 'Group' | transloco }}</div>
                         <div class="chat-area-group">
                             <img class="chat-area-profile"
                                 src="data:image/jpg;base64,{{product.organizer.picture.data}}" alt="" />
@@ -171,7 +171,8 @@
                                     <div class="flex-auto border-b"></div>
                                     <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary"
                                         *ngIf='EventChat[i+1]== null && EventChat[i+1].localTime.split("-")[2].split("T")[0] == currentDate.split("-")[2] && EventChat[i+1].localTime.split("-")[1] == currentDate.split("-")[1] ; else notToday'>
-                                        Today
+                                        {{ 'Today' | transloco }}
+
                                         <!----    {{myDate | date:  'longDate' }} -->
                                     </div>
                                     <ng-template #notToday>

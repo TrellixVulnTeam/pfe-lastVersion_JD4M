@@ -1,0 +1,250 @@
+
+
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+        <!-- Header -->
+        <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+            <!-- Loader -->
+            <div
+                class="absolute inset-x-0 bottom-0"
+                *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+            <!-- Title -->
+            <div class="text-4xl font-extrabold tracking-tight">Extract Events</div>
+            <!-- Actions -->
+            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <!-- Search -->
+                <button
+                  *ngIf="displayList"
+                  class="ml-4"
+                  mat-flat-button
+                   [color]="'primary'"
+                   (click)="saveEvents()">
+                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                     <span class="ml-2 mr-1">Save events</span>
+                </button>
+                <button
+                   *ngIf="!displayList"
+                  class="ml-4"
+                  mat-flat-button
+                 [color]="'primary'"
+                 (click)="extractEvents()">
+                   <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                   <span class="ml-2 mr-1">Extract events</span>
+              </button>
+            </div>
+        </div>
+    
+        <!-- Main -->
+        <div class="flex flex-auto overflow-hidden">
+            <!-- Products list -->
+            <div *ngIf="displayList === true" class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container *ngIf="extractedEvents && extractedEvents.length > 0; else noProducts">
+                        <div class="grid">
+                            <!-- Header -->
+                            <div
+                                class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort
+                                matSortDisableClear>
+                                <div></div>
+                         
+                                <div [mat-sort-header]="'title'">Title</div>
+                                <div
+                                    class="hidden sm:block"
+                                    [mat-sort-header]="'price'">
+                                    Price
+                                </div>
+                                <div
+                                    class="hidden lg:block"
+                                    [mat-sort-header]="'type'">
+                                    Type
+                                </div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container *ngFor="let event of extractedEvents; trackBy: trackByFn">
+                                    <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+    
+                                        <!-- Image -->
+                                        <div class="flex items-center">
+                                            <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
+                                                <ng-container *ngIf="event.pics && event.pics.length; else haveImage">
+                                                    <img
+                                                    class="w-8"
+                                                    src="data:image/jpg;base64,{{event.pics[0].data}}">
+                                                </ng-container>
+                                                <ng-template #haveImage>
+                                                    <ng-container *ngIf="event.image; else noImage">
+                                                        <img
+                                                        class="w-8"
+                                                        [alt]="'Product thumbnail image'"
+                                                        [src]="event.image">
+                                                    </ng-container>
+                                                </ng-template>
+                                                <ng-template #noImage>
+                                                    <div
+                                                    class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
+                                                    *ngIf="!event.image">
+                                                    NO THUMB
+                                                </div>
+                                                </ng-template>
+                                                <img
+                                                    class="w-8"
+                                                    *ngIf="event.image"
+                                                    [alt]="'Product thumbnail image'"
+                                                    [src]="event.image">
+                                       
+                                            </div>
+                                        </div>
+    
+    
+    
+                                        <!-- Name -->
+                                        <div class="truncate">
+                                            {{event.title}}
+                                        </div>
+    
+                                        <!-- Price -->
+                                        <div class="hidden sm:block">
+                                            {{event.price}}
+                                        </div>
+    
+                                        
+                                        <!-- Type -->
+                                        <div class="hidden sm:block">
+                                            {{event.type}}
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <ng-container *ngIf="selectedEvent?.id === event.id">
+                                            <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: event}"></ng-container>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <!-- 
+                        <mat-paginator
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}"
+                            [length]="pagination.length"
+                            [pageIndex]="pagination.page"
+                            [pageSize]="pagination.size"
+                            [pageSizeOptions]="[5, 10, 25, 100]"
+                            [showFirstLastButtons]="true"></mat-paginator> -->
+    
+                    </ng-container>
+                </ng-container>
+    
+                <ng-template
+                    #rowDetailsTemplate
+                    let-event>
+                    <div class="shadow-lg overflow-hidden">
+                        <div class="flex border-b">
+           
+                            <div class="flex flex-col sm:flex-row p-8">
+                       
+                                <!-- Product images and status -->
+                                <div class="flex flex-col items-center sm:items-start mb-8 sm:mb-0">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-32 h-44 border rounded overflow-hidden">
+                                            <ng-container *ngIf="event.pics && event.pics.length; else haveImage">
+                                                <img 
+                                                class="w-full h-full object-cover"
+                                                src="data:image/jpg;base64,{{event.pics[0].data}}">
+                                            </ng-container>
+                                            <ng-template #haveImage>
+                                                <ng-container *ngIf="event.image; else noImage">
+                                                    <img
+                                                        class="w-full h-full object-cover"
+                                                        [src]="event.image">
+                                                </ng-container>                                        
+                                            </ng-template>
+                                       
+                                            <ng-template #noImage>
+                                                <span class="flex items-center min-h-20 text-lg font-semibold">NO IMAGE</span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                
+                                </div>
+    
+                                <div class="flex flex-auto flex-wrap">
+                                    <div class="flex flex-row flex-wrap">
+                                        <div class="w-full" style="margin-bottom: 1em; margin-left: 2em;">
+                                            <label style="font-weight: 800;">Name</label><br>
+                                            <span>{{ event.title }}</span>
+                                        </div>
+                                        <div class="w-full"  style="margin-bottom: 1em; margin-left: 2em;">
+                                            <label style="font-weight: 800;">Type</label><br>
+                                            <span>{{ event.type }}</span>
+                                        </div>
+                                        <div class="w-full"  style="margin-bottom: 1em; margin-left: 2em;">
+                                            <label style="font-weight: 800;">Price</label><br>
+                                            <span *ngIf="event.price !== null; else prices">{{ event.price }}</span>
+                                            <ng-template #prices>
+                                                <span>{{ event.prices }} DT</span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row flex-wrap">
+                                        <div class="w-full"  style="margin-bottom: 1em;">
+                                            <label style="font-weight: 800;">Description</label><br>
+                                            <span>{{ event.description }}</span>
+                                        </div>
+                                        <div class="w-full"  style="margin-bottom: 1em;">
+                                            <label style="font-weight: 800;">Creation date</label><br>
+                                            <span>{{ event?.cree | date }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row flex-wrap">
+                                        <div class="w-full"  style="margin-bottom: 1em;">
+                                            <label style="font-weight: 800;">Event date</label><br>
+                                            <span>{{ event?.date }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- Name, SKU & etc. -->
+                                    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                                    </div>
+    
+                                    <!-- Cost, Base price, Tax & Price -->
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                                    </div>
+    
+                                    <!-- Weight & Tags -->
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+    
+                                    </div>
+    
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+    
+                <ng-template #noProducts>
+                    <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no events!</div>
+                </ng-template>
+    
+            </div>
+
+            <div style="margin: 4em;" *ngIf="!isExtractMode" class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <label style="font-weight: 700;
+                 font-size: larger; margin-bottom: 1em;">Extract events</label>
+            </div>
+
+            <div style="margin: 4em;" *ngIf="isExtractMode && !displayList && !isCompleted" class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <label style="font-weight: 700;
+                 font-size: larger; margin-bottom: 1em;">Extract events in progress</label>
+                <mat-progress-bar style="width: 75%;" mode="indeterminate"></mat-progress-bar>
+            </div>
+            <div style="margin: 4em;" *ngIf="isCompleted" class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <label style="font-weight: 700;
+                 font-size: larger; margin-bottom: 1em;">Events saved successfully</label>
+            </div>
+        </div>
+    
+    </div>
+

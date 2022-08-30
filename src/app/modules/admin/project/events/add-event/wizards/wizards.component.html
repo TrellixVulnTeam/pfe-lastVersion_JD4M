@@ -30,42 +30,37 @@
 
 
                     <!-- Horizontal stepper -->
-                    <div class="mt-16 mb-8 text-3xl font-bold">Create your own Event</div>
+                    <div class="mt-16 mb-8 text-3xl font-bold">{{ 'Create your own Event' | transloco }}</div>
 
                     <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="horizontalStepperForm">
                         <mat-horizontal-stepper [linear]="true" #horizontalStepper>
                             <mat-step [stepControl]="horizontalStepperForm.get('step1')" #horizontalStepperStep1>
                                 <form [formGroupName]="'step1'" (ngSubmit)="onSubmit()">
 
-                                    <ng-template matStepLabel>Basic information</ng-template>
+                                    <ng-template matStepLabel>{{ 'Basic information' | transloco }}</ng-template>
                                     <p class="my-6 font-medium">
-                                        Fill in your basic information to let us know your preferences
+                                        {{ 'Fill in your basic information to let us know your preferences' | transloco }}
                                     </p>
                                     <div class="flex">
                                         <mat-form-field class="flex-auto">
-                                            <input matInput [formControlName]="'title'" [placeholder]="'Event title'"
+                                            <input matInput [formControlName]="'title'" [placeholder]="'Event title' | transloco"
                                                 required [(ngModel)]="event.title">
-                                            <mat-icon class="icon-size-5" matPrefix >
-                                            </mat-icon>
                                         </mat-form-field>
                                     </div>
                                     <div class="flex flex-col gt-xs:flex-row">
                                         <mat-form-field class="flex-auto">
                                             <textarea matInput [formControlName]="'description'"
-                                                [placeholder]="'description'" [rows]="3"
+                                                [placeholder]="'Description' | transloco" [rows]="3"
                                                 [(ngModel)]="event.description"></textarea>
-                                            <mat-icon class="icon-size-5" matPrefix
-                                                [svgIcon]="'heroicons_solid:menu-alt-2'">
-                                            </mat-icon>
+                                         
                                         </mat-form-field>
 
                                     </div>
                                     <div class="flex flex-col gt-xs:flex-row">
                                         <mat-form-field class="flex-auto">
-                                            <input matInput [formControlName]="'type'" [placeholder]="'Event type'"
+                                            <input matInput [formControlName]="'type'" [placeholder]="'Event type' | transloco"
                                                 [(ngModel)]="event.type">
-                                            <mat-icon class="icon-size-5" matPrefix >
-                                            </mat-icon>
+                                      
                                         </mat-form-field>
 
                                     </div>
@@ -76,7 +71,7 @@
                                               [min]="minDate" 
                                               [max]="maxDate"
                                               [matDatepicker]="minmaxvalidation" [formControlName]="'date'" [(ngModel)]="event.date"
-                                              placeholder="Pick a date" >
+                                              [placeholder]="'Pick a date'| transloco" >
                                             <mat-datepicker-toggle matSuffix [for]="minmaxvalidation" >
                                                </mat-datepicker-toggle>
                                             <mat-datepicker #minmaxvalidation   ></mat-datepicker>
@@ -84,10 +79,9 @@
                                     </div>
                                     <div class="flex flex-col gt-xs:flex-row">
                                         <mat-form-field class="flex-auto">
-                                            <input matInput [formControlName]="'price'" [placeholder]="'Event price'"
+                                            <input matInput [formControlName]="'price'" [placeholder]="'Event price' | transloco"
                                                 required [(ngModel)]="event.prices">
-                                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:currency-dollar'">
-                                            </mat-icon>
+                                            
                                         </mat-form-field>
 
                                     </div>
@@ -95,7 +89,7 @@
                                         <button class="px-8" mat-flat-button [color]="'primary'"
                                             [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
                                             type="button" matStepperNext type="submit" value="Submit">
-                                            Next
+                                            {{ 'Next' | transloco }}
                                         </button>
                                     </div>
                                 </form>
@@ -107,11 +101,13 @@
                             <mat-step [stepControl]="horizontalStepperForm.get('step2')" #horizontalStepperStep2>
                                 <form (ngSubmit)="onSubmit4()" [formGroupName]="'step2'">
 
-                                    <ng-template matStepLabel>Add card</ng-template>
+                                    <ng-template matStepLabel>
+                                        {{ 'Add card' | transloco }}
+                                    </ng-template>
 
 
                                     <div class="form-row">
-                                        <label for="card-info">Card Info</label>
+                                        <label for="card-info">{{ 'Card Info' | transloco }}</label>
                                         <div id="card-info" #cardInfo></div>
 
                                         <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
@@ -125,7 +121,7 @@
 
                                         <button class="px-8" mat-flat-button [color]="'primary'" type="button"
                                             matStepperNext type="submit" value="Submit" [disabled]="this.card == null">
-                                            Next
+                                            {{ 'Next' | transloco }}
                                         </button>
 
                                     </div>
@@ -144,7 +140,7 @@
                             <mat-step [stepControl]="horizontalStepperForm.get('step3')" #horizontalStepperStep2>
                                 <form (ngSubmit)="onSubmit3()" [formGroupName]="'step3'">
 
-                                    <ng-template matStepLabel>Add location</ng-template>
+                                    <ng-template matStepLabel>{{ 'Add location' | transloco }}</ng-template>
                                    
 
                                
@@ -153,7 +149,7 @@
                                     <agm-marker *ngFor="let a of markers; let b = index" [latitude]="latitude"
                                         [longitude]="longitude" [label]="a.label">
                                         <agm-info-window>
-                                            <strong>Info Window! This is a random location</strong>
+                                            <strong>{{ 'Info Window! This is a random location' | transloco }}</strong>
                                         </agm-info-window>
                                     </agm-marker>
                                 </agm-map> 
@@ -161,7 +157,7 @@
 
                                         <mat-google-maps-autocomplete country="tn"
                                             (onLocationSelected)="onLocationSelected($event)"
-                                            addressLabelText="Recherche d'adresse" placeholderText="Address"
+                                            addressLabelText="Recherche d'adresse" [placeholderText]="'Address'| transloco"
                                             invalidErrorText="Adresse invalide" requiredErrorText="Address required">
                                         </mat-google-maps-autocomplete>
                                     </div>
@@ -170,12 +166,12 @@
                                     <div class="flex justify-end">
                                         <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
                                             matStepperPrevious>
-                                            Back
+                                            {{ 'Back' | transloco }}
                                         </button>
                                         <button class="px-8" mat-flat-button [color]="'primary'" type="button"
                                             matStepperNext type="submit" value="Submit"
                                             [disabled]="eventWithPlace == null">
-                                            Next
+                                            {{ 'Next' | transloco }}
                                         </button>
 
                                     </div>
@@ -204,14 +200,16 @@
                             <mat-step [stepControl]="horizontalStepperForm.get('step4')" #horizontalStepperStep3>
                                 <form (ngSubmit)="onSubmit2()" [formGroupName]="'step4'">
 
-                                    <ng-template matStepLabel>Add Image</ng-template>
+                                    <ng-template matStepLabel>{{ 'Add Image' | transloco }}</ng-template>
                                     <p class="my-6 font-medium">
-                                        You can add more than one image
+                                        {{ 'You can add more than one image' | transloco }}
                                     </p>
                                     <div class="flex flex-col gt-xs:flex-row">
                                         <a mat-stroked-button fxFlexAlign="start" color="primary"
                                             (click)="fileInput.click()">
-                                            <span>Importer</span>
+                                            <span>
+                                                {{ 'Importer' | transloco }}
+                                            </span>
                                         </a>
 
                                         <input type="file" multiple="multiple" id="upload-file-input" #fileInput
@@ -222,7 +220,7 @@
                                                 alt="your image" />
                                         </div>
                                         <div class="drag-text">
-                                            <h4>Or Drag and drop a file</h4>
+                                            <h4>{{ 'Or Drag and drop a file' | transloco }}</h4>
                                         </div>
 
 
@@ -232,18 +230,18 @@
                                     <div class="flex justify-end">
                                         <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
                                             matStepperPrevious>
-                                            Back
+                                            {{ 'Back' | transloco }}
                                         </button>
                                         <button class="px-8" mat-flat-button [color]="'primary'" type="button"
                                             matStepperNext type="submit" value="Submit"
                                             *ngIf="picture4!=Null  ;else contenu_ps_bon">
-                                            Add
+                                            {{ 'Add' | transloco }}
                                         </button>
                                         <ng-template #contenu_ps_bon>
 
                                             <button class="px-8" mat-flat-button [color]="'primary'" type="button"
                                                 matStepperNext [routerLink]="'/events/list'">
-                                                Add
+                                                {{ 'Add' | transloco }}
                                             </button>
                                         </ng-template>
 
