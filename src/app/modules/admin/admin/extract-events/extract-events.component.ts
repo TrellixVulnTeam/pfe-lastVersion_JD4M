@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ProductsService } from 'app/__services/Event_services/products.service';
+import { TokenStorageService } from 'app/__services/user_services/ token-storage.service';
 
 @Component({
   selector: 'app-extract-events',
@@ -14,11 +15,29 @@ export class ExtractEventsComponent implements OnInit {
   displayList = false;
   extractedEvents = [];
   isCompleted = false;
+  isLoggedIn = false;
+  username : string;
+  role :string;
   constructor(private cdr: ChangeDetectorRef,
     private productService: ProductsService,
+    private tokenStorageService: TokenStorageService,
+
     ) { }
 
   ngOnInit(): void {    
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+
+    if (this.isLoggedIn) {
+      const userConnected = this.tokenStorageService.getUser();
+      this.username = userConnected.username;
+      const roles = this.tokenStorageService.getUser().roles;
+      if (roles.includes('ROLE_USER')) {
+          this.role = 'ROLE_USER';
+      }
+      if (roles.includes('ROLE_ADMIN')) {
+          this.role = 'ROLE_ADMIN';
+      } 
+    }
   }
 
   saveEvents() {

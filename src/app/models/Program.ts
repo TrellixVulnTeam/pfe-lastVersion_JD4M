@@ -17,7 +17,7 @@ export class Program {
     plateformLogo: string
     place: Place
     date: Date ;
-
+    remindred =false;
 
     dateS: any
     participants: [any]

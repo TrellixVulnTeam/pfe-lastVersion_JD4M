@@ -30,6 +30,12 @@
                     *ngIf="isLoggedIn && users.picture"
                     src="data:image/jpg;base64,{{users.picture.data}}"
                     alt="User avatar">
+                    <img
+                    class="w-full h-full rounded-full"
+                    *ngIf="isLoggedIn && role == 'ROLE_ADMIN'"
+                    src="https://cdn-icons-png.flaticon.com/512/2206/2206248.png"
+                    alt="User avatar">
+                    
                 <mat-icon
                     class="icon-size-24"
                     *ngIf="!user.avatar"

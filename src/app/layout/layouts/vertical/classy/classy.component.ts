@@ -27,6 +27,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     username: string;
     users : Users;
     email : string;
+    role : string;
     /**
      * Constructor
      */
@@ -75,8 +76,15 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
           const userConnected = this.tokenStorageService.getUser();
           this.username = userConnected.username;
           this.email = userConnected.email;
-          
-
+          const roles = this.tokenStorageService.getUser().roles;
+          if (roles.includes('ROLE_USER')) {
+              this.role = 'ROLE_USER';
+          }
+          if (roles.includes('ROLE_ADMIN')) {
+              this.role = 'ROLE_ADMIN';
+          } 
+      
+      
           //console.log('org',this.productsService.getOrganizer(this.products))
           console.log('name',this.tokenStorageService.getUser());
           this.userService.getUser(this.tokenStorageService.getUser().id.toString()).subscribe(data => {

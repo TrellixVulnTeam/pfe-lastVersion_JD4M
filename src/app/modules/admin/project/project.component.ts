@@ -8,6 +8,9 @@ import { Program } from 'app/models/Program';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { UsersService } from 'app/__services/user_services/users.service';
+import { NotifDto } from 'app/models/NotifDto';
+import { WebSocketNotifService } from 'app/__services/Event_services/web-socket-notif.service';
 @Component({
     selector     : 'example',
     templateUrl  : './project.component.html',
@@ -16,8 +19,9 @@ import { DatePipe } from '@angular/common';
     encapsulation: ViewEncapsulation.None
 })
 export class ExampleComponent implements OnInit
-{
-   
+{  unreadCount : any;
+
+   notif : any
   products: Program[];
   products2: Program[];
   searchPrograms = [];
@@ -33,6 +37,9 @@ export class ExampleComponent implements OnInit
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private router: Router,
+    private userService: UsersService,
+    public webSocketNotifService: WebSocketNotifService,
+
 
 
 
@@ -44,6 +51,7 @@ export class ExampleComponent implements OnInit
     this.productsService.getProducts().subscribe((products: Program[]) => {
       this.products = products;
       this.products2 = this.products.reverse().slice(0, 4);
+      this.reminder()
       console.log("program", this.products2)
       console.log("length", products[products.length - 1])
     }, (error: ErrorEvent) => {
@@ -62,30 +70,39 @@ export class ExampleComponent implements OnInit
     console.log('programs + filter ->', this.searchPrograms);
     this.productsService.setSearch(this.searchPrograms);
     this.router.navigate(['/events/list']);
-    this.reminder()
+    //this.reminder()
   }
 
   reminder() {
-    const programs = this.products.filter(program => program.participant.length);
-    programs.map(program => {
-      if (program.id === '62e7d10c7a12c10a5b01b4cb') {
-        program.cree = new Date('2022-08-24');
-      }
-      if (this.isTomorrow(program.cree)) {
-        program.participant.map(el => {
-          el.notif = {
-            msg: 'you have program tomorrow'
-          }
-        })
-      }
-    })
-    console.log('reminder ->', programs);
+    debugger;
+    if (this.products.length) {
+      const programs = this.products.filter(program => program.participant.length);
+      programs.map(program => {
+        if (this.isTomorrow(program.date) && program.remindred == false) {
+          program.participant.map(el => {
+            this.userService.addNotifToUser(el.id, "Hey " + el.username + " ! Just a friendly reminder from " +  program.organizer.username+ " that " + program.title +  " is happening tomorrow at 7.AM. Please make sure to arrive 30 minutes in advance. If you can't make the time slot, please let me know to reschedule. Can't wait to see you! <3 ").subscribe(data => {
+              console.log("data",data)
+              this.notif = data; 
+         
+              const notifDtoR = new NotifDto(el.id, "Hey " + el.username + "! Just a friendly reminder from " +  program.organizer.username+ " that " + program.title +  " is happening tomorrow at 7.AM. Please make sure to arrive 30 minutes in advance. If you can't make the time slot, please let me know to reschedule. Can't wait to see you! <3 ",this.notif.notifCount, this.unreadCount);
+        
+            this.webSocketNotifService.sendMessage(notifDtoR);
+            console.log("h",notifDtoR);     })
+        
+          })
+          this.productsService.reminderEvents(program.id).subscribe((products: Program) => {
+            program = products;
+        });
+        }
+      })
+      console.log('reminder ->', programs);
+    }
   }
 
-  isTomorrow(searchedDate: Date) {
-    let date = new Date();
-    let date_tomorrow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+  isTomorrow(searchedDate: any) {
     let programDate = new Date(searchedDate);
+    let date = new Date();
+    let date_tomorrow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2);
     if (date_tomorrow.getFullYear() == programDate.getFullYear() && date_tomorrow.getMonth() == programDate.getMonth() && date_tomorrow.getDate() == programDate.getDate()) {
       return true;
     } else {

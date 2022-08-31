@@ -227,4 +227,7 @@ export class ProductsService {
   getExtractedEvents(): Observable < any > {
     return this.http.get < any > (`http://127.0.0.1:1234/`,{ responseType: 'json' });
   }
+  reminderEvents(id: string): Observable < any > {
+    return this.http.put(`${this.baseUrl}/participant/reminder/${id}`, Program);
+  }
 }

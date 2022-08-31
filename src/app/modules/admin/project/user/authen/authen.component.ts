@@ -87,14 +87,15 @@ export class AuthenComponent implements OnInit
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.tokenStorage.getUser().roles;
+
           },
           err => {
             this.errorMessage = err.error.message;
             this.isLoginFailed = true;
           }
+          
         );
       
-
 
     
     }
@@ -134,7 +135,8 @@ export class AuthenComponent implements OnInit
                       // Navigate to the redirect url
                      
                       // Navigate to the redirect url
-  
+                      this.reloadPage()
+
                   },
                   (response) => {
   
