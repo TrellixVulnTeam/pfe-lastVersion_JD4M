@@ -51,6 +51,7 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
 import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { EditFeedbackComponent } from './events/details/edit-feedback/edit-feedback.component';
 import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
+import { ForgetPasswordComponent } from './user/forget-password/forget-password.component';
 
 const exampleRoutes: Route[] = [
   
@@ -71,6 +72,11 @@ const exampleRoutes: Route[] = [
     {
         path     : 'auth/signup',
         component: SignupComponent,
+       
+    },
+    {
+        path     : 'auth/forgetPassword',
+        component: ForgetPasswordComponent,
        
     },
     {
@@ -155,6 +161,7 @@ const exampleRoutes: Route[] = [
         ResetPasswordComponent,
         EditEventComponent,
         EditFeedbackComponent,
+        ForgetPasswordComponent
         
         
 

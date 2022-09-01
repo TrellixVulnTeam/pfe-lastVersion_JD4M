@@ -74,7 +74,6 @@ export class ExampleComponent implements OnInit
   }
 
   reminder() {
-    debugger;
     if (this.products.length) {
       const programs = this.products.filter(program => program.participant.length);
       programs.map(program => {

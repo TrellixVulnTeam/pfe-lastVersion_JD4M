@@ -52,4 +52,13 @@ const AUTH_API = 'http://localhost:8081/';
   MarkAllAsRead(userId : string): Observable<any> {
     return this.http.post(AUTH_API +`api/users/markAllAsRead/notif/${userId}`, userId);
   }
+
+  SendMail(mail: string): Observable < any > {
+    return this.http.post(`http://localhost:8080/sendMail/${mail}`, mail);
+  }
+
+  resetPassword(mail: string, password : String): Observable < any > {
+    return this.http.post(AUTH_API +`api/users/resetpassword/${mail}`, password);
+  }
+
   }
